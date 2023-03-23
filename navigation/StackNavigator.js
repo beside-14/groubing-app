@@ -8,6 +8,9 @@ import NotiListScreen from "../screens/info/NotiListScreen";
 import MyPageScreen from "../screens/info/MyPageScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
 import SignUpScreen from "../screens/auth/SignUpScreen";
+import FindIdScreen from "../screens/auth/FindIdScreen";
+import FindPwScreen from "../screens/auth/FindPwScreen";
+import NicknameScreen from "../screens/auth/NicknameScreen";
 import React from "react";
 
 const Stack = createStackNavigator();
@@ -27,8 +30,23 @@ function StackNavigator() {
         <Stack.Screen name="BingoList" component={BingoListScreen} />
         <Stack.Screen name="NotiList" component={NotiListScreen} />
         <Stack.Screen name="MyPage" component={MyPageScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUpScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="FindId" component={FindIdScreen} />
+        <Stack.Screen name="FindPw" component={FindPwScreen} />
+        <Stack.Screen
+          name="Nickname"
+          component={NicknameScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

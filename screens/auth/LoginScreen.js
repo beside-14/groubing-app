@@ -1,25 +1,22 @@
 import { login } from "../../utils/AuthUtil";
 import React, { useState } from "react";
-import {
-  View,
-  SafeAreaView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  Alert,
-  Text,
-} from "react-native";
+import { View, SafeAreaView, StyleSheet } from "react-native";
+import { TextInput, Text, Button } from "react-native-paper";
 
 const LoginScreen = ({ navigation }) => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const [microcopy, setMicrocopy] = useState("");
 
   async function handleLogin() {
+    setMicrocopy("");
+
     if (id.trim() === "") {
-      Alert.alert("아이디 입력 확인", "아이디가 입력되지 않았습니다.");
+      setMicrocopy("아이디가 입력되지 않았습니다.");
     } else if (pw.trim() === "") {
-      Alert.alert("비밀번호 입력 확인", "비밀번호가 입력되지 않았습니다.");
+      setMicrocopy("비밀번호가 입력되지 않았습니다.");
+      // } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(id)) {
+      //   setMicrocopy("이메일 형식이 올바르지 않습니다.");
     } else {
       const loginData = {
         id: id,
@@ -32,18 +29,21 @@ const LoginScreen = ({ navigation }) => {
         // const response = await login(loginData);
         // console.log(response);
         // if (response.data !== null && response.data !== "") {
-        //   Alert.alert("로그인 성공");
+        //   setId("");
+        //   setPw("");
+        //   navigation.navigate("Home");
         // } else {
-        //   Alert.alert("로그인 실패", "아이디 또는 비밀번호를 확인하세요.");
+        //   setMicrocopy(
+        //     "아이디 또는 비밀번호가 일치하지 않습니다. 입력하신 내용을 다시 확인해 주세요."
+        //   );
         //   setId("");
         //   setPw("");
         // }
 
-        //로그인 성공 시 Home 화면 이동
         navigation.navigate("Home");
       } catch (error) {
         console.log(error);
-        Alert.alert("로그인 실패", "서버와의 연결이 원활하지 않습니다.");
+        setMicrocopy("서버와의 연결이 원활하지 않습니다.");
       }
     }
   }
@@ -51,35 +51,85 @@ const LoginScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
+        <Text variant="labelLarge">ID</Text>
+        <TextInput onChangeText={(id) => setId(id)} value={id} />
+        <Text variant="labelLarge">비밀번호</Text>
         <TextInput
-          style={styles.input}
-          placeholder="아이디"
-          onChangeText={(id) => setId(id)}
-          value={id}
-        />
-        <TextInput
-          style={styles.input}
           textContentType="password"
-          placeholder="비밀번호"
           onChangeText={(pw) => setPw(pw)}
           value={pw}
           secureTextEntry={true}
         />
-        <TouchableOpacity
-          style={styles.buttonlogin}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 8,
+          }}
+        >
+          <Button
+            mode="outlined"
+            onPress={() => navigation.navigate("FindId")}
+            style={{ flex: 1, marginRight: 8 }}
+          >
+            아이디 찾기
+          </Button>
+          <Button
+            mode="outlined"
+            onPress={() => navigation.navigate("FindPw")}
+            style={{ flex: 1, marginRight: 8 }}
+          >
+            비밀번호 찾기
+          </Button>
+          <Button
+            mode="outlined"
+            onPress={() => navigation.navigate("SignUp")}
+            style={{ flex: 1, marginRight: 8 }}
+          >
+            회원가입
+          </Button>
+        </View>
+        {microcopy ? (
+          <Text variant="labelLarge" style={{ color: "red", marginTop: 8 }}>
+            {microcopy}
+          </Text>
+        ) : null}
+        <Button
+          mode="Contained"
           onPress={() => handleLogin()}
+          buttonColor="black"
+          textColor="white"
+          style={{ marginTop: 8 }}
         >
-          <Text>로그인</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.buttonlogin}
-          title="Sign Up"
-          onPress={() => navigation.navigate("SignUp")}
+          로그인
+        </Button>
+        <Button
+          mode="Contained"
+          icon="image"
+          buttonColor="gray"
+          textColor="white"
+          style={{ marginTop: 40 }}
         >
-          <Text>회원가입</Text>
-        </TouchableOpacity>
+          Kakao
+        </Button>
+        <Button
+          mode="Contained"
+          icon="image"
+          buttonColor="gray"
+          textColor="white"
+          style={{ marginTop: 8 }}
+        >
+          Naver
+        </Button>
+        <Button
+          mode="Contained"
+          icon="image"
+          buttonColor="gray"
+          textColor="white"
+          style={{ marginTop: 8 }}
+        >
+          Apple
+        </Button>
       </View>
     </SafeAreaView>
   );
@@ -93,28 +143,5 @@ const styles = StyleSheet.create({
     alignContent: "center",
     marginTop: 30,
     padding: 30,
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    backgroundColor: "white",
-  },
-  buttonKakaoStyle: {
-    flexDirection: "row",
-    alignItems: "center",
-    height: 40,
-    borderRadius: 5,
-    margin: 5,
-    justifyContent: "center",
-  },
-  buttonlogin: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "ivory",
-    borderWidth: 0.5,
-    margin: 5,
-    height: 40,
-    borderRadius: 5,
-    justifyContent: "center",
   },
 });
