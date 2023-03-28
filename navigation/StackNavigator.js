@@ -12,6 +12,7 @@ import FindIdScreen from "../screens/auth/FindIdScreen";
 import FindPwScreen from "../screens/auth/FindPwScreen";
 import NicknameScreen from "../screens/auth/NicknameScreen";
 import React from "react";
+import { StatusBar } from "expo-status-bar";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,6 +20,7 @@ const Tab = createBottomTabNavigator();
 function StackNavigator() {
   return (
     <NavigationContainer>
+      <StatusBar />
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Home"

@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 const data = [
   { id: "1", value: "1" },
@@ -20,11 +20,14 @@ const data = [
 ];
 
 const BingoScreen = () => {
-  const renderItem = ({ item }) => (
+
+  const renderItem = ({ item }) => {
+    return (
     <TouchableOpacity style={styles.button}>
       <Text style={styles.text}>{item.value}</Text>
-    </TouchableOpacity>
-  );
+    </TouchableOpacity> 
+    );
+    };
 
   return (
     <SafeAreaView>
