@@ -1,11 +1,23 @@
-import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity, FlatList, Pressable} from "react-native";
 import React, {useState} from "react";
 import { useFonts, NotoSansKR_700Bold, NotoSansKR_500Medium } from "@expo-google-fonts/noto-sans-kr";
+import BingoData from "../../assets/dataset/BingoData.json";
+import BingoList from "../../components/BingoList";
+
+
 const BingoListScreen = () => {
   const [btnId, setBtnId] = useState(1);
   const [selected, setSelected] = useState(false);
-  const onPress = (id) => {
+  const PressableItem = ({ item }) => {
+    return (
+      <Pressable onPress={() => console.log("clicked!")}>
+        <BingoList item={item} />
+      </Pressable>
+    );
+  };
+  const pressBtn = (id) => {
     setBtnId(id);
+    console.log(btnId)
     setSelected(!selected);
   }
   let [fontsLoaded] = useFonts({
@@ -29,24 +41,22 @@ const BingoListScreen = () => {
            </TouchableOpacity>
           </View>
       </View>
-      <View style={styles.list}>
-        <Text>list</Text>
-        <Text>list</Text>
-        <Text>list</Text>
-        <Text>list</Text>
-        <Text>list</Text>
-        <Text>list</Text>
-      </View>
+      <FlatList
+        data={BingoData}
+        renderItem={PressableItem}
+        keyExtractor={(item) => item.title}
+        style={styles.list}
+      />
       </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   header:{
-    flex: 2
+    flex: 0.43
   },
   list:{
-    flex: 4,
+    flex: 5,
     marginLeft:20,
 
   },
@@ -55,7 +65,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     width:100,
     height:33,
-    marginTop:50,
+    marginTop:35,
     marginLeft: 20,
   },
   seletedBtn: {
@@ -63,7 +73,7 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     flexDirection:'row',
-    margin:10,
+    margin:15,
   },
   button: {
     width: 60,
@@ -76,8 +86,8 @@ const styles = StyleSheet.create({
     paddingRight:16,
     backgroundColor:'#3A8ADB',
     borderColor:'#0000000',
-    marginRight:4,
-    marginTop:40,
+    marginRight:6,
+    marginTop:30,
   },
   btnText: {
     fontFamily: 'NotoSansKR_500Medium',

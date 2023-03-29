@@ -13,6 +13,7 @@ import FindPwScreen from "../screens/auth/FindPwScreen";
 import NicknameScreen from "../screens/auth/NicknameScreen";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
+import { Image } from "react-native";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -58,32 +59,89 @@ function HomeTabNavigator() {
   return (
     <Tab.Navigator
       initialRouteName="Bingo"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{ 
+        headerShown: false,
+        tabBarStyle:{
+          height:65
+        },
+        tabBarLabelStyle:{
+          fontSize:9,
+          marginBottom: 15,
+          color:'#222222'
+        },
+        tabBarActiveTintColor: '#3A8ADB',
+        tabBarInactiveTintColor: '#000000'
+
+      }}
     >
       <Tab.Screen
         name="BingoFeed"
         component={BingoFeedScreen}
-        options={{ tabBarLabel: "피드" }}
+        options={{ 
+          tabBarLabel: "피드",
+          tabBarIcon: () => {
+            return(
+              <Image
+              source={require("../assets/icon_feed.png")}
+              style={{width:19, height:19}} />
+            )
+          }
+        }}
       />
       <Tab.Screen
         name="BingoList"
         component={BingoListScreen}
-        options={{ tabBarLabel: "빙고 목록" }}
+        options={{ 
+          tabBarLabel: "목록",
+          tabBarIcon:()=> {
+            return(
+              <Image
+              source={require("../assets/icon_list.png")}
+              style={{width:19, height:19}} />
+            )
+          } 
+        }}
       />
       <Tab.Screen
         name="Bingo"
         component={BingoScreen}
-        options={{ tabBarLabel: "+빙고" }}
+        options={{ 
+          tabBarLabel: "만들기",
+          tabBarIcon:()=> {
+            return(
+              <Image
+              source={require("../assets/icon_make.png")}
+              style={{width:19, height:19}} />
+            )
+          }  
+        }}
       />
       <Tab.Screen
         name="NotiList"
         component={NotiListScreen}
-        options={{ tabBarLabel: "알림" }}
+        options={{ 
+          tabBarLabel: "알림",
+          tabBarIcon:()=> {
+            return(
+              <Image
+              source={require("../assets/icon_alert.png")}
+              style={{width:19, height:19}} />
+            )
+          }  
+        }}
       />
       <Tab.Screen
         name="MyPage"
         component={MyPageScreen}
-        options={{ tabBarLabel: "마이" }}
+        options={{ 
+          tabBarLabel: "마이페이지",
+          tabBarIcon:()=> {
+            return(
+              <Image
+              source={require("../assets/icon_myPage.png")}
+              style={{width:19, height:19}} />
+            )
+          }  }}
       />
     </Tab.Navigator>
   );
