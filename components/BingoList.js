@@ -1,14 +1,8 @@
 import { View, StyleSheet, Text } from "react-native";
-import { useFonts, NotoSansKR_400Regular, NotoSansKR_500Medium } from "@expo-google-fonts/noto-sans-kr";
 import { Image } from "react-native";
 
 export default function BoardList({ item }) {
-    let [fontsLoaded] = useFonts({
-        NotoSansKR_400Regular,
-        NotoSansKR_500Medium,
-      });
-    if (!fontsLoaded) { return null;}
-    return (
+  return (
     <View style={styles.container}>
       <View style={styles.listTextContainer}>
         <View style={styles.titleContainer}>
@@ -54,7 +48,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     width: 224,
     height: 20,
-    marginBottom:4,
+    marginBottom: 4,
   },
   type: {
     fontFamily: "NotoSansKR_500Medium",
@@ -70,13 +64,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
     width: 165,
     height: 17,
-    color: '#666666',
+    color: "#666666",
   },
   goal: {
     fontFamily: "NotoSansKR_400Regular",
     fontSize: 13,
     width: 43,
     height: 17,
-    color: '#666666',
+    color: "#666666",
   },
 });

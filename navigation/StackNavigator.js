@@ -59,89 +59,94 @@ function HomeTabNavigator() {
   return (
     <Tab.Navigator
       initialRouteName="Bingo"
-      screenOptions={{ 
+      screenOptions={{
         headerShown: false,
-        tabBarStyle:{
-          height:65
+        tabBarStyle: {
+          height: 100,
         },
-        tabBarLabelStyle:{
-          fontSize:9,
+        tabBarLabelStyle: {
+          fontSize: 9,
           marginBottom: 15,
-          color:'#222222'
+          color: "#222222",
         },
-        tabBarActiveTintColor: '#3A8ADB',
-        tabBarInactiveTintColor: '#000000'
-
+        tabBarActiveTintColor: "#3A8ADB",
+        tabBarInactiveTintColor: "#000000",
       }}
     >
       <Tab.Screen
         name="BingoFeed"
         component={BingoFeedScreen}
-        options={{ 
+        options={{
           tabBarLabel: "피드",
           tabBarIcon: () => {
-            return(
+            return (
               <Image
-              source={require("../assets/icon_feed.png")}
-              style={{width:19, height:19}} />
-            )
-          }
+                source={require("../assets/icon_feed.png")}
+                style={{ width: 19, height: 19 }}
+              />
+            );
+          },
         }}
       />
       <Tab.Screen
         name="BingoList"
         component={BingoListScreen}
-        options={{ 
+        options={{
           tabBarLabel: "목록",
-          tabBarIcon:()=> {
-            return(
+          tabBarIcon: () => {
+            return (
               <Image
-              source={require("../assets/icon_list.png")}
-              style={{width:19, height:19}} />
-            )
-          } 
+                source={require("../assets/icon_list.png")}
+                style={{ width: 19, height: 19 }}
+              />
+            );
+          },
         }}
       />
       <Tab.Screen
         name="Bingo"
         component={BingoScreen}
-        options={{ 
+        options={{
           tabBarLabel: "만들기",
-          tabBarIcon:()=> {
-            return(
+          tabBarIcon: () => {
+            return (
               <Image
-              source={require("../assets/icon_make.png")}
-              style={{width:19, height:19}} />
-            )
-          }  
+                source={require("../assets/icon_make.png")}
+                style={{ width: 19, height: 19 }}
+              />
+            );
+          },
         }}
       />
       <Tab.Screen
         name="NotiList"
         component={NotiListScreen}
-        options={{ 
+        options={{
           tabBarLabel: "알림",
-          tabBarIcon:()=> {
-            return(
+          tabBarIcon: () => {
+            return (
               <Image
-              source={require("../assets/icon_alert.png")}
-              style={{width:19, height:19}} />
-            )
-          }  
+                source={require("../assets/icon_alert.png")}
+                style={{ width: 19, height: 19 }}
+              />
+            );
+          },
         }}
       />
       <Tab.Screen
         name="MyPage"
         component={MyPageScreen}
-        options={{ 
+        options={{
           tabBarLabel: "마이페이지",
-          tabBarIcon:()=> {
-            return(
+          tabBarIcon: () => {
+            return (
               <Image
-              source={require("../assets/icon_myPage.png")}
-              style={{width:19, height:19}} />
-            )
-          }  }}
+                source={require("../assets/icon_myPage.png")}
+                style={{ width: 19, height: 19 }}
+              />
+            );
+          },
+        }}
       />
     </Tab.Navigator>
   );
