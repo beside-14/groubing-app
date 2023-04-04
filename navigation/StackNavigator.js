@@ -62,7 +62,7 @@ function HomeTabNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          height: 100,
+          height: 70,
         },
         tabBarLabelStyle: {
           fontSize: 9,
