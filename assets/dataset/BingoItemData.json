@@ -1,65 +1,65 @@
 [
+  {
+    "x": 0,
+    "y": 0,
+    "title": "가족 사진 찍기",
+    "selected" : false,
+    "color": "#3A8ADB"
+  },
+  {
+      "x": 0,
+      "y": 1,
+      "title": "이직 성공",
+      "selected" : true,
+      "color": "#3A8ADB"
+    },
     {
       "x": 0,
+      "y": 2,
+      "title": "자격증 따기",
+      "selected" : true,
+      "color": "#3A8ADB"
+    },
+    {
+      "x": 1,
       "y": 0,
-      "title": "가족 사진 찍기",
+      "title": "금주 하기",
       "selected" : false,
       "color": "#3A8ADB"
     },
     {
-        "x": 0,
-        "y": 1,
-        "title": "이직 성공",
-        "selected" : true,
-        "color": "#3A8ADB"
-      },
-      {
-        "x": 0,
-        "y": 2,
-        "title": "자격증 따기",
-        "selected" : true,
-        "color": "#3A8ADB"
-      },
-      {
-        "x": 1,
-        "y": 0,
-        "title": "금주 하기",
-        "selected" : false,
-        "color": "#3A8ADB"
-      },
-      {
-        "x": 1,
-        "y": 1,
-        "title": "금연 성공",
-        "selected" : true,
-        "color": "#3A8ADB"
-      },
-      {
-        "x": 1,
-        "y": 2,
-        "title": "야식 NO",
-        "selected" : true,
-        "color": "#3A8ADB"
-      },
-      {
-        "x": 2,
-        "y": 0,
-        "title": "가족 사진 찍기",
-        "selected" : true,
-        "color": "#3A8ADB"
-      },
-      {
-        "x": 2,
-        "y": 1,
-        "title": "1끼 채식하기",
-        "selected" : false,
-        "color": "#3A8ADB"
-      },
-      {
-        "x": 2,
-        "y": 2,
-        "title": "면허 따기",
-        "selected" : true,
-        "color": "#3A8ADB"
-      }
-  ]
+      "x": 1,
+      "y": 1,
+      "title": "금연 성공",
+      "selected" : true,
+      "color": "#3A8ADB"
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "title": "야식 NO",
+      "selected" : true,
+      "color": "#3A8ADB"
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "title": "가족 사진 찍기",
+      "selected" : true,
+      "color": "#3A8ADB"
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "title": "1끼 채식하기",
+      "selected" : false,
+      "color": "#3A8ADB"
+    },
+    {
+      "x": 2,
+      "y": 2,
+      "title": "면허 따기 이게 두 줄이 넘어간다면 뒤에 땡땡땡 나와야하는데",
+      "selected" : true,
+      "color": "#3A8ADB"
+    }
+]

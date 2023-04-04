@@ -4,26 +4,33 @@ import { TouchableOpacity, StyleSheet, Text, Dimensions } from "react-native";
 const { width } = Dimensions.get("window");
 
 const BingoItem = ({ x, y, onToggle, title, size, selected }) => {
-  const [isSelected, setSelected] = useState(selected);
-
   const itemSize = width / size;
-  const fontSize = width / (size * 5);
+  const fontSize = size === 3 ? 13 : 12;
 
   const handleToggle = () => {
-    setSelected(!isSelected);
-    onToggle(x, y, !selected);
+    onToggle(x, y);
   };
 
   return (
     <TouchableOpacity
       style={[
         styles.itemContainer,
-        { width: itemSize, height: itemSize, fontSize: fontSize },
-        isSelected ? styles.selected : styles.unselected,
+        { width: itemSize, height: itemSize },
+        selected ? styles.selected : styles.unselected,
       ]}
       onPress={handleToggle}
     >
-      <Text style={styles.itemLabel}>{title}</Text>
+      <Text
+        numberOfLines={2}
+        ellipsizeMode="tail"
+        style={[
+          styles.itemLabel,
+          selected ? styles.selectedFont : styles.unselectedFont,
+          { fontSize: fontSize },
+        ]}
+      >
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -32,7 +39,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     flex: 1,
     aspectRatio: 1,
-    margin: 2,
+    margin: 1,
   },
   selected: {
     backgroundColor: "#3A8ADB",
@@ -40,11 +47,19 @@ const styles = StyleSheet.create({
   unselected: {
     backgroundColor: "#F3F3F3",
   },
+  selectedFont: {
+    color: "#FFFFFF",
+  },
+  unselectedFont: {
+    color: "#000000",
+  },
   itemLabel: {
     fontWeight: "bold",
     fontFamily: "NotoSansKR_700Bold",
     paddingTop: 10,
     paddingLeft: 10,
+    paddingRight: 10,
+    textAlign: "left",
   },
 });
 

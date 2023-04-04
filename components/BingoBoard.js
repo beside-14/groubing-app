@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import BingoItem from "./BingoItem";
-import generateBingoBoard from "../utils/BingoUtil";
+import { generateBingoBoard } from "../utils/BingoUtil";
 
-const BingoBoard = ({ rows, columns, onToggle, items = [] }) => {
-  const board = generateBingoBoard(rows, columns, items);
+const BingoBoard = ({ size, onToggle, items = [] }) => {
+  const board = generateBingoBoard(size, items);
 
   return (
     <View style={styles.container}>
@@ -19,7 +19,7 @@ const BingoBoard = ({ rows, columns, onToggle, items = [] }) => {
               title={title}
               color={color}
               selected={selected}
-              size={rows}
+              size={size}
             />
           ))}
         </View>
