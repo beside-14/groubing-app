@@ -14,6 +14,7 @@ import NicknameScreen from "../screens/auth/NicknameScreen";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { Image } from "react-native";
+import CreateBingo from "../screens/bingo/CreateBingo";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,6 +30,18 @@ function StackNavigator() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Bingo" component={BingoScreen} />
+        <Stack.Screen 
+          name="CreateBingo" 
+          component={CreateBingo} 
+          options={{
+            title:'',
+            headerBackTitleVisible: false,
+            headerTitleAlign: 'left',
+            headerTintColor:'#000000',
+            headerTitleStyle:{fontFamily:'NotoSansKR_500Medium'},
+            headerShadowVisible: false,
+          }}  
+        />
         <Stack.Screen name="BingoFeed" component={BingoFeedScreen} />
         <Stack.Screen name="BingoList" component={BingoListScreen} />
         <Stack.Screen name="NotiList" component={NotiListScreen} />
@@ -55,7 +68,7 @@ function StackNavigator() {
   );
 }
 
-function HomeTabNavigator() {
+function HomeTabNavigator({navigation}) {
   return (
     <Tab.Navigator
       initialRouteName="Bingo"
@@ -117,6 +130,13 @@ function HomeTabNavigator() {
             );
           },
         }}
+        listeners={() => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate("CreateBingo");
+          },
+
+        })}
       />
       <Tab.Screen
         name="NotiList"

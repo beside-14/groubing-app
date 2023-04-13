@@ -1,7 +1,11 @@
 import { View, StyleSheet, Text } from "react-native";
-import { Image } from "react-native";
+import { countBingos, generateBingoBoard } from "../utils/BingoUtil";
+import BingoBoard from "./BingoBoard";
+//import { Image } from "react-native";
 
 export default function BoardList({ item }) {
+  const bingo = generateBingoBoard(item.size, []);
+  const bingoCount = countBingos(bingo, item.size);
   return (
     <View style={styles.container}>
       <View style={styles.listTextContainer}>
@@ -19,7 +23,9 @@ export default function BoardList({ item }) {
         </View>
       </View>
       <View style={styles.bingoContainer}>
-        <Image />
+        <BingoBoard
+        size={item.size}
+        onToggle={null} />
       </View>
     </View>
   );
