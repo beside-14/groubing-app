@@ -10,6 +10,8 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import KakaoIcon from "../../assets/icon/button/kakao_icon.png";
 import GoogleIcon from "../../assets/icon/button/google_icon.png";
@@ -63,78 +65,80 @@ const LoginScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <StatusBar backgroundColor="#3A8ADB" barStyle="light-content" />
-      <View style={styles.container}>
-        <Text style={styles.mainText}>GROUBING</Text>
-        <Text style={styles.subText}>우리 모두 그루버해요!</Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <Text style={styles.mainText}>GROUBING</Text>
+          <Text style={styles.subText}>우리 모두 그루버해요!</Text>
 
-        <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>아이디(이메일)</Text>
-            <TextInput
-              onChangeText={(id) => setId(id)}
-              value={id}
-              style={styles.textInput}
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>비밀번호</Text>
-            <TextInput
-              textContentType="password"
-              onChangeText={(pw) => setPw(pw)}
-              value={pw}
-              secureTextEntry={true}
-              style={styles.textInput}
-            />
+          <View style={styles.formContainer}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>아이디(이메일)</Text>
+              <TextInput
+                onChangeText={(id) => setId(id)}
+                value={id}
+                style={styles.textInput}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>비밀번호</Text>
+              <TextInput
+                textContentType="password"
+                onChangeText={(pw) => setPw(pw)}
+                value={pw}
+                secureTextEntry={true}
+                style={styles.textInput}
+              />
+            </View>
+
+            <TouchableOpacity
+              style={styles.loginBtn}
+              onPress={() => handleLogin()}
+            >
+              <Text style={styles.loginBtnTxt}>로그인</Text>
+            </TouchableOpacity>
+
+            <View style={styles.btnContainer}>
+              <TouchableOpacity
+                style={styles.subBtn}
+                onPress={() => navigation.navigate("FindId")}
+              >
+                <Text style={styles.subBtnTxt}>아이디 찾기</Text>
+              </TouchableOpacity>
+              <View style={styles.line} />
+              <TouchableOpacity
+                style={styles.subBtn}
+                onPress={() => navigation.navigate("FindPw")}
+              >
+                <Text style={styles.subBtnTxt}>비밀번호 찾기</Text>
+              </TouchableOpacity>
+              <View style={styles.line} />
+              <TouchableOpacity
+                style={styles.subBtn}
+                onPress={() => navigation.navigate("SignUp")}
+              >
+                <Text style={styles.subBtnTxt}>회원가입</Text>
+              </TouchableOpacity>
+            </View>
+            {microcopy ? (
+              <Text style={{ color: "red", marginTop: 8 }}>{microcopy}</Text>
+            ) : null}
           </View>
 
-          <TouchableOpacity
-            style={styles.loginBtn}
-            onPress={() => handleLogin()}
-          >
-            <Text style={styles.loginBtnTxt}>로그인</Text>
-          </TouchableOpacity>
+          <Text style={styles.snsText}>SNS 계정으로 로그인하기</Text>
 
-          <View style={styles.btnContainer}>
-            <TouchableOpacity
-              style={styles.subBtn}
-              onPress={() => navigation.navigate("FindId")}
-            >
-              <Text style={styles.subBtnTxt}>아이디 찾기</Text>
+          <View style={styles.snsBtnContainer}>
+            <TouchableOpacity style={styles.snsBtn}>
+              <Image source={GoogleIcon} />
             </TouchableOpacity>
-            <View style={styles.line} />
-            <TouchableOpacity
-              style={styles.subBtn}
-              onPress={() => navigation.navigate("FindPw")}
-            >
-              <Text style={styles.subBtnTxt}>비밀번호 찾기</Text>
+            <TouchableOpacity style={styles.snsBtn}>
+              <Image source={AppleIcon} />
             </TouchableOpacity>
-            <View style={styles.line} />
-            <TouchableOpacity
-              style={styles.subBtn}
-              onPress={() => navigation.navigate("SignUp")}
-            >
-              <Text style={styles.subBtnTxt}>회원가입</Text>
+            <TouchableOpacity style={styles.snsBtn}>
+              <Image source={KakaoIcon} />
             </TouchableOpacity>
           </View>
-          {microcopy ? (
-            <Text style={{ color: "red", marginTop: 8 }}>{microcopy}</Text>
-          ) : null}
         </View>
-
-        <Text style={styles.snsText}>SNS 계정으로 로그인하기</Text>
-
-        <View style={styles.snsBtnContainer}>
-          <TouchableOpacity style={styles.snsBtn}>
-            <Image source={GoogleIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.snsBtn}>
-            <Image source={AppleIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.snsBtn}>
-            <Image source={KakaoIcon} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
@@ -157,20 +161,20 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_700Bold",
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 40,
+    fontSize: 50,
     letterSpacing: 1.6,
     textAlign: "center",
     color: "#FFFFFF",
     textShadowOffset: { width: 0, height: 4 },
     textShadowRadius: 4,
     textShadowColor: "rgba(0, 0, 0, 0.25)",
-    marginTop: 122,
+    marginTop: 110,
   },
   subText: {
     fontFamily: "NotoSansKR_400Regular",
     fontStyle: "normal",
     fontWeight: "400",
-    fontSize: 15,
+    fontSize: 17,
     textAlign: "center",
     letterSpacing: 0.04,
     color: "#FFFFFF",
@@ -178,7 +182,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   formContainer: {
-    marginTop: 122,
+    marginTop: 110,
     width: "90%",
   },
   inputContainer: {
@@ -198,6 +202,7 @@ const styles = StyleSheet.create({
     flex: 0,
     flexGrow: 0,
     width: 90,
+    paddingLeft: 8,
   },
   textInput: {
     flex: 1,
@@ -232,7 +237,7 @@ const styles = StyleSheet.create({
   subBtnTxt: {
     justifyContent: "center",
     alignItems: "center",
-    fontSize: 13,
+    fontSize: 14,
     fontFamily: "NotoSansKR_400Regular",
     fontStyle: "normal",
     color: "rgba(255, 255, 255, 0.75)",
@@ -253,10 +258,10 @@ const styles = StyleSheet.create({
     fontFamily: "NotoSansKR_400Regular",
     fontStyle: "normal",
     fontWeight: "400",
-    fontSize: 13,
+    fontSize: 14,
     textAlign: "center",
     color: "#FFFFFF",
-    marginTop: 137,
+    marginTop: 120,
   },
   snsBtnContainer: {
     flexDirection: "row",

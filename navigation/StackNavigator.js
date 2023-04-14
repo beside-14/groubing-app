@@ -29,17 +29,17 @@ function StackNavigator() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Bingo" component={BingoScreen} />
-        <Stack.Screen 
-          name="CreateBingo" 
-          component={CreateBingo} 
+        <Stack.Screen
+          name="CreateBingo"
+          component={CreateBingo}
           options={{
-            title:'',
+            title: "",
             headerBackTitleVisible: false,
-            headerTitleAlign: 'left',
-            headerTintColor:'#000000',
-            headerTitleStyle:{fontFamily:'NotoSansKR_500Medium'},
+            headerTitleAlign: "left",
+            headerTintColor: "#000000",
+            headerTitleStyle: { fontFamily: "NotoSansKR_500Medium" },
             headerShadowVisible: false,
-          }}  
+          }}
         />
         <Stack.Screen name="BingoFeed" component={BingoFeedScreen} />
         <Stack.Screen name="BingoList" component={BingoListScreen} />
@@ -67,7 +67,7 @@ function StackNavigator() {
   );
 }
 
-function HomeTabNavigator({navigation}) {
+function HomeTabNavigator({ navigation }) {
   return (
     <Tab.Navigator
       initialRouteName="Bingo"
@@ -134,7 +134,6 @@ function HomeTabNavigator({navigation}) {
             e.preventDefault();
             navigation.navigate("CreateBingo");
           },
-
         })}
       />
       <Tab.Screen
