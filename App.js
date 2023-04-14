@@ -6,12 +6,18 @@ import {
   NotoSansKR_500Medium,
   NotoSansKR_700Bold,
 } from "@expo-google-fonts/noto-sans-kr";
+import {
+  Montserrat_700Bold,
+  Montserrat_400Regular,
+} from "@expo-google-fonts/montserrat";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
     NotoSansKR_400Regular,
     NotoSansKR_500Medium,
     NotoSansKR_700Bold,
+    Montserrat_700Bold,
+    Montserrat_400Regular,
   });
 
   if (!fontsLoaded) {

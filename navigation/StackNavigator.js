@@ -21,7 +21,6 @@ const Tab = createBottomTabNavigator();
 function StackNavigator() {
   return (
     <NavigationContainer>
-      <StatusBar />
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Home"

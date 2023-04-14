@@ -1,7 +1,19 @@
 import { login } from "../../utils/AuthUtil";
 import React, { useState } from "react";
-import { View, SafeAreaView, StyleSheet } from "react-native";
-import { TextInput, Text, Button } from "react-native-paper";
+import {
+  View,
+  StatusBar,
+  StyleSheet,
+  Platform,
+  TextInput,
+  Text,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
+import KakaoIcon from "../../assets/icon/button/kakao_icon.png";
+import GoogleIcon from "../../assets/icon/button/google_icon.png";
+import AppleIcon from "../../assets/icon/button/apple_icon.png";
 
 const LoginScreen = ({ navigation }) => {
   const [id, setId] = useState("");
@@ -49,87 +61,79 @@ const LoginScreen = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.safeAreaContainer}>
+      <StatusBar backgroundColor="#3A8ADB" barStyle="light-content" />
       <View style={styles.container}>
-        <Text variant="labelLarge">ID</Text>
-        <TextInput onChangeText={(id) => setId(id)} value={id} />
-        <Text variant="labelLarge">비밀번호</Text>
-        <TextInput
-          textContentType="password"
-          onChangeText={(pw) => setPw(pw)}
-          value={pw}
-          secureTextEntry={true}
-        />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: 8,
-          }}
-        >
-          <Button
-            mode="outlined"
-            onPress={() => navigation.navigate("FindId")}
-            style={{ flex: 1, marginRight: 8 }}
+        <Text style={styles.mainText}>GROUBING</Text>
+        <Text style={styles.subText}>우리 모두 그루버해요!</Text>
+
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>아이디(이메일)</Text>
+            <TextInput
+              onChangeText={(id) => setId(id)}
+              value={id}
+              style={styles.textInput}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>비밀번호</Text>
+            <TextInput
+              textContentType="password"
+              onChangeText={(pw) => setPw(pw)}
+              value={pw}
+              secureTextEntry={true}
+              style={styles.textInput}
+            />
+          </View>
+
+          <TouchableOpacity
+            style={styles.loginBtn}
+            onPress={() => handleLogin()}
           >
-            아이디 찾기
-          </Button>
-          <Button
-            mode="outlined"
-            onPress={() => navigation.navigate("FindPw")}
-            style={{ flex: 1, marginRight: 8 }}
-          >
-            비밀번호 찾기
-          </Button>
-          <Button
-            mode="outlined"
-            onPress={() => navigation.navigate("SignUp")}
-            style={{ flex: 1, marginRight: 8 }}
-          >
-            회원가입
-          </Button>
+            <Text style={styles.loginBtnTxt}>로그인</Text>
+          </TouchableOpacity>
+
+          <View style={styles.btnContainer}>
+            <TouchableOpacity
+              style={styles.subBtn}
+              onPress={() => navigation.navigate("FindId")}
+            >
+              <Text style={styles.subBtnTxt}>아이디 찾기</Text>
+            </TouchableOpacity>
+            <View style={styles.line} />
+            <TouchableOpacity
+              style={styles.subBtn}
+              onPress={() => navigation.navigate("FindPw")}
+            >
+              <Text style={styles.subBtnTxt}>비밀번호 찾기</Text>
+            </TouchableOpacity>
+            <View style={styles.line} />
+            <TouchableOpacity
+              style={styles.subBtn}
+              onPress={() => navigation.navigate("SignUp")}
+            >
+              <Text style={styles.subBtnTxt}>회원가입</Text>
+            </TouchableOpacity>
+          </View>
+          {microcopy ? (
+            <Text style={{ color: "red", marginTop: 8 }}>{microcopy}</Text>
+          ) : null}
         </View>
-        {microcopy ? (
-          <Text variant="labelLarge" style={{ color: "red", marginTop: 8 }}>
-            {microcopy}
-          </Text>
-        ) : null}
-        <Button
-          mode="Contained"
-          onPress={() => handleLogin()}
-          buttonColor="black"
-          textColor="white"
-          style={{ marginTop: 8 }}
-        >
-          로그인
-        </Button>
-        <Button
-          mode="Contained"
-          icon="image"
-          buttonColor="gray"
-          textColor="white"
-          style={{ marginTop: 40 }}
-        >
-          Kakao
-        </Button>
-        <Button
-          mode="Contained"
-          icon="image"
-          buttonColor="gray"
-          textColor="white"
-          style={{ marginTop: 8 }}
-        >
-          Naver
-        </Button>
-        <Button
-          mode="Contained"
-          icon="image"
-          buttonColor="gray"
-          textColor="white"
-          style={{ marginTop: 8 }}
-        >
-          Apple
-        </Button>
+
+        <Text style={styles.snsText}>SNS 계정으로 로그인하기</Text>
+
+        <View style={styles.snsBtnContainer}>
+          <TouchableOpacity style={styles.snsBtn}>
+            <Image source={GoogleIcon} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.snsBtn}>
+            <Image source={AppleIcon} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.snsBtn}>
+            <Image source={KakaoIcon} />
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -138,10 +142,130 @@ const LoginScreen = ({ navigation }) => {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
+  safeAreaContainer: {
+    flex: 1,
+    backgroundColor: "#3A8ADB",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
   container: {
     flex: 1,
-    alignContent: "center",
+    alignItems: "center",
     marginTop: 30,
-    padding: 30,
+    width: "100%",
+  },
+  mainText: {
+    fontFamily: "Montserrat_700Bold",
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: 40,
+    letterSpacing: 1.6,
+    textAlign: "center",
+    color: "#FFFFFF",
+    textShadowOffset: { width: 0, height: 4 },
+    textShadowRadius: 4,
+    textShadowColor: "rgba(0, 0, 0, 0.25)",
+    marginTop: 122,
+  },
+  subText: {
+    fontFamily: "NotoSansKR_400Regular",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: 15,
+    textAlign: "center",
+    letterSpacing: 0.04,
+    color: "#FFFFFF",
+    opacity: 0.75,
+    marginTop: 8,
+  },
+  formContainer: {
+    marginTop: 122,
+    width: "90%",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#CCCCCC",
+    marginBottom: 10,
+  },
+  label: {
+    marginRight: 8,
+    fontFamily: "NotoSansKR_400Regular",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: 14,
+    color: "rgba(255, 255, 255, 0.75)",
+    flex: 0,
+    flexGrow: 0,
+    width: 90,
+  },
+  textInput: {
+    flex: 1,
+    height: 40,
+    width: "100%",
+    alignSelf: "stretch",
+  },
+  loginBtn: {
+    marginTop: 10,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 4,
+    height: 48,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+  loginBtnTxt: {
+    color: "#3A8ADB",
+    fontFamily: "NotoSansKR_500Medium",
+    fontSize: 16,
+    textAlign: "center",
+  },
+  btnContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+    paddingHorizontal: 15,
+  },
+  subBtn: {},
+  subBtnTxt: {
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 13,
+    fontFamily: "NotoSansKR_400Regular",
+    fontStyle: "normal",
+    color: "rgba(255, 255, 255, 0.75)",
+    flex: 0,
+    flexGrow: 0,
+  },
+  line: {
+    width: 1,
+    height: 13,
+    backgroundColor: "#FFFFFF",
+    marginHorizontal: 8,
+    opacity: 0.3,
+    flex: 0,
+    flexGrow: 0,
+    marginHorizontal: 12,
+  },
+  snsText: {
+    fontFamily: "NotoSansKR_400Regular",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: 13,
+    textAlign: "center",
+    color: "#FFFFFF",
+    marginTop: 137,
+  },
+  snsBtnContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 16,
+  },
+  snsBtn: {
+    marginHorizontal: 6,
   },
 });
