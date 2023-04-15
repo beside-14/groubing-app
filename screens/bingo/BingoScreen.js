@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, ScrollView, View, Text } from "react-native";
+import { StyleSheet, SafeAreaView, ScrollView, View, Text, StatusBar } from "react-native";
 import React, { useState, useEffect } from "react";
 import BingoBoard from "../../components/BingoBoard";
 import BingoItemData from "../../assets/dataset/BingoItemData.json";
@@ -84,8 +84,12 @@ const BingoScreen = () => {
   }, [dataSize]);
 
   return (
+
     <SafeAreaView style={styles.safeAreaContainer}>
       <ScrollView contentContainerStyle={styles.container}>
+      <StatusBar
+      backgroundColor="white"
+      barStyle="dark-content" />
         <View style={styles.bingoTypeContainer}>
           <Text style={styles.bingoType}>{bingoType}</Text>
           <View style={styles.bingoTitleContainer}>

@@ -12,8 +12,7 @@ import FindIdScreen from "../screens/auth/FindIdScreen";
 import FindPwScreen from "../screens/auth/FindPwScreen";
 import NicknameScreen from "../screens/auth/NicknameScreen";
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { Image } from "react-native";
+import { Image, StatusBar } from "react-native";
 import CreateBingo from "../screens/bingo/CreateBingo";
 
 const Stack = createStackNavigator();
@@ -22,7 +21,8 @@ const Tab = createBottomTabNavigator();
 function StackNavigator() {
   return (
     <NavigationContainer>
-      <StatusBar />
+      <StatusBar 
+      statusBarStyle='dart-content'/>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Home"
@@ -30,17 +30,17 @@ function StackNavigator() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Bingo" component={BingoScreen} />
-        <Stack.Screen 
-          name="CreateBingo" 
-          component={CreateBingo} 
+        <Stack.Screen
+          name="CreateBingo"
+          component={CreateBingo}
           options={{
-            title:'',
+            title: "",
             headerBackTitleVisible: false,
-            headerTitleAlign: 'left',
-            headerTintColor:'#000000',
-            headerTitleStyle:{fontFamily:'NotoSansKR_500Medium'},
+            headerTitleAlign: "left",
+            headerTintColor: "#000000",
+            headerTitleStyle: { fontFamily: "NotoSansKR_500Medium" },
             headerShadowVisible: false,
-          }}  
+          }}
         />
         <Stack.Screen name="BingoFeed" component={BingoFeedScreen} />
         <Stack.Screen name="BingoList" component={BingoListScreen} />
@@ -68,7 +68,7 @@ function StackNavigator() {
   );
 }
 
-function HomeTabNavigator({navigation}) {
+function HomeTabNavigator({ navigation }) {
   return (
     <Tab.Navigator
       initialRouteName="Bingo"
@@ -135,7 +135,6 @@ function HomeTabNavigator({navigation}) {
             e.preventDefault();
             navigation.navigate("CreateBingo");
           },
-
         })}
       />
       <Tab.Screen

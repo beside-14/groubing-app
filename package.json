@@ -11,6 +11,7 @@
   "dependencies": {
     "@dduyon2/react-native-progress-steps": "github:dduyon2/react-native-progress-steps",
     "@expo-google-fonts/inter": "^0.2.3",
+    "@expo-google-fonts/montserrat": "^0.2.3",
     "@expo-google-fonts/noto-sans-kr": "^0.2.3",
     "@expo/react-native-action-sheet": "^4.0.1",
     "@react-navigation/bottom-tabs": "^6.5.7",

@@ -1,11 +1,19 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Image,
+  TextInput,
+  Text,
+  Button,
+} from "react-native";
 import { validateEmail, validatePassword, alert } from "../../utils/StringUtil";
 import { signUp } from "../../utils/AuthUtil";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { TextInput, Text, Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import CautionIcon from "../../assets/icon/button/caution_icon.png";
 
 const SignUpScreen = ({ navigation }) => {
   const [id, setId] = useState("");
@@ -23,6 +31,9 @@ const SignUpScreen = ({ navigation }) => {
   const [timeLeft, setTimeLeft] = useState(180); // 180초 = 3분
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [microcopy, setMicrocopy] = useState(
+    "올바른 이메일 형식이 아닙니다. 다시 입력해주세요."
+  );
 
   async function handleSignUp() {
     const userInfo = { id, password };
@@ -100,161 +111,145 @@ const SignUpScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.safeAreaContainer}>
       <StatusBar style="auto" />
-      <BackButton />
-      <View>
-        <Text variant="displayMedium"> 회원가입 </Text>
-        <Text variant="headlineSmall"> {headline} </Text>
+      <View style={styles.headerContainer}>
+        <BackButton />
+        <Text style={styles.title}>회원가입</Text>
       </View>
 
-      {/* 이메일 입력 컴포넌트 */}
-      {showEmail && (
-        <View>
-          <Text variant="labelLarge">아이디(이메일)</Text>
-          <TextInput
-            placeholder="GrouBing@groubing.com"
-            onChangeText={(id) => setId(id)}
-            value={id}
-          />
-          <Button
-            mode="Contained"
-            onPress={() => {
-              setShowEmailAuth(true);
-              setShowEmail(false);
-            }}
-            buttonColor="black"
-            textColor="white"
-            style={{ marginTop: 8 }}
-          >
-            다음
-          </Button>
-        </View>
-      )}
+      <View style={styles.container}>
+        <Text style={styles.headline}>{headline}</Text>
 
-      {/* 이메일 인증 컴포넌트 */}
-      {showEmailAuth && (
-        <View>
-          <Text variant="labelLarge">아이디(이메일)</Text>
-          <TextInput style={styles.input} value={id} disabled />
-          <Button
-            mode="Contained"
-            onPress={() => setShowEmailAuth()}
-            buttonColor="white"
-            textColor="black"
-            disabled
-            style={{ marginTop: 8 }}
-          >
-            재발송
-          </Button>
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 8,
-            }}
-          >
-            <TextInput
-              value={authCode}
-              onChangeText={handleChange}
-              maxLength={3}
-              keyboardType="numeric"
-              style={{ borderWidth: 1, padding: 10 }}
-            />
-            <Text>{formatTime(timeLeft)}</Text>
+        {/* 이메일 입력 컴포넌트 */}
+        {showEmail && (
+          <View style={styles.bodyContainer}>
+            <View style={styles.textInputContainer}>
+              <TextInput
+                placeholder="아이디(이메일)"
+                onChangeText={(id) => setId(id)}
+                value={id}
+                style={styles.textInput}
+              />
+              <View style={styles.microcopyContainer}>
+                <TouchableOpacity style={styles.cautionIcon}>
+                  <Image source={CautionIcon} />
+                </TouchableOpacity>
+                <Text style={styles.microcopy}>{microcopy}</Text>
+              </View>
+            </View>
+
+            <TouchableOpacity
+              style={styles.nextBtn}
+              onPress={() => {
+                setShowEmailAuth(true);
+                setShowEmail(false);
+              }}
+            >
+              <Text style={styles.nextBtnTxt}>다음</Text>
+            </TouchableOpacity>
           </View>
-          <Button
-            mode="Contained"
-            onPress={() => {
-              setShowEmailAuth(false);
-              setShowPassword(true);
-            }}
-            buttonColor="black"
-            textColor="white"
-            style={{ marginTop: 8 }}
-          >
-            다음
-          </Button>
-        </View>
-      )}
+        )}
 
-      {/* 패스워드 입력 컴포넌트 */}
-      {showPassword && (
-        <View>
-          <Text variant="labelLarge">비밀번호</Text>
-          <TextInput
-            value={password}
-            secureTextEntry={true}
-            onChangeText={(pwd) => setPassword(pwd)}
-          />
-          <Text variant="labelSmall">
-            8~20자 이내 영문 대소문자, 숫자, 특수문자
-          </Text>
-          <Text variant="labelLarge">비밀번호 확인</Text>
-          <TextInput
-            value={confirmPassword}
-            secureTextEntry={true}
-            onChangeText={(pwd) => setConfirmPassword(pwd)}
-          />
-          <Button
-            mode="Contained"
-            onPress={() => {
-              setShowPassword(false);
-              setShowBirth(true);
-            }}
-            buttonColor="black"
-            textColor="white"
-            style={{ marginTop: 8 }}
-          >
-            다음
-          </Button>
-        </View>
-      )}
+        {/* 이메일 인증 컴포넌트 */}
+        {showEmailAuth && (
+          <View>
+            <Text>아이디(이메일)</Text>
+            <TextInput style={styles.input} value={id} disabled />
+            <Button
+              title="재발송"
+              onPress={() => setShowEmailAuth()}
+              disabled
+              style={{ marginTop: 8 }}
+            ></Button>
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop: 8,
+              }}
+            >
+              <TextInput
+                value={authCode}
+                onChangeText={handleChange}
+                maxLength={3}
+                style={{ borderWidth: 1, padding: 10 }}
+              />
+              <Text>{formatTime(timeLeft)}</Text>
+            </View>
+            <Button
+              title="다음"
+              onPress={() => {
+                setShowEmailAuth(false);
+                setShowPassword(true);
+              }}
+              style={{ marginTop: 8 }}
+            ></Button>
+          </View>
+        )}
 
-      {/* 생년월일 입력 컴포넌트 */}
-      {showBirth && (
-        <View>
-          <Text variant="labelLarge">생년월일</Text>
-          <TextInput
-            placeholder="GrouBing@groubing.com"
-            onChangeText={(id) => setId(id)}
-            value={id}
-          />
-          <Text variant="labelSmall">
-            입력하신 생년월일은 공개되지 않습니다.
-          </Text>
-          <Button
-            mode="Contained"
-            onPress={() => {
-              setShowAgreement(true);
-              setShowBirth(false);
-            }}
-            buttonColor="black"
-            textColor="white"
-            style={{ marginTop: 8 }}
-          >
-            다음
-          </Button>
-        </View>
-      )}
+        {/* 패스워드 입력 컴포넌트 */}
+        {showPassword && (
+          <View>
+            <Text>비밀번호</Text>
+            <TextInput
+              value={password}
+              secureTextEntry={true}
+              onChangeText={(pwd) => setPassword(pwd)}
+            />
+            <Text>8~20자 이내 영문 대소문자, 숫자, 특수문자</Text>
+            <Text>비밀번호 확인</Text>
+            <TextInput
+              value={confirmPassword}
+              secureTextEntry={true}
+              onChangeText={(pwd) => setConfirmPassword(pwd)}
+            />
+            <Button
+              title="다음"
+              onPress={() => {
+                setShowPassword(false);
+                setShowBirth(true);
+              }}
+              style={{ marginTop: 8 }}
+            ></Button>
+          </View>
+        )}
 
-      {/* 약관동의 컴포넌트 */}
-      {showAgreement && (
-        <View>
-          <Text variant="labelLarge">약관 동의</Text>
+        {/* 생년월일 입력 컴포넌트 */}
+        {showBirth && (
+          <View>
+            <Text>생년월일</Text>
+            <TextInput
+              placeholder="GrouBing@groubing.com"
+              onChangeText={(id) => setId(id)}
+              value={id}
+            />
+            <Text>입력하신 생년월일은 공개되지 않습니다.</Text>
+            <Button
+              title="다음"
+              onPress={() => {
+                setShowAgreement(true);
+                setShowBirth(false);
+              }}
+              style={{ marginTop: 8 }}
+            ></Button>
+          </View>
+        )}
 
-          <Button
-            mode="Contained"
-            onPress={() => {
-              handleSignUp();
-            }}
-            buttonColor="black"
-            textColor="white"
-            style={{ marginTop: 8 }}
-          >
-            가입하기
-          </Button>
-        </View>
-      )}
+        {/* 약관동의 컴포넌트 */}
+        {showAgreement && (
+          <View>
+            <Text>약관 동의</Text>
+
+            <Button
+              title="가입하기"
+              onPress={() => {
+                handleSignUp();
+              }}
+              style={{ marginTop: 8 }}
+            ></Button>
+          </View>
+        )}
+      </View>
     </SafeAreaView>
   );
 };
@@ -266,7 +261,7 @@ function BackButton() {
     <TouchableOpacity onPress={() => navigation.goBack()}>
       <Image
         source={require("../../assets/icon/button/back_btn.png")}
-        style={{ width: 100, height: 100 }}
+        style={styles.headerBtn}
       />
     </TouchableOpacity>
   );
@@ -275,34 +270,78 @@ function BackButton() {
 export default SignUpScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  safeAreaContainer: {
     felx: 1,
     paddingHorizontal: 20,
   },
-  header: {
-    marginTop: 100,
-    fontSize: 38,
+  headerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  headerBtn: {
+    width: 7,
+    height: 14,
+    marginHorizontal: 12,
+  },
+  title: {
+    color: "#000000",
+    fontFamily: "NotoSansKR_500Medium",
+    fontSize: 18,
+  },
+  container: {
+    marginHorizontal: 12,
+  },
+  headline: {
+    fontSize: 24,
     fontWeight: "500",
-    alignContent: "center",
-    marginBottom: 20,
+    fontFamily: "NotoSansKR_500Medium",
+    marginTop: 50,
   },
-  input: {
-    backgroundColor: "white",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 15,
-    marginBottom: 20,
-    flex: 4,
+  bodyContainer: {
+    marginTop: 24,
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  nameInput: {
-    backgroundColor: "white",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 15,
-    marginBottom: 20,
-    flex: 1,
+  textInputContainer: {
+    width: "100%",
   },
-
+  textInput: {
+    height: 60,
+    width: "100%",
+    borderBottomColor: "#000000",
+    borderBottomWidth: 1,
+    fontFamily: "NotoSansKR_400Regular",
+    color: "#A6A6A6",
+    fontSize: 18,
+  },
+  microcopyContainer: {
+    marginTop: 9,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  cautionIcon: {
+    width: 16,
+    height: 16,
+    marginHorizontal: 8,
+  },
+  microcopy: {
+    fontFamily: "NotoSansKR_400Regular",
+    color: "#FF3C3C",
+    fontSize: 16,
+  },
+  nextBtn: {
+    height: 48,
+    backgroundColor: "#000000",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 4,
+  },
+  nextBtnTxt: {
+    fontSize: 18,
+    fontFamily: "NotoSansKR_500Medium",
+    color: "#FFFFFF",
+  },
   signupBtn: {
     alignItems: "center",
     backgroundColor: "ivory",
