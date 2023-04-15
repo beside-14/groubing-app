@@ -1,11 +1,30 @@
 import { StyleSheet, Text, SafeAreaView, ScrollView, View } from "react-native";
 import React, {useState } from "react";
 import { ProgressBar } from "react-native-paper";
-import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
+import { ProgressStep, ProgressSteps } from "@dduyon2/react-native-progress-steps";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Step1, Step2, Step3 } from "../../utils/CreatingStepUtil";
+import { Step1, Step2, Step3, Step4, Step5 } from "../../utils/CreatingStepUtil";
 
 const CreateBingo = () => {
+    const [bingoType, setBingoType] = useState(0);
+    const [disclosure, setDisclosure] = useState('');
+    const [bingoTitle, setBingoTitle] = useState('');
+    const [goal, setGoal] = useState(1);
+    const [startDate, SetStartDate] = useState('');
+
+    const step1ToParent = (bingotype) => {
+        // console.log(bingotype);
+        setBingoType(bingotype); 
+        // console.log(bingoType);
+    }
+
+    const step2ToParent = (dc) => {
+        setDisclosure(dc);
+    }
+
+    const step3ToParent = (title) => {
+        setBingoTitle(title);
+    }
 
     const progressStyle = {
         activeStepIconBorderColor:"#CFF3DD",
@@ -51,7 +70,7 @@ const CreateBingo = () => {
         borderStyle:'solid',  
         borderWidth:1,
     };
-    
+    //$ npm install git+https://github.com/dduyon2/react-native-progress-steps.git
     const prevBtnText = {
         fontFamily:'NotoSansKR_500Medium',
         width: 65,
@@ -75,11 +94,11 @@ const CreateBingo = () => {
             <ScrollView style={styles.container}>
                 <ProgressSteps {...progressStyle} style={styles.progress}>
                     <ProgressStep nextBtnStyle={nextBtnStyle} nextBtynTextStyle={nextBtnText} nextBtnText="다음">
-                        <Step1 />
+                        <Step1 step1ToParent={step1ToParent} />
                     </ProgressStep>
                     <ProgressStep 
                         nextBtnStyle={nextBtnStyle} nextBtynTextStyle={nextBtnText} nextBtnText="다음" >
-                        <Step2 />
+                        <Step2 step2ToParent={{step2ToParent, bingoType}}/>
                     </ProgressStep>
                     <ProgressStep                         
                         nextBtnStyle={nextBtnStyle} nextBtynTextStyle={nextBtnText} nextBtnText="다음" >
@@ -92,18 +111,13 @@ const CreateBingo = () => {
                         previousBtnText="임시 저장"
                         previousBtnStyle={prevBtnStyle}
                         previousBtnTextStyle={prevBtnText} >
-
-                        <View>
-                            <Text>This is the content within step 4!</Text>
-                        </View>
+                        <Step4 />
                     </ProgressStep>
                     <ProgressStep 
                         nextBtnStyle={nextBtnStyle}
                         nextBtnTextStyle={nextBtnText}
                         finishBtnText="빙고 생성">
-                        <View>
-                            <Text>This is the content within step 5!</Text>
-                        </View>
+                        <Step5 />
                     </ProgressStep>
                 </ProgressSteps>
             </ScrollView>
@@ -117,7 +131,7 @@ const styles = StyleSheet.create({
         height:'100%',
     },
     container: {
-        marginHorizontal:25,
+    marginHorizontal:25,
     },
     bottom: {
     },
