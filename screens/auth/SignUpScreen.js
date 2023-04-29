@@ -14,10 +14,11 @@ import { validateEmail, validatePassword, alert } from "../../utils/StringUtil";
 import { signUp } from "../../utils/AuthUtil";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-import CautionIcon from "../../assets/icon/button/caution_icon.png";
+
 import { CheckBox } from "react-native-elements";
 import StepBar from "../../components/StepBar";
 
+import CautionIcon from "../../assets/icon/button/caution_icon.png";
 import checkedIcon from "../../assets/icon_checked.png";
 import uncheckedIcon from "../../assets/icon_unchecked.png";
 

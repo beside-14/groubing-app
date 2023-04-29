@@ -56,8 +56,8 @@ function StackNavigator() {
           component={SignUpScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="FindId" component={FindIdScreen} />
-        <Stack.Screen name="FindPw" component={FindPwScreen} />
+        <Stack.Screen name="FindId" component={FindIdScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="FindPw" component={FindPwScreen} options={{ headerShown: false }}/>
         <Stack.Screen
           name="Nickname"
           component={NicknameScreen}
