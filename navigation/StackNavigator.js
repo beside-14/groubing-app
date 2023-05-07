@@ -34,7 +34,7 @@ function StackNavigator() {
           name="CreateBingo"
           component={CreateBingo}
           options={{
-            title: "",
+            title: "빙고만들기",
             headerBackTitleVisible: false,
             headerTitleAlign: "left",
             headerTintColor: "#000000",
