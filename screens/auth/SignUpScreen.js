@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -36,16 +36,16 @@ const SignUpScreen = ({ navigation }) => {
   const [showNickname, setShowNickname] = useState(false);
 
   const [authCode, setAuthCode] = useState("");
-  const [timeLeft, setTimeLeft] = useState(180); // 180초 = 3분
+  const [timeLeft, setTimeLeft] = useState(5); // 180초 = 3분
 
   const [terms1, setTerms1] = useState(false);
   const [terms2, setTerms2] = useState(false);
   const [nowStep, setNowStep] = useState(1);
 
   const [errorMessage, setErrorMessage] = useState("");
-  const [microcopy, setMicrocopy] = useState(
-    "올바른 이메일 형식이 아닙니다. 다시 입력해주세요."
-  );
+  const [microcopy, setMicrocopy] = useState("");
+
+  const resendBtnRef = useRef(null);
 
   async function handleSignUp() {
     const userInfo = { id, password };
@@ -115,7 +115,13 @@ const SignUpScreen = ({ navigation }) => {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    if (time <= 0) {
+      //재발송 버튼 활성화
+      resendBtnRef.current.disabled = false;
+      return "";
+    } else {
+      return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    }
   };
 
   const handleChange = (text) => {
@@ -153,10 +159,14 @@ const SignUpScreen = ({ navigation }) => {
                   style={styles.textInput}
                 />
                 <View style={styles.microcopyContainer}>
-                  <TouchableOpacity style={styles.cautionIcon}>
-                    <Image source={CautionIcon} />
-                  </TouchableOpacity>
-                  <Text style={styles.microcopy}>{microcopy}</Text>
+                  {microcopy && (
+                    <TouchableOpacity style={styles.cautionIcon}>
+                      <Image source={CautionIcon} />
+                    </TouchableOpacity>
+                  )}
+                  {microcopy && (
+                    <Text style={styles.microcopy}>{microcopy}</Text>
+                  )}
                 </View>
               </View>
               <View style={styles.nextBtnContainer}>
@@ -200,7 +210,15 @@ const SignUpScreen = ({ navigation }) => {
                     <Text style={styles.authTime}>{formatTime(timeLeft)}</Text>
                   </View>
                   <View style={styles.resendBtnContainer}>
-                    <TouchableOpacity style={styles.resendBtn} disabled>
+                    <TouchableOpacity
+                      ref={resendBtnRef}
+                      style={styles.resendBtn}
+                      onPress={() => {
+                        //재발송 로직
+                        setTimeLeft(180);
+                      }}
+                      disabled
+                    >
                       <Text style={styles.resendBtnTxt}>재발송</Text>
                     </TouchableOpacity>
                   </View>
@@ -234,10 +252,14 @@ const SignUpScreen = ({ navigation }) => {
                   style={styles.pwInput}
                 />
                 <View style={styles.microcopyContainer}>
-                  <TouchableOpacity style={styles.cautionIcon}>
-                    <Image source={CautionIcon} />
-                  </TouchableOpacity>
-                  <Text style={styles.microcopy}>{microcopy}</Text>
+                  {microcopy && (
+                    <TouchableOpacity style={styles.cautionIcon}>
+                      <Image source={CautionIcon} />
+                    </TouchableOpacity>
+                  )}
+                  {microcopy && (
+                    <Text style={styles.microcopy}>{microcopy}</Text>
+                  )}
                 </View>
                 <TextInput
                   placeholder="비밀번호 확인"

@@ -39,9 +39,7 @@ const LoginScreen = ({ navigation }) => {
 
       try {
         // login api 로직
-
         // const response = await login(loginData);
-        // console.log(response);
         // if (response.data !== null && response.data !== "") {
         //   setId("");
         //   setPw("");
@@ -56,8 +54,9 @@ const LoginScreen = ({ navigation }) => {
 
         navigation.navigate("Home");
       } catch (error) {
-        console.log(error);
-        setMicrocopy("서버와의 연결이 원활하지 않습니다.");
+        //console.error(error.response.data); // 오류 메시지 출력
+        const errorMessage = error.response.data.message; // 오류 메시지 추출
+        setMicrocopy(errorMessage); // 사용자에게 오류 메시지 보여주기
       }
     }
   }
