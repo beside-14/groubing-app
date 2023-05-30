@@ -117,7 +117,7 @@ const SignUpScreen = ({ navigation }) => {
     const seconds = time % 60;
     if (time <= 0) {
       //재발송 버튼 활성화
-      resendBtnRef.current.disabled = false;
+      //resendBtnRef.current.disabled = false;
       return "";
     } else {
       return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
