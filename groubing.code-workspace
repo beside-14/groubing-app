@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../groubing-app/assets"
+		},
+		{
+			"path": "../groubing-app/components"
+		}
+	],
+	"settings": {}
+}
