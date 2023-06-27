@@ -1,4 +1,5 @@
 // import { login } from "../../utils/AuthUtil";
+import { useRoutes } from "hooks/useRoutes";
 import React, { useState } from "react";
 import {
   View,
@@ -17,12 +18,17 @@ import {
 // import GoogleIcon from "../../assets/icon/button/google_icon.png";
 // import AppleIcon from "../../assets/icon/button/apple_icon.png";
 
-const LoginScreen = ({ navigation }) => {
+
+const Login = ({navigation}) => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [microcopy, setMicrocopy] = useState("");
+  const {setNavigateState} = useRoutes()
 
   async function handleLogin() {
+    setNavigateState()
+    return
+
     setMicrocopy("");
 
     if (id.trim() === "") {
@@ -142,7 +148,7 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
+export default Login;
 
 const styles = StyleSheet.create({
   safeAreaContainer: {

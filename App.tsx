@@ -24,7 +24,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import StackNavigator from "./navigation/StackNavigator"
+import StackNavigator from "navigation/StackNavigator"
 
 type SectionProps = PropsWithChildren<{
   title: string;
