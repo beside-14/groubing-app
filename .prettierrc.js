@@ -4,4 +4,9 @@ module.exports = {
   bracketSpacing: false,
   singleQuote: true,
   trailingComma: 'all',
-};
+  semi: false,
+  tabWidth: 2,
+  printWidth: 200,
+  proseWrap: 'preserve',
+  'prettier.eslintIntegration': true,
+}

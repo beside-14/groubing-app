@@ -1,3 +1,8 @@
-import {useQuery, useInfiniteQuery, useQueryClient} from "react-query"
+import {
+  useQuery,
+  useInfiniteQuery,
+  useQueryClient,
+  useMutation,
+} from "react-query"
 
-export {useQuery, useInfiniteQuery, useQueryClient}
+export {useQuery, useInfiniteQuery, useQueryClient, useMutation}

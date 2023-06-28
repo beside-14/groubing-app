@@ -4,8 +4,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import Login from "screens/auth/Login"
 import Bingo from "screens/bingo/Bingo"
-import {useAtomValue} from "utils/jotai"
-import {isLoggedAtom} from "store"
+import {useRoutes} from "hooks/useRoutes"
 
 const Auth = createStackNavigator()
 const Main = createStackNavigator()
@@ -38,7 +37,7 @@ const MainNavigator = () => {
 // }
 
 const StackNavigator = () => {
-  const isLogged = useAtomValue(isLoggedAtom)
+  const {isLogged} = useRoutes()
 
   return (
     <NavigationContainer>

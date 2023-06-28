@@ -232,7 +232,6 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
@@ -253,7 +252,6 @@ const styles = StyleSheet.create({
     width: 1,
     height: 13,
     backgroundColor: "#FFFFFF",
-    marginHorizontal: 8,
     opacity: 0.3,
     flex: 0,
     flexGrow: 0,
@@ -270,7 +268,6 @@ const styles = StyleSheet.create({
   },
   snsBtnContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 16,
