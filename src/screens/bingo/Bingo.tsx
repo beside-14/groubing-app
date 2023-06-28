@@ -1,19 +1,15 @@
-import { useRoutes } from "hooks/useRoutes";
-import { View } from "react-native";
-import {useEffect} from "react"
+import {useAuth} from 'hooks/useAuth'
+import {View} from 'react-native'
+import {useEffect} from 'react'
 
 const Bingo = () => {
-  const {setNavigateState} = useRoutes()
+  const {changeNavigationStack} = useAuth()
 
   // useEffect(() => {
   //   setNavigateState()
   // }, [])
 
-  return (
-    <View>
-      
-    </View>
-  )
+  return <View></View>
 }
 
 export default Bingo
