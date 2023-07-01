@@ -3,7 +3,7 @@ import {View} from 'react-native'
 import {useEffect} from 'react'
 import {Text} from 'react-native'
 import React from 'react'
-import CreateBingo from 'components/CreateBingo'
+import CreateBingo from 'components/bingo/create/CreateBingo'
 
 const Bingo = () => {
   const {changeNavigationStack} = useAuth()
@@ -12,11 +12,7 @@ const Bingo = () => {
   //   setNavigateState()
   // }, [])
 
-  return (
-    <View>
-      <CreateBingo />
-    </View>
-  )
+  return <CreateBingo />
 }
 
 export default Bingo

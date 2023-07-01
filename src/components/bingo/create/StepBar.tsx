@@ -1,29 +1,17 @@
 import React from 'react'
 import {View, Text, Image, StyleSheet} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import {StepDefault, StepEnd, StepNow} from '../../../../assets'
 
-// import stepDefaultIcon from '../assets/icon/step/step_icon_default.png'
-// import stepNowIcon from '../assets/icon/step/step_icon_now.png'
-// import stepEndIcon from '../assets/icon/step/step_icon_end.png'
-
-export default function StepBar({now, step}) {
+export default function StepBar({now, step}: {now: number; step: number}) {
   const stepCont = []
   for (let i = 1; i <= step; i++) {
     if (i < now) {
-      stepCont.push(
-        <Text>1</Text>,
-        // <Image key={i} source={stepEndIcon} style={styles.step} />
-      )
+      stepCont.push(<Image key={i} source={StepEnd} style={styles.step} />)
     } else if (i == now) {
-      stepCont.push(
-        <Text>2</Text>,
-        // <Image key={i} source={stepNowIcon} style={styles.stepNow} />
-      )
+      stepCont.push(<Image key={i} source={StepNow} style={styles.stepNow} />)
     } else {
-      stepCont.push(
-        <Text>3</Text>,
-        // <Image key={i} source={stepDefaultIcon} style={styles.step} />
-      )
+      stepCont.push(<Image key={i} source={StepDefault} style={styles.step} />)
     }
     if (i < step) {
       if (i < now) {

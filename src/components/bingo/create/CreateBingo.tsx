@@ -8,7 +8,7 @@ import StepBar from './StepBar'
 
 const CreateBingo = () => {
   const [bingoTypeId, setBingoTypeId] = useState(0)
-  const [bingoType, setBingoType] = useState('')
+  const [bingoType, setBingoType] = useState<'개인빙고 3×3 9칸' | '개인빙고 4×4 16칸' | '그룹빙고 3×3 9칸' | '그룹빙고 4×4 16칸' | undefined>()
   const [disclosure, setDisclosure] = useState('')
   const [bingoTitle, setBingoTitle] = useState('')
   const [goal, setGoal] = useState(1)
@@ -42,7 +42,7 @@ const CreateBingo = () => {
     setVisible(false)
   }
 
-  function selectType(type) {
+  function selectType(type: number) {
     switch (type) {
       case 1:
         return '개인빙고 3×3 9칸'
@@ -109,13 +109,13 @@ const CreateBingo = () => {
       </View>
     )
   }
-
+  // return null
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <ScrollView style={styles.container}>
         <View style={styles.headerContainer}>
           <View style={styles.stepBarContainer}>
-            <StepBar step={5} now={nowStep} />
+            <StepBar step={5} now={5} />
           </View>
         </View>
         <View style={styles.bodyContainer}>
@@ -216,7 +216,7 @@ const CreateBingo = () => {
               <Text style={styles.question}>빙고 진행 기간을 입력해주세요.</Text>
               <View style={{flexDirection: 'row', borderBottomColor: '#DDDDDD', borderBottomWidth: 1, paddingBottom: 10}}>
                 <Text style={{width: 280, height: 16, marginRight: 15, marginLeft: 2, fontSize: 16}}>2023-03-12~2023-04-12</Text>
-                <TouchableOpacity onPress={openCalendar}>{/* <Image source={require('../../assets/icon_calendar.png')} /> */}</TouchableOpacity>
+                <TouchableOpacity onPress={openCalendar}></TouchableOpacity>
               </View>
               <DateTimePickerModal isVisible={visible} mode="date" onConfirm={onConfirm} onCancel={onCancel} />
               <BINGOGOAL />
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   stepBarContainer: {
-    marginTop: 26,
+    marginTop: 30,
     width: 150,
   },
   counterContainer: {
