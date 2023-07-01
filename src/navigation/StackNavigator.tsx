@@ -55,7 +55,7 @@ const StackNavigator = () => {
           headerShown: false,
           animationEnabled: false,
         }}>
-        {isLogged ? <Root.Screen name="Main" component={MainNavigator} /> : <Root.Screen name="Auth" component={AuthNavigator} />}
+        {true ? <Root.Screen name="Main" component={MainNavigator} /> : <Root.Screen name="Auth" component={AuthNavigator} />}
       </Root.Navigator>
     </NavigationContainer>
   )
