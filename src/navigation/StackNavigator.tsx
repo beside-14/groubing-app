@@ -56,7 +56,7 @@ const StackNavigator = () => {
           headerShown: false,
           animationEnabled: false,
         }}>
-        {true ? <Root.Screen name="Main" component={BingoScreen} /> : <Root.Screen name="Auth" component={AuthNavigator} />}
+        {isLogged ? <Root.Screen name="Main" component={MainNavigator} /> : <Root.Screen name="Auth" component={AuthNavigator} />}
       </Root.Navigator>
     </NavigationContainer>
   )
