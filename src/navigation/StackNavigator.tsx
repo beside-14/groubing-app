@@ -2,8 +2,9 @@ import React from 'react'
 import {createStackNavigator} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {Login, FindId, Bingo} from 'screens'
+import {Login, FindId, Bingo} from '../screens'
 import {useAuth} from 'hooks/useAuth'
+import BingoScreen from 'screens/board/BingoScreen'
 
 const Auth = createStackNavigator()
 const Main = createStackNavigator()
