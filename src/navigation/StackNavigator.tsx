@@ -5,6 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {Login, FindId, FindPw, SignUp, Bingo} from 'screens'
 import {useAuth} from 'hooks/useAuth'
 import BingoScreen from 'screens/board/BingoScreen'
+import NavigatorHeader from 'components/common/NavigatorHeader'
 
 const Auth = createStackNavigator()
 const Main = createStackNavigator()
@@ -15,13 +16,15 @@ const AuthNavigator = () => {
   return (
     <Auth.Navigator
       initialRouteName="Login"
-      screenOptions={{
-        // headerShown: false,
-      }}>
-      <Auth.Screen name="Login" component={Login} />
-      <Auth.Screen name="FindId" component={FindId} />
-      <Auth.Screen name="FindPw" component={FindPw} />
-      <Auth.Screen name="SignUp" component={SignUp} />
+      screenOptions={
+        {
+          // headerShown: false,
+        }
+      }>
+      <Auth.Screen name="Login" component={Login} options={{headerShown: false}} />
+      <Auth.Screen name="FindId" component={FindId} options={{headerLeft: () => <NavigatorHeader title={'아이디 찾기'} />, title: ''}} />
+      <Auth.Screen name="FindPw" component={FindPw} options={{headerLeft: () => <NavigatorHeader title={'비밀번호 찾기'} />, title: ''}} />
+      <Auth.Screen name="SignUp" component={SignUp} options={{headerLeft: () => <NavigatorHeader title={'회원가입'} />, title: ''}} />
     </Auth.Navigator>
   )
 }
