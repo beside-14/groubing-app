@@ -6,7 +6,7 @@ module.exports = {
   trailingComma: 'all',
   semi: false,
   tabWidth: 2,
-  printWidth: 200,
+  printWidth: 50,
   proseWrap: 'preserve',
   'prettier.eslintIntegration': true,
 }
