@@ -1,56 +1,45 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  Image,
-  TextInput,
-  Text,
-  KeyboardAvoidingView,
-  Platform,
-  StatusBar,
-  Alert
-} from "react-native";
-import { validateEmail, validatePassword } from "utils/stringUtils";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
+import React, {useState, useEffect, useRef} from 'react'
+import {StyleSheet, View, SafeAreaView, Image, TextInput, Text, KeyboardAvoidingView, Platform, StatusBar, Alert} from 'react-native'
+import {validateEmail, validatePassword} from 'utils/stringUtils'
+import {TouchableOpacity} from 'react-native-gesture-handler'
+import {useNavigation} from '@react-navigation/native'
 
 // 사용 시 에러 발생. 직접 만들어야 할듯.
 // import { CheckBox } from "react-native-elements";
-import StepBar from "components/bingo/create/StepBar";
+import StepBar from 'components/bingo/create/StepBar'
 
-import { Images } from "assets";
-import { useRoutes } from "hooks/useRoutes";
+import {Images} from 'assets'
+import {useRoutes} from 'hooks/useRoutes'
 
 const SignUpScreen = () => {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [headline, setHeadline] = useState("아이디(이메일)를 입력해주세요.");
-  const [nickname, setNickname] = useState("");
+  const [id, setId] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [headline, setHeadline] = useState('아이디(이메일)를 입력해주세요.')
+  const [nickname, setNickname] = useState('')
 
-  const [showEmail, setShowEmail] = useState(true);
-  const [showEmailAuth, setShowEmailAuth] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showAgreement, setShowAgreement] = useState(false);
-  const [showNickname, setShowNickname] = useState(false);
+  const [showEmail, setShowEmail] = useState(true)
+  const [showEmailAuth, setShowEmailAuth] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showAgreement, setShowAgreement] = useState(false)
+  const [showNickname, setShowNickname] = useState(false)
 
-  const [authCode, setAuthCode] = useState("");
-  const [timeLeft, setTimeLeft] = useState(5); // 180초 = 3분
+  const [authCode, setAuthCode] = useState('')
+  const [timeLeft, setTimeLeft] = useState(5) // 180초 = 3분
 
-  const [terms1, setTerms1] = useState(false);
-  const [terms2, setTerms2] = useState(false);
-  const [nowStep, setNowStep] = useState(1);
+  const [terms1, setTerms1] = useState(false)
+  const [terms2, setTerms2] = useState(false)
+  const [nowStep, setNowStep] = useState(1)
 
-  const [errorMessage, setErrorMessage] = useState("");
-  const [microcopy, setMicrocopy] = useState("");
+  const [errorMessage, setErrorMessage] = useState('')
+  const [microcopy, setMicrocopy] = useState('')
 
-  const resendBtnRef = useRef(null);
+  const resendBtnRef = useRef(null)
   const {navigate} = useRoutes()
 
   async function handleSignUp() {
-    const userInfo = { id, password };
-    console.log("Signed up : ", userInfo);
+    const userInfo = {id, password}
+    console.log('Signed up : ', userInfo)
 
     // if (id === "" || password === "" || confirmPassword == "") {
     //   setErrorMessage("Please fill out all fields");
@@ -81,9 +70,9 @@ const SignUpScreen = () => {
     //   alert("Email validation", errorMessage);
     //   return;
     // }
-    setErrorMessage("");
+    setErrorMessage('')
 
-    if (errorMessage === "") {
+    if (errorMessage === '') {
       try {
         // login api 로직
 
@@ -97,10 +86,10 @@ const SignUpScreen = () => {
         // }
 
         //회원가입 성공 시 닉네임 설정 화면 이동
-        navigate("Home");
+        navigate('Home')
       } catch (error) {
-        console.log(error);
-        Alert.alert("회원가입 실패", "서버와의 연결이 원활하지 않습니다.");
+        console.log(error)
+        Alert.alert('회원가입 실패', '서버와의 연결이 원활하지 않습니다.')
       }
     }
   }
@@ -108,42 +97,33 @@ const SignUpScreen = () => {
   //이메일 인증 코드 3분 제한 관련
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft((timeLeft) => timeLeft - 1);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+      setTimeLeft(timeLeft => timeLeft - 1)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
 
   const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
+    const minutes = Math.floor(time / 60)
+    const seconds = time % 60
     if (time <= 0) {
       //재발송 버튼 활성화
       //resendBtnRef.current.disabled = false;
-      return "";
+      return ''
     } else {
-      return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
     }
-  };
+  }
 
   const handleChange = (text: string) => {
-    setAuthCode(text);
-  };
+    setAuthCode(text)
+  }
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        style={styles.keyboardContainer}
-      >
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.keyboardContainer}>
         <StatusBar hidden={true} />
-        <View style={styles.headerContainer}>
-          <View style={styles.titleContainer}>
-            <BackButton />
-            <Text style={styles.title}>회원가입</Text>
-          </View>
-          <View style={styles.stepBarContainer}>
-            <StepBar step={5} now={nowStep} />
-          </View>
+        <View style={styles.stepBarContainer}>
+          <StepBar step={5} now={nowStep} />
         </View>
 
         <View style={styles.container}>
@@ -153,35 +133,25 @@ const SignUpScreen = () => {
           {showEmail ? (
             <View style={styles.bodyContainer}>
               <View style={styles.textInputContainer}>
-                <TextInput
-                  placeholder="아이디(이메일)"
-                  onChangeText={(id) => setId(id)}
-                  value={id}
-                  style={styles.textInput}
-                />
+                <TextInput placeholder="아이디(이메일)" onChangeText={id => setId(id)} value={id} style={styles.textInput} />
                 <View style={styles.microcopyContainer}>
                   {microcopy ? (
                     <TouchableOpacity style={styles.cautionIcon}>
                       <Image source={Images.caution_icon} />
                     </TouchableOpacity>
                   ) : null}
-                  {microcopy ? (
-                    <Text style={styles.microcopy}>{microcopy}</Text>
-                  ) : null}
+                  {microcopy ? <Text style={styles.microcopy}>{microcopy}</Text> : null}
                 </View>
               </View>
               <View style={styles.nextBtnContainer}>
                 <TouchableOpacity
                   style={styles.nextBtn}
                   onPress={() => {
-                    setShowEmailAuth(true);
-                    setShowEmail(false);
-                    setHeadline(
-                      "입력하신 이메일 주소로\n인증 번호를 발송하였습니다."
-                    );
-                    setNowStep(nowStep + 1);
-                  }}
-                >
+                    setShowEmailAuth(true)
+                    setShowEmail(false)
+                    setHeadline('입력하신 이메일 주소로\n인증 번호를 발송하였습니다.')
+                    setNowStep(nowStep + 1)
+                  }}>
                   <Text style={styles.nextBtnTxt}>다음</Text>
                 </TouchableOpacity>
               </View>
@@ -192,22 +162,10 @@ const SignUpScreen = () => {
           {showEmailAuth ? (
             <View style={styles.bodyContainer}>
               <View style={styles.textInputContainer}>
-                <TextInput
-                  placeholder="아이디(이메일)"
-                  onChangeText={(id) => setId(id)}
-                  value={id}
-                  style={styles.textInput}
-                  editable={false}
-                />
+                <TextInput placeholder="아이디(이메일)" onChangeText={id => setId(id)} value={id} style={styles.textInput} editable={false} />
                 <View style={styles.authContainer}>
                   <View style={styles.authInputContainer}>
-                    <TextInput
-                      placeholder="인증번호"
-                      onChangeText={handleChange}
-                      value={authCode}
-                      maxLength={10}
-                      style={styles.textAuthInput}
-                    />
+                    <TextInput placeholder="인증번호" onChangeText={handleChange} value={authCode} maxLength={10} style={styles.textAuthInput} />
                     <Text style={styles.authTime}>{formatTime(timeLeft)}</Text>
                   </View>
                   <View style={styles.resendBtnContainer}>
@@ -216,10 +174,9 @@ const SignUpScreen = () => {
                       style={styles.resendBtn}
                       onPress={() => {
                         //재발송 로직
-                        setTimeLeft(180);
+                        setTimeLeft(180)
                       }}
-                      disabled
-                    >
+                      disabled>
                       <Text style={styles.resendBtnTxt}>재발송</Text>
                     </TouchableOpacity>
                   </View>
@@ -229,12 +186,11 @@ const SignUpScreen = () => {
                 <TouchableOpacity
                   style={styles.nextBtn}
                   onPress={() => {
-                    setShowEmailAuth(false);
-                    setShowPassword(true);
-                    setHeadline("비밀번호를 입력해주세요.");
-                    setNowStep(nowStep + 1);
-                  }}
-                >
+                    setShowEmailAuth(false)
+                    setShowPassword(true)
+                    setHeadline('비밀번호를 입력해주세요.')
+                    setNowStep(nowStep + 1)
+                  }}>
                   <Text style={styles.nextBtnTxt}>다음</Text>
                 </TouchableOpacity>
               </View>
@@ -245,41 +201,26 @@ const SignUpScreen = () => {
           {showPassword ? (
             <View style={styles.bodyContainer}>
               <View style={styles.textInputContainer}>
-                <TextInput
-                  placeholder="비밀번호"
-                  onChangeText={(pwd) => setPassword(pwd)}
-                  value={password}
-                  secureTextEntry={true}
-                  style={styles.pwInput}
-                />
+                <TextInput placeholder="비밀번호" onChangeText={pwd => setPassword(pwd)} value={password} secureTextEntry={true} style={styles.pwInput} />
                 <View style={styles.microcopyContainer}>
                   {microcopy ? (
                     <TouchableOpacity style={styles.cautionIcon}>
                       <Image source={Images.caution_icon} />
                     </TouchableOpacity>
                   ) : null}
-                  {microcopy ? (
-                    <Text style={styles.microcopy}>{microcopy}</Text>
-                  ) : null}
+                  {microcopy ? <Text style={styles.microcopy}>{microcopy}</Text> : null}
                 </View>
-                <TextInput
-                  placeholder="비밀번호 확인"
-                  onChangeText={(pwd) => setConfirmPassword(pwd)}
-                  value={confirmPassword}
-                  secureTextEntry={true}
-                  style={styles.pwInput2}
-                />
+                <TextInput placeholder="비밀번호 확인" onChangeText={pwd => setConfirmPassword(pwd)} value={confirmPassword} secureTextEntry={true} style={styles.pwInput2} />
               </View>
               <View style={styles.nextBtnContainer}>
                 <TouchableOpacity
                   style={styles.nextBtn}
                   onPress={() => {
-                    setShowPassword(false);
-                    setShowAgreement(true);
-                    setHeadline("약관 동의");
-                    setNowStep(nowStep + 1);
-                  }}
-                >
+                    setShowPassword(false)
+                    setShowAgreement(true)
+                    setHeadline('약관 동의')
+                    setNowStep(nowStep + 1)
+                  }}>
                   <Text style={styles.nextBtnTxt}>다음</Text>
                 </TouchableOpacity>
               </View>
@@ -299,10 +240,7 @@ const SignUpScreen = () => {
                     uncheckedIcon={<Image source={Images.icon_unchecked} />}
                   /> */}
                   <Text style={styles.checkBoxTxt}>
-                    <Text
-                      style={styles.linkText}
-                      onPress={() => Alert.alert("이용약관")}
-                    >
+                    <Text style={styles.linkText} onPress={() => Alert.alert('이용약관')}>
                       이용약관
                     </Text>
                     에 동의합니다. (필수)
@@ -316,10 +254,7 @@ const SignUpScreen = () => {
                     uncheckedIcon={<Image source={Images.icon_unchecked} />}
                   /> */}
                   <Text style={styles.checkBoxTxt}>
-                    <Text
-                      style={styles.linkText}
-                      onPress={() => Alert.alert("개인정보 처리방침")}
-                    >
+                    <Text style={styles.linkText} onPress={() => Alert.alert('개인정보 처리방침')}>
                       개인정보 처리방침
                     </Text>
                     에 동의합니다. (필수)
@@ -330,12 +265,11 @@ const SignUpScreen = () => {
                 <TouchableOpacity
                   style={styles.nextBtn}
                   onPress={() => {
-                    setShowAgreement(false);
-                    setShowNickname(true);
-                    setHeadline("");
-                    setNowStep(nowStep + 1);
-                  }}
-                >
+                    setShowAgreement(false)
+                    setShowNickname(true)
+                    setHeadline('')
+                    setNowStep(nowStep + 1)
+                  }}>
                   <Text style={styles.nextBtnTxt}>다음</Text>
                 </TouchableOpacity>
               </View>
@@ -347,23 +281,15 @@ const SignUpScreen = () => {
             <View style={styles.bodyContainer}>
               <View style={styles.welcomeContainer}>
                 <Text style={styles.welcomeTitle}>만나서 반가워요!</Text>
-                <Text style={styles.welcomeSubTitle}>
-                  GROUBING에서 사용할 닉네임을{"\n"}입력해주세요.
-                </Text>
-                <TextInput
-                  placeholder="닉네임"
-                  onChangeText={(nickname) => setNickname(nickname)}
-                  value={nickname}
-                  style={styles.pwInput}
-                />
+                <Text style={styles.welcomeSubTitle}>GROUBING에서 사용할 닉네임을{'\n'}입력해주세요.</Text>
+                <TextInput placeholder="닉네임" onChangeText={nickname => setNickname(nickname)} value={nickname} style={styles.pwInput} />
               </View>
               <View style={styles.nextBtnContainer}>
                 <TouchableOpacity
                   style={styles.nextBtn}
                   onPress={() => {
-                    handleSignUp();
-                  }}
-                >
+                    handleSignUp()
+                  }}>
                   <Text style={styles.nextBtnTxt}>시작하기</Text>
                 </TouchableOpacity>
               </View>
@@ -372,82 +298,50 @@ const SignUpScreen = () => {
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
-  );
-};
-
-function BackButton() {
-  const navigation = useNavigation();
-
-  return (
-    <TouchableOpacity onPress={() => navigation.goBack()}>
-      <Image
-        source={Images.back_btn}
-        style={styles.headerBtn}
-      />
-    </TouchableOpacity>
-  );
+  )
 }
 
-export default SignUpScreen;
+export default SignUpScreen
 
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
     paddingHorizontal: 20,
   },
-  headerContainer: {
-    height: "15%",
-    marginHorizontal: 12,
-    marginBottom: 20,
-  },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  headerBtn: {
-    width: 7,
-    height: 14,
-    marginRight: 12,
-  },
-  title: {
-    color: "#000000",
-    fontFamily: "NotoSansKR_500Medium",
-    fontSize: 20,
-  },
   container: {
     flex: 1,
     marginHorizontal: 12,
-    height: "100%",
+    height: '100%',
   },
   headline: {
     fontSize: 24,
-    fontWeight: "500",
-    fontFamily: "NotoSansKR_500Medium",
+    fontWeight: '500',
+    fontFamily: 'NotoSansKR_500Medium',
   },
   bodyContainer: {
     marginTop: 15,
-    alignItems: "center",
-    justifyContent: "space-between",
-    position: "relative",
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    position: 'relative',
     flex: 1,
   },
   textInputContainer: {
-    width: "100%",
+    width: '100%',
   },
   textInput: {
     height: 40,
-    width: "100%",
-    borderBottomColor: "#DDDDDD",
+    width: '100%',
+    borderBottomColor: '#DDDDDD',
     borderBottomWidth: 1,
-    fontFamily: "NotoSansKR_400Regular",
-    color: "#A6A6A6",
+    fontFamily: 'NotoSansKR_400Regular',
+    color: '#A6A6A6',
     fontSize: 18,
     paddingLeft: 5,
   },
   microcopyContainer: {
     marginTop: 9,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   cautionIcon: {
     width: 16,
@@ -455,138 +349,140 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   microcopy: {
-    fontFamily: "NotoSansKR_400Regular",
-    color: "#FF3C3C",
+    fontFamily: 'NotoSansKR_400Regular',
+    color: '#FF3C3C',
     fontSize: 16,
   },
   keyboardContainer: {
     flex: 1,
-    width: "100%",
+    width: '100%',
   },
   nextBtnContainer: {
-    width: "100%",
+    width: '100%',
     marginBottom: 13,
   },
   nextBtn: {
     height: 48,
-    backgroundColor: "#000000",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#000000',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 4,
   },
   nextBtnTxt: {
     fontSize: 18,
-    fontFamily: "NotoSansKR_500Medium",
-    color: "#FFFFFF",
+    fontFamily: 'NotoSansKR_500Medium',
+    color: '#FFFFFF',
   },
   authContainer: {
     marginTop: 10,
-    flexDirection: "row",
-    alignItems: "flex-end",
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   authInputContainer: {
     height: 48,
-    width: "70%",
-    flexDirection: "row",
-    alignItems: "center",
+    width: '70%',
+    flexDirection: 'row',
+    alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: "#000000",
+    borderBottomColor: '#000000',
   },
   textAuthInput: {
     height: 40,
-    width: "80%",
-    fontFamily: "NotoSansKR_400Regular",
-    color: "#A6A6A6",
+    width: '80%',
+    fontFamily: 'NotoSansKR_400Regular',
+    color: '#A6A6A6',
     fontSize: 18,
     paddingLeft: 5,
   },
   authTime: {
-    width: "20%",
-    color: "#000000",
-    fontFamily: "NotoSansKR_400Regular",
+    width: '20%',
+    color: '#000000',
+    fontFamily: 'NotoSansKR_400Regular',
     fontSize: 14,
-    textAlign: "right",
+    textAlign: 'right',
     paddingRight: 5,
   },
   resendBtnContainer: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-end",
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   resendBtn: {
     height: 48,
-    backgroundColor: "#DDDDDD",
+    backgroundColor: '#DDDDDD',
     width: 90,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 4,
   },
   resendBtnTxt: {
     fontSize: 14,
-    fontFamily: "NotoSansKR_400Regular",
-    color: "#F3F3F3",
+    fontFamily: 'NotoSansKR_400Regular',
+    color: '#F3F3F3',
   },
   pwInput: {
     height: 40,
-    width: "100%",
-    borderBottomColor: "#000000",
+    width: '100%',
+    borderBottomColor: '#000000',
     borderBottomWidth: 1,
-    fontFamily: "NotoSansKR_400Regular",
-    color: "#A6A6A6",
+    fontFamily: 'NotoSansKR_400Regular',
+    color: '#A6A6A6',
     fontSize: 18,
     paddingLeft: 5,
   },
   pwInput2: {
     marginTop: 10,
     height: 40,
-    width: "100%",
-    borderBottomColor: "#DDDDDD",
+    width: '100%',
+    borderBottomColor: '#DDDDDD',
     borderBottomWidth: 1,
-    fontFamily: "NotoSansKR_400Regular",
-    color: "#A6A6A6",
+    fontFamily: 'NotoSansKR_400Regular',
+    color: '#A6A6A6',
     fontSize: 18,
     paddingLeft: 5,
   },
   welcomeTitle: {
     fontSize: 42,
-    fontWeight: "500",
-    fontFamily: "NotoSansKR_500Medium",
+    fontWeight: '500',
+    fontFamily: 'NotoSansKR_500Medium',
   },
   welcomeSubTitle: {
     fontSize: 22,
-    fontFamily: "NotoSansKR_400Regular",
-    fontStyle: "normal",
-    fontWeight: "600",
-    color: "#666666",
+    fontFamily: 'NotoSansKR_400Regular',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    color: '#666666',
     marginBottom: 150,
   },
   welcomeContainer: {
-    width: "100%",
+    width: '100%',
   },
   checkBoxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
   },
   checkBox: {
     marginLeft: 0,
   },
   checkBoxTxt: {
     fontSize: 20,
-    fontFamily: "NotoSansKR_400Regular",
-    fontWeight: "600",
-    color: "#000000",
+    fontFamily: 'NotoSansKR_400Regular',
+    fontWeight: '600',
+    color: '#000000',
   },
   linkText: {
     fontSize: 20,
-    fontFamily: "NotoSansKR_400Regular",
-    fontWeight: "600",
-    color: "#000000",
-    textDecorationLine: "underline",
+    fontFamily: 'NotoSansKR_400Regular',
+    fontWeight: '600',
+    color: '#000000',
+    textDecorationLine: 'underline',
   },
   stepBarContainer: {
     marginTop: 40,
     width: 150,
+    marginHorizontal: 12,
+    marginBottom: 20,
   },
-});
+})

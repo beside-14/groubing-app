@@ -55,14 +55,8 @@ const FindId = () => {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.keyboardContainer}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.keyboardContainer}>
         <StatusBar hidden={true} />
-        <View style={styles.headerContainer}>
-          <View style={styles.titleContainer}>
-            <BackButton />
-            <Text style={styles.title}>아이디 찾기</Text>
-          </View>
-        </View>
 
         <View style={styles.container}>
           <Text style={styles.headline}>{headline}</Text>
@@ -124,41 +118,12 @@ const FindId = () => {
   )
 }
 
-function BackButton() {
-  const {back} = useRoutes()
-
-  return (
-    <TouchableOpacity onPress={back}>
-      <Image source={Images.back_btn} style={styles.headerBtn} />
-    </TouchableOpacity>
-  )
-}
-
 export default FindId
 
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
     paddingHorizontal: 20,
-  },
-  headerContainer: {
-    height: '8%',
-    marginHorizontal: 12,
-    marginBottom: 20,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerBtn: {
-    width: 7,
-    height: 14,
-    marginRight: 12,
-  },
-  title: {
-    color: '#000000',
-    fontFamily: 'NotoSansKR_500Medium',
-    fontSize: 20,
   },
   container: {
     flex: 1,
