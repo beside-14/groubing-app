@@ -2,7 +2,7 @@ import React from 'react'
 import {createStackNavigator} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {Login, FindId, Bingo} from '../screens'
+import {Login, FindId, FindPw, SignUp, Bingo} from 'screens'
 import {useAuth} from 'hooks/useAuth'
 import BingoScreen from 'screens/board/BingoScreen'
 
@@ -16,11 +16,12 @@ const AuthNavigator = () => {
     <Auth.Navigator
       initialRouteName="Login"
       screenOptions={{
-        headerShown: false,
-        animationEnabled: false,
+        // headerShown: false,
       }}>
       <Auth.Screen name="Login" component={Login} />
       <Auth.Screen name="FindId" component={FindId} />
+      <Auth.Screen name="FindPw" component={FindPw} />
+      <Auth.Screen name="SignUp" component={SignUp} />
     </Auth.Navigator>
   )
 }
