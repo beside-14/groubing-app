@@ -10,6 +10,7 @@ import StepBar from 'components/bingo/create/StepBar'
 
 import {Images} from 'assets'
 import {useRoutes} from 'hooks/useRoutes'
+import CustomInput from 'components/common/CustomInput'
 
 const SignUpScreen = () => {
   const [id, setId] = useState('')
@@ -75,7 +76,6 @@ const SignUpScreen = () => {
     if (errorMessage === '') {
       try {
         // login api 로직
-
         // const response = await signUp(userInfo);
         // console.log(response);
         // if (response == "success") {
@@ -84,9 +84,8 @@ const SignUpScreen = () => {
         // } else {
         //   // 회원가입 실패
         // }
-
         //회원가입 성공 시 닉네임 설정 화면 이동
-        navigate('Home')
+        // navigate('Home')
       } catch (error) {
         console.log(error)
         Alert.alert('회원가입 실패', '서버와의 연결이 원활하지 않습니다.')
@@ -133,14 +132,16 @@ const SignUpScreen = () => {
           {showEmail ? (
             <View style={styles.bodyContainer}>
               <View style={styles.textInputContainer}>
-                <TextInput placeholder="아이디(이메일)" onChangeText={id => setId(id)} value={id} style={styles.textInput} />
+                <CustomInput placeholder={'아이디(이메일)'} onChangeText={id => setId(id)} value={id} />
                 <View style={styles.microcopyContainer}>
                   {microcopy ? (
-                    <TouchableOpacity style={styles.cautionIcon}>
-                      <Image source={Images.caution_icon} />
-                    </TouchableOpacity>
+                    <>
+                      <TouchableOpacity style={styles.cautionIcon}>
+                        <Image source={Images.caution_icon} />
+                      </TouchableOpacity>
+                      <Text style={styles.microcopy}>{microcopy}</Text>
+                    </>
                   ) : null}
-                  {microcopy ? <Text style={styles.microcopy}>{microcopy}</Text> : null}
                 </View>
               </View>
               <View style={styles.nextBtnContainer}>
@@ -162,10 +163,10 @@ const SignUpScreen = () => {
           {showEmailAuth ? (
             <View style={styles.bodyContainer}>
               <View style={styles.textInputContainer}>
-                <TextInput placeholder="아이디(이메일)" onChangeText={id => setId(id)} value={id} style={styles.textInput} editable={false} />
+                <CustomInput placeholder={'아이디(이메일)'} onChangeText={id => setId(id)} value={id} editable={false} />
                 <View style={styles.authContainer}>
                   <View style={styles.authInputContainer}>
-                    <TextInput placeholder="인증번호" onChangeText={handleChange} value={authCode} maxLength={10} style={styles.textAuthInput} />
+                    <CustomInput placeholder={'인증번호'} onChangeText={handleChange} value={authCode} maxLength={10} style={styles.textAuthInput} />
                     <Text style={styles.authTime}>{formatTime(timeLeft)}</Text>
                   </View>
                   <View style={styles.resendBtnContainer}>
@@ -201,7 +202,13 @@ const SignUpScreen = () => {
           {showPassword ? (
             <View style={styles.bodyContainer}>
               <View style={styles.textInputContainer}>
-                <TextInput placeholder="비밀번호" onChangeText={pwd => setPassword(pwd)} value={password} secureTextEntry={true} style={styles.pwInput} />
+                <CustomInput
+                  placeholder={'비밀번호'}
+                  onChangeText={pwd => setPassword(pwd)}
+                  value={password}
+                  secureTextEntry
+                  style={styles.pwInput}
+                />
                 <View style={styles.microcopyContainer}>
                   {microcopy ? (
                     <TouchableOpacity style={styles.cautionIcon}>
@@ -210,7 +217,14 @@ const SignUpScreen = () => {
                   ) : null}
                   {microcopy ? <Text style={styles.microcopy}>{microcopy}</Text> : null}
                 </View>
-                <TextInput placeholder="비밀번호 확인" onChangeText={pwd => setConfirmPassword(pwd)} value={confirmPassword} secureTextEntry={true} style={styles.pwInput2} />
+
+                <CustomInput
+                  placeholder={'비밀번호 확인'}
+                  onChangeText={pwd => setConfirmPassword(pwd)}
+                  value={confirmPassword}
+                  secureTextEntry
+                  style={styles.pwInput2}
+                />
               </View>
               <View style={styles.nextBtnContainer}>
                 <TouchableOpacity
@@ -281,8 +295,11 @@ const SignUpScreen = () => {
             <View style={styles.bodyContainer}>
               <View style={styles.welcomeContainer}>
                 <Text style={styles.welcomeTitle}>만나서 반가워요!</Text>
-                <Text style={styles.welcomeSubTitle}>GROUBING에서 사용할 닉네임을{'\n'}입력해주세요.</Text>
-                <TextInput placeholder="닉네임" onChangeText={nickname => setNickname(nickname)} value={nickname} style={styles.pwInput} />
+                <Text style={styles.welcomeSubTitle}>
+                  GROUBING에서 사용할 닉네임을
+                  {'\n'}입력해주세요.
+                </Text>
+                <CustomInput placeholder={'닉네임'} onChangeText={nickname => setNickname(nickname)} value={nickname} style={styles.pwInput} />
               </View>
               <View style={styles.nextBtnContainer}>
                 <TouchableOpacity
@@ -327,16 +344,6 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     width: '100%',
-  },
-  textInput: {
-    height: 40,
-    width: '100%',
-    borderBottomColor: '#DDDDDD',
-    borderBottomWidth: 1,
-    fontFamily: 'NotoSansKR_400Regular',
-    color: '#A6A6A6',
-    fontSize: 18,
-    paddingLeft: 5,
   },
   microcopyContainer: {
     marginTop: 9,
@@ -388,12 +395,8 @@ const styles = StyleSheet.create({
     borderBottomColor: '#000000',
   },
   textAuthInput: {
-    height: 40,
     width: '80%',
-    fontFamily: 'NotoSansKR_400Regular',
-    color: '#A6A6A6',
-    fontSize: 18,
-    paddingLeft: 5,
+    borderBottomWidth: 0,
   },
   authTime: {
     width: '20%',
@@ -422,25 +425,10 @@ const styles = StyleSheet.create({
     color: '#F3F3F3',
   },
   pwInput: {
-    height: 40,
-    width: '100%',
     borderBottomColor: '#000000',
-    borderBottomWidth: 1,
-    fontFamily: 'NotoSansKR_400Regular',
-    color: '#A6A6A6',
-    fontSize: 18,
-    paddingLeft: 5,
   },
   pwInput2: {
     marginTop: 10,
-    height: 40,
-    width: '100%',
-    borderBottomColor: '#DDDDDD',
-    borderBottomWidth: 1,
-    fontFamily: 'NotoSansKR_400Regular',
-    color: '#A6A6A6',
-    fontSize: 18,
-    paddingLeft: 5,
   },
   welcomeTitle: {
     fontSize: 42,

@@ -178,9 +178,8 @@ const FindPwScreen = () => {
             <View style={styles.bodyContainer}>
               <View
                 style={styles.textInputContainer}>
-                <TextInput
+                <CustomInput
                   value={id}
-                  style={styles.textInput}
                   editable={false}
                 />
                 <View
@@ -247,7 +246,7 @@ const FindPwScreen = () => {
                     setPassword(pwd)
                   }
                   value={password}
-                  secureTextEntry={true}
+                  secureTextEntry
                 />
                 <CustomInput
                   placeholder={'비밀번호 확인'}
@@ -255,7 +254,7 @@ const FindPwScreen = () => {
                     setConfirmPassword(pwd)
                   }
                   value={confirmPassword}
-                  secureTextEntry={true}
+                  secureTextEntry
                   style={styles.pwInput}
                 />
               </View>
@@ -337,16 +336,6 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     width: '100%',
-  },
-  textInput: {
-    height: 40,
-    width: '100%',
-    borderBottomColor: '#DDDDDD',
-    borderBottomWidth: 1,
-    fontFamily: 'NotoSansKR_400Regular',
-    color: '#A6A6A6',
-    fontSize: 18,
-    paddingLeft: 5,
   },
   keyboardContainer: {
     flex: 1,

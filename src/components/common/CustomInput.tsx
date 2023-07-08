@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   TextInput,
+  TextInputProps,
   TextStyle,
   StyleSheet,
 } from 'react-native'
@@ -16,6 +17,7 @@ type InputProps = {
   editable?: boolean
   maxLength?: number
   secureTextEntry?: boolean
+  textContentType?: TextInputProps['textContentType']
 }
 
 const CustomInput: React.FC<InputProps> = ({
@@ -27,6 +29,7 @@ const CustomInput: React.FC<InputProps> = ({
   editable = true,
   maxLength,
   secureTextEntry = false,
+  textContentType,
 }) => {
   const handleChange = (event: {
     nativeEvent: {text: string}
@@ -47,6 +50,7 @@ const CustomInput: React.FC<InputProps> = ({
       editable={editable}
       maxLength={maxLength}
       secureTextEntry={secureTextEntry}
+      textContentType={textContentType}
     />
   )
 }
