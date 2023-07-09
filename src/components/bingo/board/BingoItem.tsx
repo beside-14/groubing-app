@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {TouchableOpacity, StyleSheet, Text, Dimensions} from 'react-native'
+import {font} from 'shared/styles'
 
 const {width} = Dimensions.get('window')
 
@@ -12,8 +13,13 @@ const BingoItem = ({x, y, onToggle, title, size, selected}: any) => {
   }
 
   return (
-    <TouchableOpacity style={[styles.itemContainer, {width: itemSize, height: itemSize}, selected ? styles.selected : styles.unselected]} onPress={handleToggle}>
-      <Text numberOfLines={2} ellipsizeMode="tail" style={[styles.itemLabel, selected ? styles.selectedFont : styles.unselectedFont, {fontSize: fontSize}]}>
+    <TouchableOpacity
+      style={[styles.itemContainer, {width: itemSize, height: itemSize}, selected ? styles.selected : styles.unselected]}
+      onPress={handleToggle}>
+      <Text
+        numberOfLines={2}
+        ellipsizeMode="tail"
+        style={[styles.itemLabel, selected ? styles.selectedFont : styles.unselectedFont, {fontSize: fontSize}]}>
         {title}
       </Text>
     </TouchableOpacity>
@@ -39,12 +45,11 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   itemLabel: {
-    fontWeight: 'bold',
-    fontFamily: 'NotoSansKR_700Bold',
     paddingTop: 10,
     paddingLeft: 10,
     paddingRight: 10,
     textAlign: 'left',
+    ...font.NotoSansKR_Bold,
   },
 })
 

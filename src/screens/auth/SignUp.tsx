@@ -11,6 +11,7 @@ import StepBar from 'components/bingo/create/StepBar'
 import {Images} from 'assets'
 import {useRoutes} from 'hooks/useRoutes'
 import CustomInput from 'components/common/CustomInput'
+import {font} from 'shared/styles'
 
 const SignUpScreen = () => {
   const [id, setId] = useState('')
@@ -332,8 +333,7 @@ const styles = StyleSheet.create({
   },
   headline: {
     fontSize: 24,
-    fontWeight: '500',
-    fontFamily: 'NotoSansKR_500Medium',
+    ...font.NotoSansKR_Medium,
   },
   bodyContainer: {
     marginTop: 15,
@@ -356,9 +356,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   microcopy: {
-    fontFamily: 'NotoSansKR_400Regular',
     color: '#FF3C3C',
     fontSize: 16,
+    ...font.NotoSansKR_Regular,
   },
   keyboardContainer: {
     flex: 1,
@@ -378,8 +378,8 @@ const styles = StyleSheet.create({
   },
   nextBtnTxt: {
     fontSize: 18,
-    fontFamily: 'NotoSansKR_500Medium',
     color: '#FFFFFF',
+    ...font.NotoSansKR_Medium,
   },
   authContainer: {
     marginTop: 10,
@@ -401,10 +401,10 @@ const styles = StyleSheet.create({
   authTime: {
     width: '20%',
     color: '#000000',
-    fontFamily: 'NotoSansKR_400Regular',
     fontSize: 14,
     textAlign: 'right',
     paddingRight: 5,
+    ...font.NotoSansKR_Regular,
   },
   resendBtnContainer: {
     flex: 1,
@@ -421,8 +421,8 @@ const styles = StyleSheet.create({
   },
   resendBtnTxt: {
     fontSize: 14,
-    fontFamily: 'NotoSansKR_400Regular',
     color: '#F3F3F3',
+    ...font.NotoSansKR_Regular,
   },
   pwInput: {
     borderBottomColor: '#000000',
@@ -432,16 +432,14 @@ const styles = StyleSheet.create({
   },
   welcomeTitle: {
     fontSize: 42,
-    fontWeight: '500',
-    fontFamily: 'NotoSansKR_500Medium',
+    ...font.NotoSansKR_Medium,
   },
   welcomeSubTitle: {
     fontSize: 22,
-    fontFamily: 'NotoSansKR_400Regular',
     fontStyle: 'normal',
-    fontWeight: '600',
     color: '#666666',
     marginBottom: 150,
+    ...font.NotoSansKR_Regular,
   },
   welcomeContainer: {
     width: '100%',
@@ -456,16 +454,14 @@ const styles = StyleSheet.create({
   },
   checkBoxTxt: {
     fontSize: 20,
-    fontFamily: 'NotoSansKR_400Regular',
-    fontWeight: '600',
     color: '#000000',
+    ...font.NotoSansKR_Regular,
   },
   linkText: {
     fontSize: 20,
-    fontFamily: 'NotoSansKR_400Regular',
-    fontWeight: '600',
     color: '#000000',
     textDecorationLine: 'underline',
+    ...font.NotoSansKR_Regular,
   },
   stepBarContainer: {
     marginTop: 40,
