@@ -17,6 +17,7 @@ import {
 import {Images} from 'assets'
 import {useRoutes} from 'hooks/useRoutes'
 import CustomInput from 'components/common/CustomInput'
+import {font} from 'shared/styles'
 
 const Login = () => {
   const [id, setId] = useState('')
@@ -29,13 +30,9 @@ const Login = () => {
     setMicrocopy('')
 
     if (id.trim() === '') {
-      setMicrocopy(
-        '아이디가 입력되지 않았습니다.',
-      )
+      setMicrocopy('아이디가 입력되지 않았습니다.')
     } else if (pw.trim() === '') {
-      setMicrocopy(
-        '비밀번호가 입력되지 않았습니다.',
-      )
+      setMicrocopy('비밀번호가 입력되지 않았습니다.')
       // } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(id)) {
       //   setMicrocopy("이메일 형식이 올바르지 않습니다.");
     } else {
@@ -62,8 +59,7 @@ const Login = () => {
         // navigation.navigate('Home')
       } catch (error) {
         //console.error(error.response.data); // 오류 메시지 출력
-        const errorMessage =
-          error?.response?.data?.message // 오류 메시지 추출
+        const errorMessage = error?.response?.data?.message // 오류 메시지 추출
         setMicrocopy(errorMessage) // 사용자에게 오류 메시지 보여주기
       }
     }
@@ -82,103 +78,53 @@ const Login = () => {
   }
 
   return (
-    <SafeAreaView
-      style={styles.safeAreaContainer}>
-      <StatusBar
-        backgroundColor="#3A8ADB"
-        barStyle="light-content"
-      />
-      <TouchableWithoutFeedback
-        onPress={Keyboard.dismiss}>
+    <SafeAreaView style={styles.safeAreaContainer}>
+      <StatusBar backgroundColor="#3A8ADB" barStyle="light-content" />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <Text style={styles.mainText}>
-            GROUBING
-          </Text>
-          <Text style={styles.subText}>
-            우리 모두 그루버해요!
-          </Text>
+          <Text style={styles.mainText}>GROUBING</Text>
+          <Text style={styles.subText}>우리 모두 그루버해요!</Text>
 
           <View style={styles.formContainer}>
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>
-                아이디(이메일)
-              </Text>
-              <CustomInput
-                onChangeText={id => setId(id)}
-                value={id}
-                style={styles.textInput}
-              />
+              <Text style={styles.label}>아이디(이메일)</Text>
+              <CustomInput onChangeText={id => setId(id)} value={id} style={styles.textInput} />
             </View>
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>
-                비밀번호
-              </Text>
-              <CustomInput
-                textContentType="password"
-                onChangeText={pw => setPw(pw)}
-                value={pw}
-                secureTextEntry
-                style={styles.textInput}
-              />
+              <Text style={styles.label}>비밀번호</Text>
+              <CustomInput textContentType="password" onChangeText={pw => setPw(pw)} value={pw} secureTextEntry style={styles.textInput} />
             </View>
 
-            <TouchableOpacity
-              style={styles.loginBtn}
-              onPress={handleLogin}>
-              <Text style={styles.loginBtnTxt}>
-                로그인
-              </Text>
+            <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+              <Text style={styles.loginBtnTxt}>로그인</Text>
             </TouchableOpacity>
 
             <View style={styles.btnContainer}>
-              <TouchableOpacity
-                style={styles.subBtn}
-                onPress={handleFindIdClick}>
-                <Text style={styles.subBtnTxt}>
-                  아이디 찾기
-                </Text>
+              <TouchableOpacity style={styles.subBtn} onPress={handleFindIdClick}>
+                <Text style={styles.subBtnTxt}>아이디 찾기</Text>
               </TouchableOpacity>
               <View style={styles.line} />
-              <TouchableOpacity
-                style={styles.subBtn}
-                onPress={handleFindPwClick}>
-                <Text style={styles.subBtnTxt}>
-                  비밀번호 찾기
-                </Text>
+              <TouchableOpacity style={styles.subBtn} onPress={handleFindPwClick}>
+                <Text style={styles.subBtnTxt}>비밀번호 찾기</Text>
               </TouchableOpacity>
               <View style={styles.line} />
-              <TouchableOpacity
-                style={styles.subBtn}
-                onPress={handleSignUpClick}>
-                <Text style={styles.subBtnTxt}>
-                  회원가입
-                </Text>
+              <TouchableOpacity style={styles.subBtn} onPress={handleSignUpClick}>
+                <Text style={styles.subBtnTxt}>회원가입</Text>
               </TouchableOpacity>
             </View>
-            {microcopy ? (
-              <Text style={styles.error_message}>
-                {microcopy}
-              </Text>
-            ) : null}
+            {microcopy ? <Text style={styles.error_message}>{microcopy}</Text> : null}
           </View>
 
-          <Text style={styles.snsText}>
-            SNS 계정으로 로그인하기
-          </Text>
+          <Text style={styles.snsText}>SNS 계정으로 로그인하기</Text>
 
           <View style={styles.snsBtnContainer}>
-            <TouchableOpacity
-              style={styles.snsBtn}>
-              <Image
-                source={Images.google_icon}
-              />
+            <TouchableOpacity style={styles.snsBtn}>
+              <Image source={Images.google_icon} />
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.snsBtn}>
+            <TouchableOpacity style={styles.snsBtn}>
               <Image source={Images.apple_icon} />
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.snsBtn}>
+            <TouchableOpacity style={styles.snsBtn}>
               <Image source={Images.kakao_icon} />
             </TouchableOpacity>
           </View>
@@ -194,10 +140,7 @@ const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
     backgroundColor: '#3A8ADB',
-    paddingTop:
-      Platform.OS === 'android'
-        ? StatusBar.currentHeight
-        : 0,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: 1,
@@ -206,9 +149,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   mainText: {
-    fontFamily: 'Montserrat_700Bold',
     fontStyle: 'normal',
-    fontWeight: '700',
     fontSize: 50,
     letterSpacing: 1.6,
     textAlign: 'center',
@@ -217,17 +158,17 @@ const styles = StyleSheet.create({
     textShadowRadius: 4,
     textShadowColor: 'rgba(0, 0, 0, 0.25)',
     marginTop: 110,
+    ...font.Montserrat_Bold,
   },
   subText: {
-    fontFamily: 'NotoSansKR_400Regular',
     fontStyle: 'normal',
-    fontWeight: '400',
     fontSize: 17,
     textAlign: 'center',
     letterSpacing: 0.04,
     color: '#FFFFFF',
     opacity: 0.75,
     marginTop: 8,
+    ...font.NotoSansKR_Regular,
   },
   formContainer: {
     marginTop: 110,
@@ -242,13 +183,12 @@ const styles = StyleSheet.create({
   },
   label: {
     marginRight: 8,
-    fontFamily: 'NotoSansKR_400Regular',
     fontStyle: 'normal',
-    fontWeight: '400',
     fontSize: 14,
     color: 'rgba(255, 255, 255, 0.75)',
     width: 100,
     paddingLeft: 8,
+    ...font.NotoSansKR_Regular,
   },
   textInput: {
     flex: 1,
@@ -266,9 +206,9 @@ const styles = StyleSheet.create({
   },
   loginBtnTxt: {
     color: '#3A8ADB',
-    fontFamily: 'NotoSansKR_500Medium',
     fontSize: 16,
     textAlign: 'center',
+    ...font.NotoSansKR_Medium,
   },
   btnContainer: {
     flexDirection: 'row',
@@ -282,11 +222,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 14,
-    fontFamily: 'NotoSansKR_400Regular',
     fontStyle: 'normal',
     color: 'rgba(255, 255, 255, 0.75)',
     flex: 0,
     flexGrow: 0,
+    ...font.NotoSansKR_Regular,
   },
   line: {
     width: 1,
@@ -298,13 +238,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   snsText: {
-    fontFamily: 'NotoSansKR_400Regular',
     fontStyle: 'normal',
-    fontWeight: '400',
     fontSize: 14,
     textAlign: 'center',
     color: '#FFFFFF',
     marginTop: 120,
+    ...font.NotoSansKR_Regular,
   },
   snsBtnContainer: {
     flexDirection: 'row',

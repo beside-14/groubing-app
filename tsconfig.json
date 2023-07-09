@@ -5,9 +5,6 @@
     "moduleResolution": "node",
     "baseUrl": "./src",
     "resolveJsonModule": true,
-    // "paths": {
-    //   "@/*":["*"],
-
-    // }
+    "types": ["@types/react-native"]
   }
 }
