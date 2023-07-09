@@ -8,6 +8,7 @@ import {useAuth} from 'hooks/useAuth'
 import BingoScreen from 'screens/board/BingoScreen'
 import NavigatorHeader from 'components/common/NavigatorHeader'
 import {Images} from 'assets'
+import CreateBingo from 'components/bingo/create/CreateBingo'
 
 const Auth = createStackNavigator()
 const Root = createStackNavigator()
