@@ -12,6 +12,7 @@ import {Images} from 'assets'
 import {useRoutes} from 'hooks/useRoutes'
 import CustomInput from 'components/common/CustomInput'
 import {font} from 'shared/styles'
+import {useAuth} from 'hooks/useAuth'
 
 const SignUpScreen = () => {
   const [id, setId] = useState('')
@@ -38,6 +39,7 @@ const SignUpScreen = () => {
 
   const resendBtnRef = useRef(null)
   const {navigate} = useRoutes()
+  const {changeNavigationStack} = useAuth()
 
   async function handleSignUp() {
     const userInfo = {id, password}
@@ -87,6 +89,7 @@ const SignUpScreen = () => {
         // }
         //회원가입 성공 시 닉네임 설정 화면 이동
         // navigate('Home')
+        changeNavigationStack()
       } catch (error) {
         console.log(error)
         Alert.alert('회원가입 실패', '서버와의 연결이 원활하지 않습니다.')

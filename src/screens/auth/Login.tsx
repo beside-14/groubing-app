@@ -58,9 +58,9 @@ const Login = () => {
         changeNavigationStack()
         // navigation.navigate('Home')
       } catch (error) {
-        //console.error(error.response.data); // 오류 메시지 출력
-        const errorMessage = error?.response?.data?.message // 오류 메시지 추출
-        setMicrocopy(errorMessage) // 사용자에게 오류 메시지 보여주기
+        console.error(error) // 오류 메시지 출력
+        // const errorMessage = error?.response?.data?.message // 오류 메시지 추출
+        // setMicrocopy(errorMessage) // 사용자에게 오류 메시지 보여주기
       }
     }
   }
