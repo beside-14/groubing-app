@@ -5,6 +5,7 @@ import BingoItemData from '../../assets/dataset/BingoItemData.json'
 import {generateBingoBoard, countBingos} from '../../utils/BingoUtil'
 import {ProgressBar} from 'react-native-paper'
 import BingoBoard from 'components/bingo/board/BingoBoard'
+import {Memo} from 'components/bingo/board/Memo'
 
 type BingoGoalText = {
   bingoPercent: number
@@ -101,6 +102,7 @@ const BingoScreen = () => {
         <BingoGoalText bingoPercent={bingoPercent} bingoCount={bingoCount} maxBingoCount={maxBingoCount} />
         <ProgressBar progress={bingoCount / maxBingoCount} style={styles.progressBar} color="#3A8ADB" />
         <BingoBoard size={boardSize} onToggle={handleToggle} items={bingoItems} />
+        <Memo />
       </ScrollView>
     </SafeAreaView>
   )
@@ -172,7 +174,8 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
     paddingRight: 4,
     color: '#3A8ADB',
-    fontSize: 13,
+    fontSize: 18,
+    fontWeight: '600',
   },
   bingoGoalText: {
     flex: 1,

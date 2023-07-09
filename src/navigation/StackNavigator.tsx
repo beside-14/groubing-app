@@ -7,6 +7,8 @@ import {Login, FindId, FindPw, SignUp, Bingo, BingoScreen, Feed} from 'screens'
 import {useAuth} from 'hooks/useAuth'
 import NavigatorHeader from 'components/common/NavigatorHeader'
 import {Images} from 'assets'
+import CreateBingo from 'components/bingo/create/CreateBingo'
+import {View} from 'react-native'
 
 const Auth = createStackNavigator()
 const Root = createStackNavigator()
@@ -49,8 +51,8 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="BingoCreate"
-        component={Bingo}
+        name="create"
+        component={() => <View></View>}
         options={{
           headerShown: false,
           tabBarLabel: '만들기',
@@ -58,6 +60,15 @@ const TabNavigator = () => {
             return <Image source={focused ? Images.icon_make_focused : Images.icon_make} style={styles.bottom_tab_image} />
           },
         }}
+        listeners={({navigation, route}) => ({
+          tabPress: e => {
+            // Prevent default action
+            e.preventDefault()
+
+            // Do something with the `navigation` object
+            navigation.navigate('BingoCreate')
+          },
+        })}
       />
       <Tab.Screen
         name="Alarm"
@@ -85,9 +96,23 @@ const TabNavigator = () => {
   )
 }
 
+const CommonNavigator = () => {
+  return (
+    <Root.Navigator>
+      <Root.Screen
+        name="BingoCreate"
+        component={BingoScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
+    </Root.Navigator>
+  )
+}
+
 const StackNavigator = () => {
   const {isLogged} = useAuth()
-
+  const bottomAnimation = {animation: 'slide_from_bottom'}
   return (
     <NavigationContainer>
       <StatusBar barStyle={'dark-content'} />
@@ -97,6 +122,28 @@ const StackNavigator = () => {
           animationEnabled: false,
         }}>
         {isLogged ? <Root.Screen name="Main" component={TabNavigator} /> : <Root.Screen name="Auth" component={AuthNavigator} />}
+        {/* <Root.Screen name="Common" component={CommonNavigator} /> */}
+        <Root.Screen
+          name="BingoCreate"
+          component={Bingo}
+          options={{
+            headerShown: true,
+            animationEnabled: true,
+            gestureDirection: 'vertical',
+            // animation: 'slide_from_bottom',
+          }}
+        />
+        <Root.Screen
+          name="BingoBoard"
+          component={BingoScreen}
+          options={{
+            title: '',
+            headerShown: true,
+            animationEnabled: true,
+            gestureDirection: 'vertical',
+            // animation: 'slide_from_bottom',
+          }}
+        />
       </Root.Navigator>
     </NavigationContainer>
   )

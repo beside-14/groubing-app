@@ -1,13 +1,14 @@
 import {Images} from 'assets'
 import React from 'react'
-import {View, Text, Image, StyleSheet} from 'react-native'
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native'
 
 type StepBarProps = {
   now: number
   step: number
+  goback: (i: number) => void
 }
 
-export default function StepBar({now, step}: StepBarProps) {
+export default function StepBar({now, step, goback}: StepBarProps) {
   const stepCont = []
 
   for (let i = 1; i <= step; i++) {
@@ -21,6 +22,18 @@ export default function StepBar({now, step}: StepBarProps) {
         style={isCurrentStep ? styles.stepNow : styles.step}
       />,
     )
+
+    // if (i < now) {
+    //   stepCont.push(
+    //     <TouchableOpacity onPress={() => goback(i)}>
+    //       <Image key={i} source={Images.step_icon_end} style={styles.step} />
+    //     </TouchableOpacity>,
+    //   )
+    // } else if (i == now) {
+    //   stepCont.push(<Image key={i} source={Images.step_icon_now} style={styles.stepNow} />)
+    // } else {
+    //   stepCont.push(<Image key={i} source={Images.step_icon_default} style={styles.step} />)
+    // }
 
     if (i < step) {
       stepCont.push(<View key={`line_${i}`} style={isFinishedStep ? styles.lineNow : styles.line} />)

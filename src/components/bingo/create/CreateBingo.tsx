@@ -1,46 +1,29 @@
-import {StyleSheet, Text, SafeAreaView, ScrollView, View, TextInput, Image} from 'react-native'
-import React, {useState} from 'react'
+import {StyleSheet, Text, SafeAreaView, ScrollView, View, TextInput, Image, KeyboardAvoidingView, Platform} from 'react-native'
+import React, {useEffect, useState} from 'react'
 
 import {TouchableOpacity} from 'react-native-gesture-handler'
 
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import StepBar from './StepBar'
+import {Form} from './form/Form'
+import {isIphoneX} from 'react-native-iphone-x-helper'
+import {API} from 'utils/axios'
+import {useRoutes} from 'hooks/useRoutes'
 
 const CreateBingo = () => {
   const [bingoTypeId, setBingoTypeId] = useState(0)
   const [bingoType, setBingoType] = useState<'개인빙고 3×3 9칸' | '개인빙고 4×4 16칸' | '그룹빙고 3×3 9칸' | '그룹빙고 4×4 16칸' | undefined>()
-  const [disclosure, setDisclosure] = useState('')
-  const [bingoTitle, setBingoTitle] = useState('')
-  const [goal, setGoal] = useState(1)
-  const [startDate, setStartDate] = useState(new Date())
-  const [endDate, setEndDate] = useState()
-  const [visible, setVisible] = useState(false)
-  const [nowStep, setNowStep] = useState(1)
 
+  const [nowStep, setNowStep] = useState(1)
+  const {navigate} = useRoutes()
   const [showBingoType, setShowBingoType] = useState(true)
   const [showBingoPublic, setShowBingoPublic] = useState(false)
   const [showBingoTitle, setShowBingoTitle] = useState(false)
   const [showGoal, setShowGoal] = useState(false)
   const [showBingoPeriod, setShowBingoPeriod] = useState(false)
-
+  const isIphone = isIphoneX() && Platform.OS === 'ios'
+  const paddingBottom = isIphone ? 90 : 0
   var bingoJson = []
-
-  const onIncrease = () => {
-    setGoal(prevNumber => prevNumber + 1)
-  }
-  const onDecrease = () => {
-    setGoal(prevNumber => prevNumber - 1)
-  }
-  const openCalendar = () => {
-    setVisible(true)
-  }
-  const onConfirm = date => {
-    console.warn('A date has been picked : ', date)
-    onCancel()
-  }
-  const onCancel = () => {
-    setVisible(false)
-  }
 
   function selectType(type: number) {
     switch (type) {
@@ -54,266 +37,75 @@ const CreateBingo = () => {
         return '그룹빙고 4×4 16칸'
     }
   }
-  const onPress = id => {
-    setBingoTypeId(id)
-  }
-  const onPressPublic = p => {
-    setDisclosure(p)
-  }
+
   const setbingoTp = id => {
     const type = selectType(id)
     setBingoType(type)
   }
-  const makeBingoData = () => {
-    const bingoJson = {
-      title: bingoTitle,
-      goal: goal,
-      bingoSize: bingoType,
-      open: disclosure,
-      since: new Date(),
-      untile: new Date() + 1,
-    }
-    console.log(bingoJson)
-    return bingoJson
-  }
+  useEffect(() => {
+    ;(async () => {
+      const res = await API.get('/api/bingo-boards')
+      // console.warn(res)
+      console.log(res)
+    })()
+  }, [])
+  const STEP = ['빙고 타입', '빙고 공개 여부', '빙고 제목', '목표 빙고 개수', '빙고 진행 기간']
 
-  const BINGOTYPE = () => {
-    return (
-      <View style={styles.summaryContainer}>
-        <Text style={styles.pContent}>빙고 타입</Text>
-        <Text style={styles.pTitle}>{bingoType}</Text>
-      </View>
-    )
-  }
-  const BINGOPUBLIC = () => {
-    return (
-      <View style={styles.summaryContainer}>
-        <Text style={styles.pContent}>빙고 공개 여부</Text>
-        <Text style={styles.pTitle}>{disclosure}</Text>
-      </View>
-    )
-  }
-  const BINGOTITLE = () => {
-    return (
-      <View style={styles.summaryContainer}>
-        <Text style={styles.pContent}>빙고 제목</Text>
-        <Text style={styles.pTitle}>{bingoTitle}</Text>
-      </View>
-    )
-  }
-  const BINGOGOAL = () => {
-    return (
-      <View style={styles.summaryContainer}>
-        <Text style={styles.pContent}>목표 빙고 개수</Text>
-        <Text style={styles.pTitle}>{goal}</Text>
-      </View>
-    )
-  }
-  // return null
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
-      <ScrollView style={styles.container}>
-        <View style={styles.headerContainer}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{...styles.container}}>
+      <SafeAreaView style={styles.safeAreaContainer}>
+        <ScrollView style={styles.headerContainer}>
+          {/* 스텝바 */}
           <View style={styles.stepBarContainer}>
-            <StepBar step={5} now={5} />
+            <StepBar step={5} now={nowStep} goback={setNowStep} />
           </View>
-        </View>
-        <View style={styles.bodyContainer}>
-          {showBingoType && (
-            <View>
-              <Text style={styles.question}>빙고 타입을 선택해주세요.</Text>
-              <View style={styles.pContainer}>
-                <View style={{marginRight: 16}}>
-                  <Text style={styles.pTitle}>개인 빙고</Text>
-                  <Text style={styles.pContent}>나만의 빙고를 만들어요.</Text>
-                </View>
-                <View style={styles.gridBtn}>
-                  <TouchableOpacity onPress={() => onPress(1)} style={bingoTypeId === 1 ? styles.selectedBtn : styles.unSelectedBtn}>
-                    <View>
-                      <Text style={bingoTypeId === 1 ? styles.selectedBtnText : styles.unSelectedBtnText}>3×3 9칸</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => onPress(2)} style={bingoTypeId === 2 ? styles.selectedBtn : styles.unSelectedBtn}>
-                    <View>
-                      <Text style={bingoTypeId === 2 ? styles.selectedBtnText : styles.unSelectedBtnText}>4×4 16칸</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.divisionLine} />
-              <View style={styles.pContainer}>
-                <View style={{marginRight: 16}}>
-                  <Text style={styles.pTitle}>그룹 빙고</Text>
-                  <Text style={styles.pContent}>친구들과 빙고를 함께 해요.</Text>
-                </View>
-                <View style={styles.gridBtn}>
-                  <TouchableOpacity onPress={() => onPress(3)} style={bingoTypeId === 3 ? styles.selectedBtn : styles.unSelectedBtn}>
-                    <View>
-                      <Text style={bingoTypeId === 3 ? styles.selectedBtnText : styles.unSelectedBtnText}>3×3 9칸</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => onPress(4)} style={bingoTypeId === 4 ? styles.selectedBtn : styles.unSelectedBtn}>
-                    <View>
-                      <Text onPress={() => onPress(4)} style={bingoTypeId === 4 ? styles.selectedBtnText : styles.unSelectedBtnText}>
-                        4×4 16칸
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          )}
 
-          {showBingoPublic && (
-            <View>
-              <Text style={styles.question}>빙고 공개 여부를 선택해주세요.</Text>
-              <View style={styles.gridBtn}>
-                <TouchableOpacity onPress={() => onPressPublic('public')} style={disclosure === 'public' ? styles.selectedBtn : styles.unSelectedBtn}>
-                  <View>
-                    <Text style={disclosure === 'public' ? styles.selectedBtnText : styles.unSelectedBtnText}>전체 공개</Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => onPressPublic('private')} style={disclosure === 'private' ? styles.selectedBtn : styles.unSelectedBtn}>
-                  <View>
-                    <Text style={disclosure === 'private' ? styles.selectedBtnText : styles.unSelectedBtnText}>비공개</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <BINGOTYPE />
-            </View>
-          )}
-
-          {showBingoTitle && (
-            <View>
-              <Text style={styles.question}>빙고 제목을 입력해주세요.</Text>
-              <View>
-                <TextInput onChangeText={t => setBingoTitle(t)} value={bingoTitle} style={{borderBottomWidth: 1, fontSize: 16, width: '100%', height: 45, fontFamily: 'NotoSansKR_400Regular'}} />
-              </View>
-              <BINGOPUBLIC />
-              <BINGOTYPE />
-            </View>
-          )}
-          {showGoal && (
-            <View>
-              <Text style={styles.question}>목표 빙고 개수를 입력해주세요.</Text>
-              <View style={styles.counterContainer}>
-                <TouchableOpacity onPress={onDecrease} style={styles.counterBtn}>
-                  <Text style={styles.counterBtnTxt}>-</Text>
-                </TouchableOpacity>
-                <Text style={styles.countText}>{goal}</Text>
-                <TouchableOpacity onPress={onIncrease} style={styles.counterBtn}>
-                  <Text style={styles.counterBtnTxt}>+</Text>
-                </TouchableOpacity>
-              </View>
-              <BINGOTITLE />
-              <BINGOPUBLIC />
-              <BINGOTYPE />
-            </View>
-          )}
-
-          {showBingoPeriod && (
-            <View>
-              <Text style={styles.question}>빙고 진행 기간을 입력해주세요.</Text>
-              <View style={{flexDirection: 'row', borderBottomColor: '#DDDDDD', borderBottomWidth: 1, paddingBottom: 10}}>
-                <Text style={{width: 280, height: 16, marginRight: 15, marginLeft: 2, fontSize: 16}}>2023-03-12~2023-04-12</Text>
-                <TouchableOpacity onPress={openCalendar}></TouchableOpacity>
-              </View>
-              <DateTimePickerModal isVisible={visible} mode="date" onConfirm={onConfirm} onCancel={onCancel} />
-              <BINGOGOAL />
-              <BINGOTITLE />
-              <BINGOPUBLIC />
-              <BINGOTYPE />
-            </View>
-          )}
-        </View>
-        <View style={styles.nextBtnContainer}>
-          {showBingoType && (
-            <TouchableOpacity
-              style={styles.nextBtn}
-              onPress={() => {
-                setNowStep(nowStep + 1)
-                setShowBingoType(false)
-                setShowBingoPublic(true)
-                setbingoTp(bingoTypeId)
-              }}>
-              <Text style={styles.nextBtnTxt}>다음</Text>
-            </TouchableOpacity>
-          )}
-          {showBingoPublic && (
-            <TouchableOpacity
-              style={styles.nextBtn}
-              onPress={() => {
-                setNowStep(nowStep + 1)
-                setShowBingoTitle(true)
-                setShowBingoPublic(false)
-              }}>
-              <Text style={styles.nextBtnTxt}>다음</Text>
-            </TouchableOpacity>
-          )}
-          {showBingoTitle && (
-            <TouchableOpacity
-              style={styles.nextBtn}
-              onPress={() => {
-                setNowStep(nowStep + 1)
-                setShowBingoTitle(false)
-                setShowGoal(true)
-              }}>
-              <Text style={styles.nextBtnTxt}>다음</Text>
-            </TouchableOpacity>
-          )}
-          {showGoal && (
-            <View style={styles.gridBtn}>
-              <TouchableOpacity style={styles.tempBtn} onPress={() => {}}>
-                <Text style={styles.tempBtnText}>임시저장</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.nextBtn2}
-                onPress={() => {
-                  setNowStep(nowStep + 1)
-                  setShowGoal(false)
-                  setShowBingoPeriod(true)
-                }}>
-                <Text style={styles.nextBtnTxt}>다음</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          {showBingoPeriod && (
-            <TouchableOpacity
-              style={styles.nextBtn}
-              onPress={() => {
-                setNowStep(nowStep + 1)
-                setShowBingoPeriod(false)
-                makeBingoData()
-              }}>
-              <Text style={styles.nextBtnTxt}>빙고생성</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          {/* 바디 콘테이너 */}
+          <View style={styles.bodyContainer}>
+            <Form step={STEP[nowStep - 1]} />
+          </View>
+        </ScrollView>
+        <TouchableOpacity
+          style={styles.nextBtn}
+          onPress={() => {
+            if (nowStep === 5) {
+              navigate('BingoBoard')
+            } else {
+              setNowStep(nowStep => nowStep + 1)
+            }
+            // setShowBingoType(false)
+            // setShowBingoPublic(true)
+            // setbingoTp(bingoTypeId)
+          }}>
+          <Text style={styles.nextBtnTxt}>{nowStep === 5 ? '빙고 생성' : '다음'}</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create({
   safeAreaContainer: {
     backgroundColor: '#FFFFFF',
-    height: '100%',
+    // height: '100%',
     flex: 1,
   },
   container: {
-    marginHorizontal: 25,
+    // marginHorizontal: 25,
     flex: 1,
-    height: '100%',
+    // height: '100%',
   },
   headerContainer: {
-    height: '15%',
-    marginHorizontal: 12,
-    marginBottom: 20,
+    // height: '15%',
+    // marginBottom: 20,
+    // flex: 1,
+    // backgroundColor: 'yellow',
+    paddingHorizontal: 20,
   },
   bodyContainer: {
     flex: 1,
     position: 'relative',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   question: {
     fontFamily: 'NotoSansKR_700Bold',
@@ -386,12 +178,14 @@ const styles = StyleSheet.create({
     marginBottom: 13,
   },
   nextBtn: {
-    height: 48,
+    height: 56,
     backgroundColor: '#000000',
-    width: '100%',
+    // width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
+    marginHorizontal: 20,
+    // marginBottom: 100,
   },
   nextBtn2: {
     height: 48,
