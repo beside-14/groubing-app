@@ -1,4 +1,4 @@
-import {StyleSheet, Text, SafeAreaView, ScrollView, View, TextInput, Image, KeyboardAvoidingView} from 'react-native'
+import {StyleSheet, Text, SafeAreaView, ScrollView, View, TextInput, Image, KeyboardAvoidingView, Platform} from 'react-native'
 import React, {useEffect, useState} from 'react'
 
 import {TouchableOpacity} from 'react-native-gesture-handler'
@@ -6,6 +6,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import StepBar from './StepBar'
 import {Form} from './form/Form'
+import {isIphoneX} from 'react-native-iphone-x-helper'
 
 const CreateBingo = () => {
   const [bingoTypeId, setBingoTypeId] = useState(0)
@@ -18,7 +19,8 @@ const CreateBingo = () => {
   const [showBingoTitle, setShowBingoTitle] = useState(false)
   const [showGoal, setShowGoal] = useState(false)
   const [showBingoPeriod, setShowBingoPeriod] = useState(false)
-
+  const isIphone = isIphoneX() && Platform.OS === 'ios'
+  const paddingBottom = isIphone ? 90 : 0
   var bingoJson = []
 
   function selectType(type: number) {
@@ -42,7 +44,7 @@ const CreateBingo = () => {
   const STEP = ['빙고 타입', '빙고 공개 여부', '빙고 제목', '목표 빙고 개수', '빙고 진행 기간']
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{...styles.container}}>
       <SafeAreaView style={styles.safeAreaContainer}>
         <ScrollView style={styles.headerContainer}>
           {/* 스텝바 */}
@@ -77,16 +79,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    marginHorizontal: 25,
+    // marginHorizontal: 25,
     flex: 1,
     // height: '100%',
   },
   headerContainer: {
     // height: '15%',
-
     // marginBottom: 20,
-    flex: 1,
+    // flex: 1,
     // backgroundColor: 'yellow',
+    paddingHorizontal: 20,
   },
   bodyContainer: {
     flex: 1,
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
     marginBottom: 13,
   },
   nextBtn: {
-    height: 48,
+    height: 56,
     backgroundColor: '#000000',
     // width: '100%',
     alignItems: 'center',
