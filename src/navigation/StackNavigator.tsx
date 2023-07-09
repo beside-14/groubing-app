@@ -15,13 +15,7 @@ const Tab = createBottomTabNavigator()
 // 인증화면 (Auth)
 const AuthNavigator = () => {
   return (
-    <Auth.Navigator
-      initialRouteName="Login"
-      screenOptions={
-        {
-          // headerShown: false,
-        }
-      }>
+    <Auth.Navigator initialRouteName="Login">
       <Auth.Screen name="Login" component={Login} options={{headerShown: false}} />
       <Auth.Screen name="FindId" component={FindId} options={{headerLeft: () => <NavigatorHeader title={'아이디 찾기'} />, title: ''}} />
       <Auth.Screen name="FindPw" component={FindPw} options={{headerLeft: () => <NavigatorHeader title={'비밀번호 찾기'} />, title: ''}} />
@@ -37,6 +31,7 @@ const TabNavigator = () => {
         name="Home"
         component={Bingo}
         options={{
+          headerShown: false,
           tabBarLabel: '피드',
           tabBarIcon: ({focused}) => {
             return <Image source={focused ? Images.icon_feed_focused : Images.icon_feed} style={styles.bottom_tab_image} />
@@ -47,6 +42,7 @@ const TabNavigator = () => {
         name="Bingo"
         component={BingoScreen}
         options={{
+          headerShown: false,
           tabBarLabel: '목록',
           tabBarIcon: ({focused}) => {
             return <Image source={focused ? Images.icon_list_focused : Images.icon_list} style={styles.bottom_tab_image} />
@@ -57,9 +53,10 @@ const TabNavigator = () => {
         name="BingoCreate"
         component={Bingo}
         options={{
+          headerShown: false,
           tabBarLabel: '만들기',
           tabBarIcon: ({focused}) => {
-            return <Image source={Images.icon_make} style={styles.bottom_tab_image} />
+            return <Image source={focused ? Images.icon_make_focused : Images.icon_make} style={styles.bottom_tab_image} />
           },
         }}
       />
@@ -67,6 +64,7 @@ const TabNavigator = () => {
         name="Alarm"
         component={Bingo}
         options={{
+          headerShown: false,
           tabBarLabel: '알림',
           tabBarIcon: ({focused}) => {
             return <Image source={focused ? Images.icon_alert_focused : Images.ic_alert} style={styles.bottom_tab_image} />
@@ -77,6 +75,7 @@ const TabNavigator = () => {
         name="MyPage"
         component={Bingo}
         options={{
+          headerShown: false,
           tabBarLabel: '마이페이지',
           tabBarIcon: ({focused}) => {
             return <Image source={focused ? Images.icon_myPage_focused : Images.icon_myPage} style={styles.bottom_tab_image} />
@@ -86,22 +85,6 @@ const TabNavigator = () => {
     </Tab.Navigator>
   )
 }
-
-// options={{
-//   tabBarLabel: '',
-//   tabBarIcon: ({ focused }) => {
-//     if (name === MENU.MYPAGE) {
-//       const active: ViewStyle | {} = focused ? { borderWidth: 2, borderColor: COLOR.RED1 } : {}
-//       return (
-//         <React.Fragment>
-//           <Image source={{ uri: user?.profile_img }} style={[active, { borderRadius: 30, width: 30, height: 30 }]} />
-//         </React.Fragment>
-//       )
-//     } else {
-//       return <Image source={focused ? icon_focused : icon} style={styles.icon} />
-//     }
-//   }
-// }}
 
 const StackNavigator = () => {
   const {isLogged} = useAuth()

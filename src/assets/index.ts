@@ -27,6 +27,7 @@ export const Images = {
   icon_list: require('./images/icon_list.png'),
   icon_list_focused: require('./images/icon_list_focused.png'),
   icon_make: require('./images/icon_make.png'),
+  icon_make_focused: require('./images/icon_make_focused.png'),
   icon_myPage: require('./images/icon_myPage.png'),
   icon_myPage_focused: require('./images/icon_myPage_focused.png'),
   icon_unchecked: require('./images/icon_unchecked.png'),
