@@ -1,11 +1,10 @@
 import React from 'react'
-import {Image, StyleSheet} from 'react-native'
+import {Image, StyleSheet, StatusBar} from 'react-native'
 import {createStackNavigator} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {Login, FindId, FindPw, SignUp, Bingo} from 'screens'
+import {Login, FindId, FindPw, SignUp, Bingo, BingoScreen, Feed} from 'screens'
 import {useAuth} from 'hooks/useAuth'
-import BingoScreen from 'screens/board/BingoScreen'
 import NavigatorHeader from 'components/common/NavigatorHeader'
 import {Images} from 'assets'
 
@@ -29,7 +28,7 @@ const TabNavigator = () => {
     <Tab.Navigator initialRouteName="Home">
       <Tab.Screen
         name="Home"
-        component={Bingo}
+        component={Feed}
         options={{
           headerShown: false,
           tabBarLabel: '피드',
@@ -91,6 +90,7 @@ const StackNavigator = () => {
 
   return (
     <NavigationContainer>
+      <StatusBar barStyle={'dark-content'} />
       <Root.Navigator
         screenOptions={{
           headerShown: false,

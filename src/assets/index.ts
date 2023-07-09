@@ -40,4 +40,5 @@ export const Images = {
   step_icon_default: require('./images/step_icon_default.png'),
   step_icon_end: require('./images/step_icon_end.png'),
   step_icon_now: require('./images/step_icon_now.png'),
+  icon_search: require('./images/icon_search.png'),
 }
