@@ -2,7 +2,7 @@ import React from 'react'
 import {View, StyleSheet, TouchableOpacity, Text, Image} from 'react-native'
 import {Images} from 'assets'
 import {font} from 'shared/styles'
-import CustomInput from 'components/common/CustomInput'
+import AuthInput from 'components/auth/AuthInput'
 
 type LoginContentProps = {
   id: string
@@ -12,11 +12,10 @@ type LoginContentProps = {
 }
 
 const LoginContent = ({id, microcopy, handleFindPwClick, handleLoginClick}: LoginContentProps) => {
-
   return (
     <View style={styles.bodyContainer}>
       <View style={styles.textInputContainer}>
-        <CustomInput placeholder={'아이디(이메일)'} value={id} editable={false} />
+        <AuthInput placeholder={'아이디(이메일)'} value={id} editable={false} />
         <View style={styles.microcopyContainer}>
           <TouchableOpacity style={styles.cautionIcon}>
             <Image source={Images.caution_icon_gray} />

@@ -1,3 +1,4 @@
 # splash 이미지
 # 기존 스크린, 컴포넌트 리팩토링
-# statusbar StackNavigator에서 공통 적용
+# oauth 로그인
+# firebase 설정 (테스트앱 배포, 푸시알림)

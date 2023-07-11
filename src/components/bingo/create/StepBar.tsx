@@ -2,26 +2,51 @@ import {Images} from 'assets'
 import React from 'react'
 import {View, Text, Image, StyleSheet} from 'react-native'
 
-export default function StepBar({now, step}: {now: number; step: number}) {
+type StepBarProps = {
+  now: number
+  step: number
+}
+
+export default function StepBar({now, step}: StepBarProps) {
   const stepCont = []
+
   for (let i = 1; i <= step; i++) {
-    if (i < now) {
-      stepCont.push(<Image key={i} source={Images.step_icon_end} style={styles.step} />)
-    } else if (i == now) {
-      stepCont.push(<Image key={i} source={Images.step_icon_now} style={styles.stepNow} />)
-    } else {
-      stepCont.push(<Image key={i} source={Images.step_icon_default} style={styles.step} />)
-    }
+    const isCurrentStep = i === now
+    const isFinishedStep = i < now
+
+    stepCont.push(
+      <Image
+        key={i}
+        source={isCurrentStep ? Images.step_icon_now : isFinishedStep ? Images.step_icon_end : Images.step_icon_default}
+        style={isCurrentStep ? styles.stepNow : styles.step}
+      />,
+    )
+
     if (i < step) {
-      if (i < now) {
-        stepCont.push(<View key={`line_${i}`} style={styles.lineNow} />)
-      } else {
-        stepCont.push(<View key={`line_${i}`} style={styles.line} />)
-      }
+      stepCont.push(<View key={`line_${i}`} style={isFinishedStep ? styles.lineNow : styles.line} />)
     }
   }
 
   return <View style={styles.container}>{stepCont}</View>
+  // const stepCont = []
+  // for (let i = 1; i <= step; i++) {
+  //   if (i < now) {
+  //     stepCont.push(<Image key={i} source={Images.step_icon_end} style={styles.step} />)
+  //   } else if (i == now) {
+  //     stepCont.push(<Image key={i} source={Images.step_icon_now} style={styles.stepNow} />)
+  //   } else {
+  //     stepCont.push(<Image key={i} source={Images.step_icon_default} style={styles.step} />)
+  //   }
+  //   if (i < step) {
+  //     if (i < now) {
+  //       stepCont.push(<View key={`line_${i}`} style={styles.lineNow} />)
+  //     } else {
+  //       stepCont.push(<View key={`line_${i}`} style={styles.line} />)
+  //     }
+  //   }
+  // }
+
+  // return <View style={styles.container}>{stepCont}</View>
 }
 
 const styles = StyleSheet.create({

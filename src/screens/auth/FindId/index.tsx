@@ -2,9 +2,11 @@ import React, {useState} from 'react'
 import {StyleSheet, View, SafeAreaView, Text, KeyboardAvoidingView, Platform, Alert} from 'react-native'
 import {useRoutes} from 'hooks/useRoutes'
 import {font} from 'shared/styles'
-import { FindIdContent, SignUpContent, LoginContent } from './contents'
+import LoginContent from './contents/LoginContent'
+import EmailCheck from 'components/auth/EmailCheck'
+import NoneId from 'components/auth/NoonId'
 
-const FindId = () => {
+const FindIdScreen = () => {
   const [id, setId] = useState('')
   const [headline, setHeadline] = useState('등록된 회원 정보로\n아이디를 찾으실 수 있습니다.')
   const [emojiTxt, setEmojiTxt] = useState('입력하신 정보와\n일치하는 아이디가 없습니다.')
@@ -55,25 +57,27 @@ const FindId = () => {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.keyboardContainer}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyboardContainer}>
         <View style={styles.container}>
           <Text style={styles.headline}>{headline}</Text>
 
           {/* 아이디 찾기 컴포넌트 */}
-          {showFindId ? <FindIdContent id={id} setId={setId} handleFindId={handleFindId} /> : null}
+          {showFindId ? <EmailCheck id={id} setId={setId} handleFindId={handleFindId} /> : null}
 
           {/* 회원가입 컴포넌트 */}
-          {showSignUp ? <SignUpContent emojiTxt={emojiTxt} handleSignUpClick={handleSignUpClick} />: null}
+          {showSignUp ? <NoneId guideText={emojiTxt} buttonText={'회원가입 하기'} handleButtonClick={handleSignUpClick} /> : null}
 
           {/* 로그인 컴포넌트 */}
-          {showLogin ? <LoginContent id={id} microcopy={microcopy} handleFindPwClick={handleFindPwClick} handleLoginClick={handleLoginClick} /> : null}
+          {showLogin ? (
+            <LoginContent id={id} microcopy={microcopy} handleFindPwClick={handleFindPwClick} handleLoginClick={handleLoginClick} />
+          ) : null}
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }
 
-export default FindId
+export default FindIdScreen
 
 const styles = StyleSheet.create({
   safeAreaContainer: {
@@ -88,5 +92,9 @@ const styles = StyleSheet.create({
   headline: {
     fontSize: 24,
     ...font.NotoSansKR_Medium,
+  },
+  keyboardContainer: {
+    flex: 1,
+    width: '100%',
   },
 })

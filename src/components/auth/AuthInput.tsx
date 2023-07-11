@@ -1,26 +1,19 @@
 import React from 'react'
-import {
-  TextInput,
-  TextInputProps,
-  TextStyle,
-  StyleSheet,
-} from 'react-native'
+import {TextInput, TextInputProps, TextStyle, StyleSheet} from 'react-native'
 
 type InputProps = {
   placeholder?: string
   style?: TextStyle
   value: string
   onChangeText?: (text: string) => void
-  onChange?: (event: {
-    nativeEvent: {text: string}
-  }) => void
+  onChange?: (event: {nativeEvent: {text: string}}) => void
   editable?: boolean
   maxLength?: number
   secureTextEntry?: boolean
   textContentType?: TextInputProps['textContentType']
 }
 
-const CustomInput: React.FC<InputProps> = ({
+const AuthInput: React.FC<InputProps> = ({
   placeholder,
   style,
   value,
@@ -31,9 +24,7 @@ const CustomInput: React.FC<InputProps> = ({
   secureTextEntry = false,
   textContentType,
 }) => {
-  const handleChange = (event: {
-    nativeEvent: {text: string}
-  }) => {
+  const handleChange = (event: {nativeEvent: {text: string}}) => {
     if (onChange) {
       onChange(event) // `onChange`를 이용해야할 경우
     } else if (onChangeText) {
@@ -55,7 +46,7 @@ const CustomInput: React.FC<InputProps> = ({
   )
 }
 
-export default CustomInput
+export default AuthInput
 
 const styles = StyleSheet.create({
   input: {

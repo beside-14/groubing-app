@@ -1,25 +1,13 @@
 // import { login } from "../../utils/AuthUtil";
 import {useAuth} from 'hooks/useAuth'
 import React, {useState} from 'react'
-import {
-  View,
-  StatusBar,
-  StyleSheet,
-  Platform,
-  TextInput,
-  Text,
-  Image,
-  SafeAreaView,
-  TouchableOpacity,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from 'react-native'
+import {View, StatusBar, StyleSheet, Platform, Text, Image, SafeAreaView, TouchableOpacity, Keyboard, TouchableWithoutFeedback} from 'react-native'
 import {Images} from 'assets'
 import {useRoutes} from 'hooks/useRoutes'
-import CustomInput from 'components/common/CustomInput'
+import AuthInput from 'components/auth/AuthInput'
 import {font} from 'shared/styles'
 
-const Login = () => {
+const LoginScreen = () => {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
   const [microcopy, setMicrocopy] = useState('')
@@ -79,7 +67,6 @@ const Login = () => {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <StatusBar backgroundColor="#3A8ADB" barStyle="light-content" />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <Text style={styles.mainText}>GROUBING</Text>
@@ -88,11 +75,11 @@ const Login = () => {
           <View style={styles.formContainer}>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>아이디(이메일)</Text>
-              <CustomInput onChangeText={id => setId(id)} value={id} style={styles.textInput} />
+              <AuthInput onChangeText={id => setId(id)} value={id} style={styles.textInput} />
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>비밀번호</Text>
-              <CustomInput textContentType="password" onChangeText={pw => setPw(pw)} value={pw} secureTextEntry style={styles.textInput} />
+              <AuthInput textContentType="password" onChangeText={pw => setPw(pw)} value={pw} secureTextEntry style={styles.textInput} />
             </View>
 
             <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
@@ -134,7 +121,7 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginScreen
 
 const styles = StyleSheet.create({
   safeAreaContainer: {
