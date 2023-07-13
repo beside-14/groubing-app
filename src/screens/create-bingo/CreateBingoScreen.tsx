@@ -5,7 +5,7 @@ import {Text} from 'react-native'
 import React from 'react'
 import CreateBingo from 'components/bingo/create/CreateBingo'
 
-const Bingo = () => {
+const CreateBingoScreen = () => {
   const {changeNavigationStack} = useAuth()
 
   // useEffect(() => {
@@ -15,4 +15,4 @@ const Bingo = () => {
   return <CreateBingo />
 }
 
-export default Bingo
+export default CreateBingoScreen
