@@ -1,84 +1,27 @@
-import {StyleSheet, Text, SafeAreaView, ScrollView, View, TextInput, Image, KeyboardAvoidingView, Platform} from 'react-native'
-import React, {useEffect, useState} from 'react'
+import {StyleSheet, SafeAreaView, View, KeyboardAvoidingView, Platform} from 'react-native'
+import React, {useState} from 'react'
 
-import {TouchableOpacity} from 'react-native-gesture-handler'
-
-import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import StepBar from './StepBar'
 import {Form} from './form/Form'
 import {isIphoneX} from 'react-native-iphone-x-helper'
-import {API} from 'utils/axios'
-import {useRoutes} from 'hooks/useRoutes'
 
 const CreateBingo = () => {
-  const [bingoTypeId, setBingoTypeId] = useState(0)
-  const [bingoType, setBingoType] = useState<'개인빙고 3×3 9칸' | '개인빙고 4×4 16칸' | '그룹빙고 3×3 9칸' | '그룹빙고 4×4 16칸' | undefined>()
-
   const [nowStep, setNowStep] = useState(1)
-  const {navigate} = useRoutes()
-  const [showBingoType, setShowBingoType] = useState(true)
-  const [showBingoPublic, setShowBingoPublic] = useState(false)
-  const [showBingoTitle, setShowBingoTitle] = useState(false)
-  const [showGoal, setShowGoal] = useState(false)
-  const [showBingoPeriod, setShowBingoPeriod] = useState(false)
+
   const isIphone = isIphoneX() && Platform.OS === 'ios'
   const paddingBottom = isIphone ? 90 : 0
-  var bingoJson = []
 
-  function selectType(type: number) {
-    switch (type) {
-      case 1:
-        return '개인빙고 3×3 9칸'
-      case 2:
-        return '개인빙고 4×4 16칸'
-      case 3:
-        return '그룹빙고 3×3 9칸'
-      case 4:
-        return '그룹빙고 4×4 16칸'
-    }
-  }
-
-  const setbingoTp = id => {
-    const type = selectType(id)
-    setBingoType(type)
-  }
-  useEffect(() => {
-    ;(async () => {
-      const res = await API.get('/api/bingo-boards')
-      // console.warn(res)
-      console.log(res)
-    })()
-  }, [])
   const STEP = ['빙고 타입', '빙고 공개 여부', '빙고 제목', '목표 빙고 개수', '빙고 진행 기간']
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{...styles.container}}>
       <SafeAreaView style={styles.safeAreaContainer}>
-        <ScrollView style={styles.headerContainer}>
-          {/* 스텝바 */}
-          <View style={styles.stepBarContainer}>
-            <StepBar step={5} now={nowStep} goback={setNowStep} />
-          </View>
-
-          {/* 바디 콘테이너 */}
-          <View style={styles.bodyContainer}>
-            <Form step={STEP[nowStep - 1]} />
-          </View>
-        </ScrollView>
-        <TouchableOpacity
-          style={styles.nextBtn}
-          onPress={() => {
-            if (nowStep === 5) {
-              navigate('BingoBoard')
-            } else {
-              setNowStep(nowStep => nowStep + 1)
-            }
-            // setShowBingoType(false)
-            // setShowBingoPublic(true)
-            // setbingoTp(bingoTypeId)
-          }}>
-          <Text style={styles.nextBtnTxt}>{nowStep === 5 ? '빙고 생성' : '다음'}</Text>
-        </TouchableOpacity>
+        {/* 스텝바 */}
+        <View style={styles.stepBarContainer}>
+          <StepBar step={4} now={nowStep} goback={setNowStep} />
+        </View>
+        {/* 바디 콘테이너 */}
+        <Form steptext={STEP[nowStep - 1]} stepnum={nowStep} setNowStep={setNowStep} />
       </SafeAreaView>
     </KeyboardAvoidingView>
   )
@@ -87,19 +30,13 @@ const CreateBingo = () => {
 const styles = StyleSheet.create({
   safeAreaContainer: {
     backgroundColor: '#FFFFFF',
-    // height: '100%',
+
     flex: 1,
   },
   container: {
-    // marginHorizontal: 25,
     flex: 1,
-    // height: '100%',
   },
   headerContainer: {
-    // height: '15%',
-    // marginBottom: 20,
-    // flex: 1,
-    // backgroundColor: 'yellow',
     paddingHorizontal: 20,
   },
   bodyContainer: {
@@ -226,7 +163,9 @@ const styles = StyleSheet.create({
   },
   stepBarContainer: {
     marginTop: 30,
-    width: 150,
+    // width: 150,
+    width: '50%',
+    paddingHorizontal: 20,
   },
   counterContainer: {
     flexDirection: 'row',

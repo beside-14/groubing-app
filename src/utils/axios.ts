@@ -11,7 +11,7 @@ API.interceptors.request.use(
   async config => {
     // const token = getToken()
     const token =
-      'eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MSwiZW1haWwiOiJob2xlbWFuNzlAbmF2ZXIuY29tIiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTY4OTE2OTYwMSwiZXhwIjoxNjg5MTkxMjAxfQ.cWCUBgwTsVNS03C4F0MC-vzm3dD-JLEBcsFccbr1PD-fowY_jt8xLa8OfXBzuiLauFZm-nPBCjF1j0yZqfR_QQ'
+      'eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MywiZW1haWwiOiJhd2FqaTA4MjlAZ21haWwuY29tIiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTY4OTI1MjU5MiwiZXhwIjoxNjg5Mjc0MTkyfQ.mXQQ3sHQxy-UyYLE4h7VBh6qiulF8oB84I3POSNc_Lca-gXfIPPrRGVMuKswViUKkO2Kjv0ResdWjWxdLSb8rg'
     if (token) {
       config.withCredentials = true
       config.headers.Authorization = `Bearer ${token}`

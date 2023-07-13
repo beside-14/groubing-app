@@ -1,14 +1,19 @@
-import React from 'react'
-import {Image, StyleSheet, StatusBar} from 'react-native'
+import React, {useRef} from 'react'
+import {Image, StyleSheet, StatusBar, Touchable} from 'react-native'
 import {createStackNavigator} from '@react-navigation/stack'
-import {NavigationContainer} from '@react-navigation/native'
+import {NavigationContainer, useNavigation} from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {Login, FindId, FindPw, SignUp, Bingo, BingoScreen, Feed} from 'screens'
+import {Login, FindId, FindPw, SignUp, BingoScreen, Feed, BingoListScreen} from 'screens'
 import {useAuth} from 'hooks/useAuth'
 import NavigatorHeader from 'components/common/NavigatorHeader'
 import {Images} from 'assets'
-import CreateBingo from 'components/bingo/create/CreateBingo'
+
 import {View} from 'react-native'
+import {Text} from 'react-native'
+import {TouchableOpacity} from 'react-native-gesture-handler'
+import {useRoutes} from 'hooks/useRoutes'
+import Bingo from 'screens/create-bingo/CreateBingoScreen'
+// import {BingoListScreen} from 'screens/bingo-list'
 
 const Auth = createStackNavigator()
 const Root = createStackNavigator()
@@ -40,8 +45,8 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Bingo"
-        component={BingoScreen}
+        name="BingoList"
+        component={BingoListScreen}
         options={{
           headerShown: false,
           tabBarLabel: '목록',
@@ -101,7 +106,7 @@ const CommonNavigator = () => {
     <Root.Navigator>
       <Root.Screen
         name="BingoCreate"
-        component={BingoScreen}
+        component={Bingo}
         options={{
           headerShown: true,
         }}
@@ -112,9 +117,14 @@ const CommonNavigator = () => {
 
 const StackNavigator = () => {
   const {isLogged} = useAuth()
+  const navigationRef = useRef<undefined | any>()
+  // const {navigate} = useRoutes()
   const bottomAnimation = {animation: 'slide_from_bottom'}
+  // const navigation = useNavigation()
+
+  console.log(navigationRef.current)
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <StatusBar barStyle={'dark-content'} />
       <Root.Navigator
         screenOptions={{
@@ -141,6 +151,13 @@ const StackNavigator = () => {
             headerShown: true,
             animationEnabled: true,
             gestureDirection: 'vertical',
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigationRef.current.navigate('BingoList')} style={{paddingHorizontal: 20}}>
+                <Text>닫기</Text>
+              </TouchableOpacity>
+            ),
+            headerLeft: () => null,
+            headerStyle: {borderBottomWidth: 0},
             // animation: 'slide_from_bottom',
           }}
         />

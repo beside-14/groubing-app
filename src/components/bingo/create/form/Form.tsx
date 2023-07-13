@@ -1,9 +1,8 @@
 import {StyleSheet, Text, SafeAreaView, ScrollView, View, TextInput, Image} from 'react-native'
 import React, {useState} from 'react'
-
 import {TouchableOpacity} from 'react-native-gesture-handler'
-
-import DateTimePickerModal from 'react-native-modal-datetime-picker'
+import {createBingo} from '../remote'
+import {useRoutes} from 'hooks/useRoutes'
 
 const Type = ({bingoTypeId, setBingoTypeId}) => {
   const BINGO = {
@@ -50,19 +49,16 @@ const Type = ({bingoTypeId, setBingoTypeId}) => {
 }
 
 const Public = ({disclosure, setDisclosure}) => {
-  const onPressPublic = p => {
-    // setDisclosure(p)
-  }
   return (
     <View>
       <Text style={styles.question}>빙고 공개 여부를 선택해주세요.</Text>
       <View style={styles.gridBtn}>
-        <TouchableOpacity onPress={() => onPressPublic('public')} style={disclosure === 'public' ? styles.selectedBtn : styles.unSelectedBtn}>
+        <TouchableOpacity onPress={() => setDisclosure('public')} style={disclosure === 'public' ? styles.selectedBtn : styles.unSelectedBtn}>
           <View>
             <Text style={disclosure === 'public' ? styles.selectedBtnText : styles.unSelectedBtnText}>전체 공개</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => onPressPublic('private')} style={disclosure === 'private' ? styles.selectedBtn : styles.unSelectedBtn}>
+        <TouchableOpacity onPress={() => setDisclosure('private')} style={disclosure === 'private' ? styles.selectedBtn : styles.unSelectedBtn}>
           <View>
             <Text style={disclosure === 'private' ? styles.selectedBtnText : styles.unSelectedBtnText}>비공개</Text>
           </View>
@@ -112,32 +108,6 @@ const Goal = ({setGoal, goal}) => {
   )
 }
 
-const Period = () => {
-  const [visible, setVisible] = useState(false)
-  const openCalendar = () => {
-    setVisible(true)
-  }
-  const onConfirm = date => {
-    console.log('A date has been picked : ', date)
-    onCancel()
-  }
-  const onCancel = () => {
-    setVisible(false)
-  }
-
-  return (
-    <View>
-      <Text style={styles.question}>빙고 진행 기간을 입력해주세요.</Text>
-      <View style={{flexDirection: 'row', borderBottomColor: '#DDDDDD', borderBottomWidth: 1, paddingBottom: 10}}>
-        <TouchableOpacity onPress={openCalendar}>
-          <Text style={{width: 280, height: 16, marginRight: 15, marginLeft: 2, fontSize: 16}}>2023-03-12~2023-04-12</Text>
-        </TouchableOpacity>
-      </View>
-      <DateTimePickerModal isVisible={visible} mode="date" onConfirm={onConfirm} onCancel={onCancel} />
-    </View>
-  )
-}
-
 const Input = ({step}: {step: string}) => {
   const [bingoTypeId, setBingoTypeId] = useState('개인 3×3 9칸')
   const [disclosure, setDisclosure] = useState('public')
@@ -148,17 +118,18 @@ const Input = ({step}: {step: string}) => {
     '빙고 공개 여부': <Public disclosure={disclosure} setDisclosure={setDisclosure} />,
     '빙고 제목': <Title bingoTitle={bingoTitle} setBingoTitle={setBingoTitle} />,
     '목표 빙고 개수': <Goal setGoal={setGoal} goal={goal} />,
-    '빙고 진행 기간': <Period />,
   }
 
   const BINGO_JSON = {
     title: bingoTitle,
     goal: goal,
-    bingoSize: bingoTypeId,
+    boardType: '',
     open: disclosure,
-    since: new Date(),
-    untile: new Date() + 1,
+    bingoSize: bingoTypeId,
+    since: '',
+    untile: '',
   }
+
   const CREATE_INFO: any = {
     '빙고 타입': bingoTypeId,
     '빙고 공개 여부': disclosure,
@@ -166,7 +137,7 @@ const Input = ({step}: {step: string}) => {
     '목표 빙고 개수': goal,
   }
 
-  const STEPLIST = ['빙고 타입', '빙고 공개 여부', '빙고 제목', '목표 빙고 개수', '빙고 진행 기간']
+  const STEPLIST = ['빙고 타입', '빙고 공개 여부', '빙고 제목', '목표 빙고 개수']
   const nowstepidx = STEPLIST.findIndex(e => e === step)
   return (
     <>
@@ -185,8 +156,31 @@ const Input = ({step}: {step: string}) => {
   )
 }
 
-export const Form = ({step}) => {
-  return <Input step={step} />
+const STEP = ['빙고 타입', '빙고 공개 여부', '빙고 제목', '목표 빙고 개수', '빙고 진행 기간']
+
+export const Form = ({steptext, stepnum, setNowStep}) => {
+  const {navigate} = useRoutes()
+  return (
+    <>
+      <ScrollView style={styles.headerContainer}>
+        <View style={styles.bodyContainer}>
+          <Input step={steptext} />
+        </View>
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.nextBtn}
+        onPress={() => {
+          if (stepnum === 4) {
+            createBingo()
+            navigate('BingoBoard')
+          } else {
+            setNowStep((nowStep: number) => nowStep + 1)
+          }
+        }}>
+        <Text style={styles.nextBtnTxt}>{stepnum === 5 ? '빙고 생성' : '다음'}</Text>
+      </TouchableOpacity>
+    </>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -202,7 +196,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     height: '15%',
-    marginHorizontal: 12,
+    marginHorizontal: 20,
     marginBottom: 20,
   },
   bodyContainer: {
@@ -216,7 +210,7 @@ const styles = StyleSheet.create({
     height: 36,
     fontSize: 24,
     marginBottom: 10,
-    fontWeight: 700,
+    fontWeight: '700',
   },
   pContainer: {
     marginVertical: 10,
@@ -288,10 +282,11 @@ const styles = StyleSheet.create({
   nextBtn: {
     height: 48,
     backgroundColor: '#000000',
-    width: '100%',
+    // width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
+    marginHorizontal: 20,
   },
   nextBtn2: {
     height: 48,
@@ -358,3 +353,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
+// const Period = () => {
+//   const [visible, setVisible] = useState(false)
+//   const openCalendar = () => {
+//     setVisible(true)
+//   }
+//   const onConfirm = date => {
+//     console.log('A date has been picked : ', date)
+//     onCancel()
+//   }
+//   const onCancel = () => {
+//     setVisible(false)
+//   }
+
+//   return (
+//     <View>
+//       <Text style={styles.question}>빙고 진행 기간을 입력해주세요.</Text>
+//       <View style={{flexDirection: 'row', borderBottomColor: '#DDDDDD', borderBottomWidth: 1, paddingBottom: 10}}>
+//         <TouchableOpacity onPress={openCalendar}>
+//           <Text style={{width: 280, height: 16, marginRight: 15, marginLeft: 2, fontSize: 16}}>2023-03-12~2023-04-12</Text>
+//         </TouchableOpacity>
+//       </View>
+//       <DateTimePickerModal isVisible={visible} mode="date" onConfirm={onConfirm} onCancel={onCancel} />
+//     </View>
+//   )
+// }
