@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {StyleSheet, View, SafeAreaView, Text, KeyboardAvoidingView, Platform, Alert} from 'react-native'
+import {StyleSheet, View, SafeAreaView, Text, KeyboardAvoidingView, Platform, Alert, Keyboard, TouchableWithoutFeedback} from 'react-native'
 
 // 사용 시 에러 발생. 직접 만들어야 할듯.
 // import { CheckBox } from "react-native-elements";
@@ -13,6 +13,7 @@ import EmailAuth from './contents/EmailAuth'
 import FindPwContent from './contents/FindPwContent'
 import Agree from './contents/Agree'
 import Nickname from './contents/Nickname'
+import {passwordValidate, emailValidate} from 'utils/validate'
 
 const SignUpScreen = () => {
   const [id, setId] = useState('')
@@ -28,7 +29,7 @@ const SignUpScreen = () => {
   const [showNickname, setShowNickname] = useState(false)
 
   const [authCode, setAuthCode] = useState('')
-  const [timeLeft, setTimeLeft] = useState(5) // 180초 = 3분
+  const [timeLeft, setTimeLeft] = useState(0)
 
   const [terms1, setTerms1] = useState(false)
   const [terms2, setTerms2] = useState(false)
@@ -41,16 +42,6 @@ const SignUpScreen = () => {
   const {changeNavigationStack} = useAuth()
 
   async function handleSignUp() {
-    const userInfo = {id, password}
-    console.log('Signed up : ', userInfo)
-
-    // if (id === "" || password === "" || confirmPassword == "") {
-    //   setErrorMessage("Please fill out all fields");
-    //   console.log(errorMessage);
-    //   alert("Form Check", errorMessage);
-    //   return;
-    // }
-
     //비밀번호 형식 체크
     // if (validatePassword(password)) {
     //   setErrorMessage(
@@ -97,10 +88,14 @@ const SignUpScreen = () => {
   }
 
   const handleEmailClick = () => {
-    setShowEmailAuth(true)
-    setShowEmail(false)
-    setHeadline('입력하신 이메일 주소로\n인증 번호를 발송하였습니다.')
-    setNowStep(nowStep + 1)
+    if (!emailValidate(id)) {
+      setMicrocopy('올바른 이메일 형식이 아닙니다. 다시 입력해주세요.')
+    } else {
+      setShowEmailAuth(true)
+      setShowEmail(false)
+      setHeadline('입력하신 이메일 주소로\n인증 번호를 발송하였습니다.')
+      setNowStep(nowStep + 1)
+    }
   }
 
   const handleEmailAuthChange = (text: string) => {
@@ -130,49 +125,51 @@ const SignUpScreen = () => {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyboardContainer}>
-        <View style={styles.stepBarContainer}>
-          <StepBar step={5} now={nowStep} />
-        </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyboardContainer}>
+          <View style={styles.stepBarContainer}>
+            <StepBar step={5} now={nowStep} />
+          </View>
 
-        <View style={styles.container}>
-          {headline ? <Text style={styles.headline}>{headline}</Text> : null}
+          <View style={styles.container}>
+            {headline ? <Text style={styles.headline}>{headline}</Text> : null}
 
-          {/* 이메일 입력 컴포넌트 */}
-          {showEmail ? <Email id={id} setId={setId} microcopy={microcopy} handleEmailClick={handleEmailClick} /> : null}
+            {/* 이메일 입력 컴포넌트 */}
+            {showEmail ? <Email id={id} setId={setId} microcopy={microcopy} handleEmailClick={handleEmailClick} /> : null}
 
-          {/* 이메일 인증 컴포넌트 */}
-          {showEmailAuth ? (
-            <EmailAuth
-              id={id}
-              setId={setId}
-              authCode={authCode}
-              handleEmailAuthChange={handleEmailAuthChange}
-              handleEmailAuthClick={handleEmailAuthClick}
-              timeLeft={timeLeft}
-              setTimeLeft={setTimeLeft}
-            />
-          ) : null}
+            {/* 이메일 인증 컴포넌트 */}
+            {showEmailAuth ? (
+              <EmailAuth
+                id={id}
+                setId={setId}
+                authCode={authCode}
+                handleEmailAuthChange={handleEmailAuthChange}
+                handleEmailAuthClick={handleEmailAuthClick}
+                timeLeft={timeLeft}
+                setTimeLeft={setTimeLeft}
+              />
+            ) : null}
 
-          {/* 패스워드 입력 컴포넌트 */}
-          {showPassword ? (
-            <FindPwContent
-              password={password}
-              setPassword={setPassword}
-              confirmPassword={confirmPassword}
-              setConfirmPassword={setConfirmPassword}
-              microcopy={microcopy}
-              handleFindPwClick={handleFindPwClick}
-            />
-          ) : null}
+            {/* 패스워드 입력 컴포넌트 */}
+            {showPassword ? (
+              <FindPwContent
+                password={password}
+                setPassword={setPassword}
+                confirmPassword={confirmPassword}
+                setConfirmPassword={setConfirmPassword}
+                microcopy={microcopy}
+                handleFindPwClick={handleFindPwClick}
+              />
+            ) : null}
 
-          {/* 약관동의 컴포넌트 */}
-          {showAgreement ? <Agree handleAgreeClick={handleAgrreClick} /> : null}
+            {/* 약관동의 컴포넌트 */}
+            {showAgreement ? <Agree handleAgreeClick={handleAgrreClick} /> : null}
 
-          {/* 닉네임 컴포넌트 */}
-          {showNickname ? <Nickname nickname={nickname} setNickname={setNickname} handleSignUp={handleSignUp} /> : null}
-        </View>
-      </KeyboardAvoidingView>
+            {/* 닉네임 컴포넌트 */}
+            {showNickname ? <Nickname nickname={nickname} setNickname={setNickname} handleSignUp={handleSignUp} /> : null}
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   )
 }
@@ -183,10 +180,11 @@ const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
     paddingHorizontal: 20,
+    backgroundColor: '#FFF',
   },
   container: {
     flex: 1,
-    marginHorizontal: 12,
+    marginHorizontal: 20,
     height: '100%',
   },
   headline: {
@@ -200,7 +198,7 @@ const styles = StyleSheet.create({
   stepBarContainer: {
     marginTop: 40,
     width: 150,
-    marginHorizontal: 12,
-    marginBottom: 20,
+    marginHorizontal: 20,
+    marginBottom: 33,
   },
 })

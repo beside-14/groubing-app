@@ -31,10 +31,17 @@ const EmailAuth = ({id, authCode, handleEmailAuthChange, handleEmailAuthClick, t
   return (
     <View style={styles.bodyContainer}>
       <View style={styles.textInputContainer}>
-        <AuthInput value={id} editable={false} />
+        <AuthInput value={id} editable={false} style={styles.textInput} />
         <View style={styles.authContainer}>
           <View style={styles.authInputContainer}>
-            <AuthInput placeholder={'인증번호'} onChangeText={handleEmailAuthChange} value={authCode} maxLength={10} style={styles.textAuthInput} />
+            <AuthInput
+              placeholder={'인증번호'}
+              onChangeText={handleEmailAuthChange}
+              value={authCode}
+              maxLength={10}
+              style={styles.textAuthInput}
+              keyboardType="number-pad"
+            />
             <Text style={styles.authTime}>{formatTime(timeLeft)}</Text>
           </View>
           <View style={styles.resendBtnContainer}>
@@ -53,7 +60,6 @@ export default EmailAuth
 
 const styles = StyleSheet.create({
   bodyContainer: {
-    marginTop: 30,
     alignItems: 'center',
     justifyContent: 'space-between',
     position: 'relative',
@@ -61,6 +67,9 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     width: '100%',
+  },
+  textInput: {
+    color: '#666',
   },
   authContainer: {
     marginTop: 10,

@@ -27,13 +27,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   headerBtn: {
-    width: 7,
-    height: 14,
-    marginRight: 12,
+    width: 24,
+    height: 24,
+    marginRight: 2,
   },
   title: {
     color: '#000000',
     fontFamily: 'NotoSansKR_500Medium',
-    fontSize: 20,
+    fontSize: 18,
+    fontWeight: '500',
   },
 })

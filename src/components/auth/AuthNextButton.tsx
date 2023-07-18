@@ -5,12 +5,13 @@ import {font} from 'shared/styles'
 type AuthNextButtonProps = {
   onPress: () => void
   buttonText: string
+  isDisabled?: boolean
 }
 
-const AuthNextButton = ({onPress, buttonText}: AuthNextButtonProps) => {
+const AuthNextButton = ({onPress, buttonText, isDisabled}: AuthNextButtonProps) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={onPress}>
+      <TouchableOpacity style={isDisabled ? [styles.button, styles.disabled_button] : styles.button} onPress={onPress} disabled={isDisabled}>
         <Text style={styles.text}>{buttonText}</Text>
       </TouchableOpacity>
     </View>
@@ -25,12 +26,16 @@ const styles = StyleSheet.create({
     marginBottom: 13,
   },
   button: {
-    height: 48,
+    paddingTop: 14,
+    paddingBottom: 16,
     backgroundColor: '#000000',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
+  },
+  disabled_button: {
+    backgroundColor: '#DDD',
   },
   text: {
     fontSize: 18,

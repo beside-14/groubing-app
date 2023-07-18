@@ -38,11 +38,13 @@ const styles = StyleSheet.create({
   },
   emoji: {
     resizeMode: 'contain',
+    width: 75,
+    height: 73,
   },
   text: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
-    marginTop: 15,
+    marginTop: 16,
     ...font.NotoSansKR_Medium,
   },
 })

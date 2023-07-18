@@ -40,10 +40,17 @@ const EmailAuth = ({id, setId, authCode, handleEmailAuthChange, handleEmailAuthC
   return (
     <View style={styles.bodyContainer}>
       <View style={styles.textInputContainer}>
-        <AuthInput placeholder={'아이디(이메일)'} onChangeText={id => setId(id)} value={id} editable={false} />
+        <AuthInput onChangeText={id => setId(id)} value={id} editable={false} style={styles.idInput} />
         <View style={styles.authContainer}>
           <View style={styles.authInputContainer}>
-            <AuthInput placeholder={'인증번호'} onChangeText={handleEmailAuthChange} value={authCode} maxLength={10} style={styles.textAuthInput} />
+            <AuthInput
+              placeholder={'인증번호'}
+              onChangeText={handleEmailAuthChange}
+              value={authCode}
+              maxLength={10}
+              style={styles.textAuthInput}
+              keyboardType="number-pad"
+            />
             <Text style={styles.authTime}>{formatTime(timeLeft)}</Text>
           </View>
           <View style={styles.resendBtnContainer}>
@@ -77,6 +84,9 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     width: '100%',
+  },
+  idInput: {
+    color: '#666',
   },
   authContainer: {
     marginTop: 10,
@@ -118,7 +128,7 @@ const styles = StyleSheet.create({
   },
   resendBtnTxt: {
     fontSize: 14,
-    color: '#F3F3F3',
+    color: '#FFF',
     ...font.NotoSansKR_Regular,
   },
 })
