@@ -1,13 +1,14 @@
 import {Images} from 'assets'
 import React from 'react'
-import {View, Text, Image, StyleSheet} from 'react-native'
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native'
 
 type StepBarProps = {
   now: number
   step: number
+  goback: (i: number) => void
 }
 
-export default function StepBar({now, step}: StepBarProps) {
+export default function StepBar({now, step, goback}: StepBarProps) {
   const stepCont = []
 
   for (let i = 1; i <= step; i++) {
@@ -15,11 +16,13 @@ export default function StepBar({now, step}: StepBarProps) {
     const isFinishedStep = i < now
 
     stepCont.push(
-      <Image
-        key={i}
-        source={isCurrentStep ? Images.step_icon_now : isFinishedStep ? Images.step_icon_end : Images.step_icon_default}
-        style={isCurrentStep ? styles.stepNow : styles.step}
-      />,
+      <TouchableOpacity onPress={() => goback(i)}>
+        <Image
+          key={i}
+          source={isCurrentStep ? Images.step_icon_now : isFinishedStep ? Images.step_icon_end : Images.step_icon_default}
+          style={isCurrentStep ? styles.stepNow : styles.step}
+        />
+      </TouchableOpacity>,
     )
 
     if (i < step) {
@@ -28,25 +31,6 @@ export default function StepBar({now, step}: StepBarProps) {
   }
 
   return <View style={styles.container}>{stepCont}</View>
-  // const stepCont = []
-  // for (let i = 1; i <= step; i++) {
-  //   if (i < now) {
-  //     stepCont.push(<Image key={i} source={Images.step_icon_end} style={styles.step} />)
-  //   } else if (i == now) {
-  //     stepCont.push(<Image key={i} source={Images.step_icon_now} style={styles.stepNow} />)
-  //   } else {
-  //     stepCont.push(<Image key={i} source={Images.step_icon_default} style={styles.step} />)
-  //   }
-  //   if (i < step) {
-  //     if (i < now) {
-  //       stepCont.push(<View key={`line_${i}`} style={styles.lineNow} />)
-  //     } else {
-  //       stepCont.push(<View key={`line_${i}`} style={styles.line} />)
-  //     }
-  //   }
-  // }
-
-  // return <View style={styles.container}>{stepCont}</View>
 }
 
 const styles = StyleSheet.create({
@@ -55,6 +39,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 30,
   },
   step: {
     width: 12,

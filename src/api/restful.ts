@@ -1,1 +1,1 @@
-export const LOCAL_SERVER = 'http://172.29.19.76:8080'
+export const LOCAL_SERVER = 'http://49.50.175.32:8080'
