@@ -1,54 +1,55 @@
 // import { login } from "../../utils/AuthUtil";
 import {useAuth} from 'hooks/useAuth'
 import React, {useState} from 'react'
-import {View, StatusBar, StyleSheet, Platform, Text, Image, SafeAreaView, TouchableOpacity, Keyboard, TouchableWithoutFeedback} from 'react-native'
+import {
+  View,
+  StatusBar,
+  StyleSheet,
+  Platform,
+  Text,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Alert,
+} from 'react-native'
 import {Images} from 'assets'
 import {useRoutes} from 'hooks/useRoutes'
-import AuthInput from 'components/auth/AuthInput'
 import {font} from 'shared/styles'
+import {emailValidate, passwordValidate} from 'utils/validate'
+import LoginInput from './contents/LoginInput'
+import {fetchEmailLogin} from 'hooks/auth'
+import {setToken} from 'utils/asyncStorage'
 
 const LoginScreen = () => {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
-  const [microcopy, setMicrocopy] = useState('')
+  const [microcopyId, setMicrocopyId] = useState('')
+  const [microcopyPw, setMicrocopyPw] = useState('')
   const {changeNavigationStack} = useAuth()
   const {navigate} = useRoutes()
 
   async function handleLogin() {
-    setMicrocopy('')
+    setMicrocopyId('')
+    setMicrocopyPw('')
 
     if (id.trim() === '') {
-      setMicrocopy('아이디가 입력되지 않았습니다.')
+      setMicrocopyId('아이디가 입력되지 않았습니다.')
     } else if (pw.trim() === '') {
-      setMicrocopy('비밀번호가 입력되지 않았습니다.')
-      // } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(id)) {
-      //   setMicrocopy("이메일 형식이 올바르지 않습니다.");
+      setMicrocopyPw('비밀번호가 입력되지 않았습니다.')
+    } else if (!emailValidate(id)) {
+      setMicrocopyId('올바른 이메일 형식이 아닙니다. 다시 입력해주세요.')
+    } else if (!passwordValidate(pw)) {
+      setMicrocopyPw('8~20자 이내 영문 대소문자, 숫자, 특수문자')
     } else {
-      const loginData = {
-        id: id,
-        pw: pw,
-      }
-
       try {
-        // login api 로직
-        // const response = await login(loginData);
-        // if (response.data !== null && response.data !== "") {
-        //   setId("");
-        //   setPw("");
-        //   navigation.navigate("Home");
-        // } else {
-        //   setMicrocopy(
-        //     "아이디 또는 비밀번호가 일치하지 않습니다. 입력하신 내용을 다시 확인해 주세요."
-        //   );
-        //   setId("");
-        //   setPw("");
-        // }
+        const {email, token} = await fetchEmailLogin({email: id, password: pw})
+        setToken(token)
         changeNavigationStack()
-        // navigation.navigate('Home')
       } catch (error) {
-        console.error(error) // 오류 메시지 출력
-        // const errorMessage = error?.response?.data?.message // 오류 메시지 추출
-        // setMicrocopy(errorMessage) // 사용자에게 오류 메시지 보여주기
+        console.error('login error', error)
+        // TODO: 에러 처리. 아이디 또는 비밀번호 잘못 입력했을 때.
       }
     }
   }
@@ -73,45 +74,37 @@ const LoginScreen = () => {
           <Text style={styles.subText}>우리 모두 그루버해요!</Text>
 
           <View style={styles.formContainer}>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>아이디(이메일)</Text>
-              <AuthInput onChangeText={id => setId(id)} value={id} style={styles.textInput} />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>비밀번호</Text>
-              <AuthInput textContentType="password" onChangeText={pw => setPw(pw)} value={pw} secureTextEntry style={styles.textInput} />
-            </View>
-
+            <LoginInput value={id} setValue={setId} microcopy={microcopyId} placeholder={'아이디(이메일)'} isEmail />
+            <LoginInput value={pw} setValue={setPw} microcopy={microcopyPw} placeholder={'비밀번호'} inputStyle={styles.textInputPw} />
             <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
               <Text style={styles.loginBtnTxt}>로그인</Text>
             </TouchableOpacity>
 
             <View style={styles.btnContainer}>
-              <TouchableOpacity style={styles.subBtn} onPress={handleFindIdClick}>
+              <TouchableOpacity onPress={handleFindIdClick}>
                 <Text style={styles.subBtnTxt}>아이디 찾기</Text>
               </TouchableOpacity>
               <View style={styles.line} />
-              <TouchableOpacity style={styles.subBtn} onPress={handleFindPwClick}>
+              <TouchableOpacity onPress={handleFindPwClick}>
                 <Text style={styles.subBtnTxt}>비밀번호 찾기</Text>
               </TouchableOpacity>
               <View style={styles.line} />
-              <TouchableOpacity style={styles.subBtn} onPress={handleSignUpClick}>
+              <TouchableOpacity onPress={handleSignUpClick}>
                 <Text style={styles.subBtnTxt}>회원가입</Text>
               </TouchableOpacity>
             </View>
-            {microcopy ? <Text style={styles.error_message}>{microcopy}</Text> : null}
           </View>
 
           <Text style={styles.snsText}>SNS 계정으로 로그인하기</Text>
 
           <View style={styles.snsBtnContainer}>
-            <TouchableOpacity style={styles.snsBtn}>
+            <TouchableOpacity style={styles.snsBtn} onPress={() => Alert.alert('준비 중입니다.')}>
               <Image source={Images.google_icon} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.snsBtn}>
+            <TouchableOpacity style={styles.snsBtn} onPress={() => Alert.alert('준비 중입니다.')}>
               <Image source={Images.apple_icon} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.snsBtn}>
+            <TouchableOpacity style={styles.snsBtn} onPress={() => Alert.alert('준비 중입니다.')}>
               <Image source={Images.kakao_icon} />
             </TouchableOpacity>
           </View>
@@ -126,65 +119,45 @@ export default LoginScreen
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
-    backgroundColor: '#3A8ADB',
+    backgroundColor: '#FFF',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 30,
     width: '100%',
   },
   mainText: {
     fontStyle: 'normal',
-    fontSize: 50,
+    fontSize: 40,
     letterSpacing: 1.6,
     textAlign: 'center',
-    color: '#FFFFFF',
-    textShadowOffset: {width: 0, height: 4},
-    textShadowRadius: 4,
+    color: '#3A8ADB',
     textShadowColor: 'rgba(0, 0, 0, 0.25)',
     marginTop: 110,
-    ...font.Montserrat_Bold,
+    ...font.Montserrat_ExtraBold,
   },
   subText: {
     fontStyle: 'normal',
-    fontSize: 17,
+    fontSize: 16,
     textAlign: 'center',
-    letterSpacing: 0.04,
-    color: '#FFFFFF',
-    opacity: 0.75,
-    marginTop: 8,
+    letterSpacing: 0.64,
+    color: '#3A8ADB',
     ...font.NotoSansKR_Regular,
   },
   formContainer: {
-    marginTop: 110,
-    width: '90%',
+    marginTop: 131,
+    width: '100%',
+    paddingHorizontal: 20,
   },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
-    marginBottom: 10,
+
+  textInputPw: {
+    marginTop: 12,
   },
-  label: {
-    marginRight: 8,
-    fontStyle: 'normal',
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.75)',
-    width: 100,
-    paddingLeft: 8,
-    ...font.NotoSansKR_Regular,
-  },
-  textInput: {
-    flex: 1,
-    alignSelf: 'stretch',
-    borderBottomWidth: 0,
-  },
+
   loginBtn: {
-    marginTop: 10,
-    backgroundColor: '#FFFFFF',
+    marginTop: 24,
+    backgroundColor: '#3A8ADB',
     borderRadius: 4,
     height: 48,
     justifyContent: 'center',
@@ -192,7 +165,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   loginBtnTxt: {
-    color: '#3A8ADB',
+    color: '#FFF',
     fontSize: 16,
     textAlign: 'center',
     ...font.NotoSansKR_Medium,
@@ -201,34 +174,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
-    paddingHorizontal: 15,
+    marginTop: 12,
   },
-  subBtn: {},
   subBtnTxt: {
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 14,
+    fontSize: 13,
     fontStyle: 'normal',
-    color: 'rgba(255, 255, 255, 0.75)',
-    flex: 0,
-    flexGrow: 0,
     ...font.NotoSansKR_Regular,
   },
   line: {
     width: 1,
     height: 13,
-    backgroundColor: '#FFFFFF',
-    opacity: 0.3,
-    flex: 0,
-    flexGrow: 0,
+    backgroundColor: '#DDD',
     marginHorizontal: 12,
   },
   snsText: {
     fontStyle: 'normal',
     fontSize: 14,
     textAlign: 'center',
-    color: '#FFFFFF',
     marginTop: 120,
     ...font.NotoSansKR_Regular,
   },
@@ -236,13 +200,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 16,
+    marginTop: 12,
   },
   snsBtn: {
     marginHorizontal: 6,
-  },
-  error_message: {
-    color: 'red',
-    marginTop: 8,
+    borderColor: '#DDD',
+    borderWidth: 1,
+    borderRadius: 99,
   },
 })

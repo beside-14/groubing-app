@@ -3,7 +3,6 @@ export const Images = {
   adaptive_icon: require('./images/adaptive_icon.png'),
   apple_icon: require('./images/apple_icon.png'),
   back_btn: require('./images/back_btn.png'),
-  caution_icon_gray: require('./images/caution_icon_gray.png'),
   caution_icon: require('./images/caution_icon.png'),
   edit: require('./images/edit.png'),
   emoji_01: require('./images/emoji_01.png'),
@@ -41,4 +40,6 @@ export const Images = {
   step_icon_end: require('./images/step_icon_end.png'),
   step_icon_now: require('./images/step_icon_now.png'),
   icon_search: require('./images/icon_search.png'),
+  icon_info_red: require('./images/icon_info_red.png'),
+  icon_info_gray: require('./images/icon_info_gray.png'),
 }

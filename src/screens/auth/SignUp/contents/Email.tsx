@@ -4,6 +4,7 @@ import AuthInput from 'components/auth/AuthInput'
 import AuthNextButton from 'components/auth/AuthNextButton'
 import {Images} from 'assets'
 import {font} from 'shared/styles'
+import Microcopy from 'components/auth/Microcopy'
 
 type EmailProps = {
   id: string
@@ -16,19 +17,10 @@ const Email = ({id, setId, microcopy, handleEmailClick}: EmailProps) => {
   return (
     <View style={styles.bodyContainer}>
       <View style={styles.textInputContainer}>
-        <AuthInput placeholder={'아이디(이메일)'} onChangeText={id => setId(id)} value={id} />
-        <View style={styles.microcopyContainer}>
-          {microcopy ? (
-            <>
-              <TouchableOpacity style={styles.cautionIcon}>
-                <Image source={Images.caution_icon} />
-              </TouchableOpacity>
-              <Text style={styles.microcopy}>{microcopy}</Text>
-            </>
-          ) : null}
-        </View>
+        <AuthInput placeholder={'아이디(이메일)'} onChangeText={id => setId(id)} value={id} keyboardType="email-address" autoCapitalize="none" />
+        <Microcopy microcopy={microcopy} />
       </View>
-      <AuthNextButton onPress={handleEmailClick} buttonText={'다음'} />
+      <AuthNextButton onPress={handleEmailClick} buttonText={'다음'} isDisabled={!id} />
     </View>
   )
 }
@@ -37,7 +29,7 @@ export default Email
 
 const styles = StyleSheet.create({
   bodyContainer: {
-    marginTop: 15,
+    marginTop: 16,
     alignItems: 'center',
     justifyContent: 'space-between',
     position: 'relative',
@@ -45,20 +37,5 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     width: '100%',
-  },
-  microcopyContainer: {
-    marginTop: 9,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  cautionIcon: {
-    width: 16,
-    height: 16,
-    marginHorizontal: 8,
-  },
-  microcopy: {
-    color: '#FF3C3C',
-    fontSize: 16,
-    ...font.NotoSansKR_Regular,
   },
 })

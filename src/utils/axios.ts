@@ -24,4 +24,19 @@ API.interceptors.request.use(
   },
 )
 
-export {axios}
+const get = async (url: string, params?: Record<string, unknown>) => {
+  const {data} = await axios.get(url, {params})
+  return data
+}
+
+const post = async (url: string, params: Record<string, unknown>): Promise<any> => {
+  const {data} = await axios.post(url, params)
+  return data
+}
+
+const patch = async (url: string, params: Record<string, unknown>): Promise<any> => {
+  const {data} = await axios.patch(url, params)
+  return data
+}
+
+export {axios, get, post, patch}
