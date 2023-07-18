@@ -16,9 +16,8 @@ export default function StepBar({now, step, goback}: StepBarProps) {
     const isFinishedStep = i < now
 
     stepCont.push(
-      <TouchableOpacity onPress={() => goback(i)}>
+      <TouchableOpacity key={i} onPress={() => goback(i)}>
         <Image
-          key={i}
           source={isCurrentStep ? Images.step_icon_now : isFinishedStep ? Images.step_icon_end : Images.step_icon_default}
           style={isCurrentStep ? styles.stepNow : styles.step}
         />

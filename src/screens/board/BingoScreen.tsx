@@ -6,13 +6,18 @@ import {generateBingoBoard, countBingos} from '../../utils/BingoUtil'
 import {ProgressBar} from 'react-native-paper'
 import BingoBoard from 'components/bingo/board/BingoBoard'
 import {Memo} from 'components/bingo/board/Memo'
+import {getBingo} from './remote/getBingo'
+import {useQuery} from 'react-query'
+import {useRoutes} from 'hooks/useRoutes'
+import {useRoute} from '@react-navigation/native'
 
 type BingoGoalText = {
   bingoPercent: number
   bingoCount: number
   maxBingoCount: number
 }
-const BingoGoalText = ({bingoPercent, bingoCount, maxBingoCount}: BingoGoalText) => {
+
+export const BingoGoalText = ({bingoPercent, bingoCount, maxBingoCount}: BingoGoalText) => {
   if (bingoPercent === 100) {
     return (
       <View style={styles.bingoGoal}>
@@ -44,10 +49,9 @@ const BingoScreen = () => {
 
   const maxBingoCount = 2 * boardSize + 2 //목표 빙고 수
   const bingoPercent = (bingoCount / maxBingoCount) * 100 //빙고 달성 퍼센트
-  const bingoType = '개인' //빙고 타입(개인/그룹)
-  const bingoTitle = '올해는 갓생살기' //빙고 타이틀
-  const remainingDays = 3 //남은 기한
+  const {params} = useRoute()
 
+  const [data, setData] = useState()
   const handleToggle = (x: number, y: number) => {
     setBingoItems(prevItems => {
       const updatedItems = prevItems.map(item => {
@@ -63,6 +67,14 @@ const BingoScreen = () => {
       return updatedItems
     })
   }
+
+  useEffect(() => {
+    ;(async () => {
+      const res = await getBingo(params)
+
+      setData(res.data.data)
+    })()
+  }, [])
 
   // BingoItemData의 길이에 따라 빙고판의 크기 결정
   const dataSize = BingoItemData.length
@@ -86,23 +98,24 @@ const BingoScreen = () => {
     setBingoCount(initialBingoCount)
   }, [dataSize])
 
+  if (!data) return null
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <ScrollView contentContainerStyle={styles.container}>
         <StatusBar backgroundColor="white" barStyle="dark-content" />
         <View style={styles.bingoTypeContainer}>
-          <Text style={styles.bingoType}>{bingoType}</Text>
+          <Text style={styles.bingoType}>{data?.type === 'SINGLE' ? '개인' : '그룹'}</Text>
           <View style={styles.bingoTitleContainer}>
-            <Text style={styles.bingoTitle}>{bingoTitle}</Text>
+            <Text style={styles.bingoTitle}>{data?.title}</Text>
             <View style={styles.remainingDaysContainer}>
-              <Text style={styles.remainingDaysText}>{`D-${remainingDays}`}</Text>
+              <Text style={styles.remainingDaysText}>{data?.dday}</Text>
             </View>
           </View>
         </View>
         <BingoGoalText bingoPercent={bingoPercent} bingoCount={bingoCount} maxBingoCount={maxBingoCount} />
         <ProgressBar progress={bingoCount / maxBingoCount} style={styles.progressBar} color="#3A8ADB" />
-        <BingoBoard size={boardSize} onToggle={handleToggle} items={bingoItems} />
-        <Memo />
+        <BingoBoard size={data?.bingoSize} onToggle={handleToggle} items={bingoItems} />
+        <Memo content={data?.memo} />
       </ScrollView>
     </SafeAreaView>
   )

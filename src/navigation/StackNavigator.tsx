@@ -13,6 +13,8 @@ import {Text} from 'react-native'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import {useRoutes} from 'hooks/useRoutes'
 import Bingo from 'screens/create-bingo/CreateBingoScreen'
+import TemporaryBoardScreen from 'components/bingo/board/TemporaryBoardScreen'
+import BingoBoard from 'components/bingo/board/BingoBoard'
 // import {BingoListScreen} from 'screens/bingo-list'
 
 const Auth = createStackNavigator()
@@ -59,7 +61,7 @@ const TabNavigator = () => {
     <Tab.Navigator initialRouteName="Home">
       <Tab.Screen
         name="Home"
-        component={Feed}
+        component={TemporaryBoardScreen}
         options={{
           headerShown: false,
           tabBarLabel: '피드',
@@ -125,20 +127,6 @@ const TabNavigator = () => {
   )
 }
 
-const CommonNavigator = () => {
-  return (
-    <Root.Navigator>
-      <Root.Screen
-        name="BingoCreate"
-        component={Bingo}
-        options={{
-          headerShown: true,
-        }}
-      />
-    </Root.Navigator>
-  )
-}
-
 const StackNavigator = () => {
   const {isLogged} = useAuth()
   const navigationRef = useRef<undefined | any>()
@@ -146,7 +134,6 @@ const StackNavigator = () => {
   const bottomAnimation = {animation: 'slide_from_bottom'}
   // const navigation = useNavigation()
 
-  console.log(navigationRef.current)
   return (
     <NavigationContainer ref={navigationRef}>
       <StatusBar barStyle={'dark-content'} />
@@ -170,6 +157,24 @@ const StackNavigator = () => {
         <Root.Screen
           name="BingoBoard"
           component={BingoScreen}
+          options={{
+            title: '',
+            headerShown: true,
+            animationEnabled: true,
+            gestureDirection: 'vertical',
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigationRef.current.navigate('BingoList')} style={{paddingHorizontal: 20}}>
+                <Text>닫기</Text>
+              </TouchableOpacity>
+            ),
+            headerLeft: () => null,
+            headerStyle: {borderBottomWidth: 0},
+            // animation: 'slide_from_bottom',
+          }}
+        />
+        <Root.Screen
+          name="TemporaryBoard"
+          component={TemporaryBoardScreen}
           options={{
             title: '',
             headerShown: true,

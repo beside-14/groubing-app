@@ -5,14 +5,19 @@ import {generateBingoBoard} from '../../../utils/BingoUtil'
 import BingoItem from './BingoItem'
 
 const BingoBoard = ({size, onToggle, items = []}) => {
-  const board = generateBingoBoard(size, items)
+  console.log('가공전>>', items)
+  const board = generateBingoBoard(3, items)
+  // console.log('size', size)
+  // console.log('items', items)
+  // console.log('board', board)
 
+  console.log('가공후>>', board)
   return (
     <View style={styles.container}>
       {board.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
-          {row.map(({x, y, title, color, selected}, index) => (
-            <BingoItem key={index} x={x} y={y} onToggle={() => onToggle(x, y)} title={title} color={color} selected={selected} size={size} />
+          {row.map(({x, y, title, color, selected, id}, index) => (
+            <BingoItem key={index} x={x} y={y} onToggle={() => onToggle(x, y)} title={title} color={color} selected={selected} size={size} id={id} />
           ))}
         </View>
       ))}
