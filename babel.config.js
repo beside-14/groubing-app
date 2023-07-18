@@ -5,20 +5,7 @@ module.exports = {
       'module-resolver',
       {
         root: ['./src'],
-        extensions: [
-          '.ios.ts',
-          '.android.ts',
-          '.ts',
-          '.tsx',
-          '.ios.tsx',
-          '.android.tsx',
-          '.tsx',
-          '.jsx',
-          '.js',
-          '.jsx',
-          '.json',
-          '.png',
-        ],
+        extensions: ['.ios.ts', '.android.ts', '.ts', '.tsx', '.ios.tsx', '.android.tsx', '.tsx', '.jsx', '.js', '.jsx', '.json', '.png'],
         alias: {
           // 원하는 별칭 설정 추가 (예: '@': './src')
           // '@utils': './utils',
@@ -28,5 +15,7 @@ module.exports = {
         },
       },
     ],
+
+    'react-native-reanimated/plugin',
   ],
-};
+}

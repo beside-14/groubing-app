@@ -1,15 +1,9 @@
 import {API} from 'utils/axios'
 
-export const createBingo = async (): Promise<any> => {
-  const {data} = await API.post('/api/bingo-boards', {
-    title: '써드',
-    goal: 4,
-    boardType: 'SINGLE',
-    open: false,
-    since: '',
-    until: '',
-    bingoSize: 4,
-  })
+type FormType = {title: string; goal: number; boardType: string; open: boolean; since?: string; until?: string; bingoSize: number}
+
+export const createBingo = async (form: FormType): Promise<any> => {
+  const {data} = await API.post('/api/bingo-boards', form)
   return data
-  //   console.log('포스트 테스트', data)
+  console.log('포스트 결과', data)
 }

@@ -2,12 +2,12 @@ import React from 'react'
 import {StyleSheet} from 'react-native'
 import {Text, View} from 'react-native'
 
-export const Memo = () => {
+export const Memo = ({content}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>메모</Text>
       <View style={styles.block}>
-        <Text>가족사진 스튜디오에 픽업해오기 4/30 자격증 접수 일정 체크해야됨</Text>
+        <Text>{content}</Text>
       </View>
     </View>
   )

@@ -1,13 +1,19 @@
-import {StyleSheet, Text, SafeAreaView, ScrollView, View, TextInput, Image} from 'react-native'
-import React, {useState} from 'react'
+import {StyleSheet, Text, ScrollView, View, TextInput} from 'react-native'
+import React from 'react'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import {createBingo} from '../remote'
 import {useRoutes} from 'hooks/useRoutes'
+import {useAtom, useAtomValue} from 'jotai'
+import {bingo_base_data_atom} from 'screens/board/store'
 
-const Type = ({bingoTypeId, setBingoTypeId}) => {
+const Type = () => {
+  const [data, setData] = useAtom(bingo_base_data_atom)
   const BINGO = {
-    개인: ['개인 3×3 9칸', '개인 4×4 16칸'],
-    그룹: ['그룹 3×3 9칸', '그룹 4×4 16칸'],
+    개인: ['3×3 9칸', '4×4 16칸'],
+    그룹: ['3×3 9칸', '4×4 16칸'],
+  }
+  const setType = (type: string, size: number) => {
+    setData(prev => ({...prev, bingoSize: size, boardType: type}))
   }
 
   return (
@@ -19,10 +25,18 @@ const Type = ({bingoTypeId, setBingoTypeId}) => {
           <Text style={styles.pContent}>나만의 빙고를 만들어요.</Text>
         </View>
         <View style={styles.gridBtn}>
-          {BINGO.개인.map(e => (
-            <TouchableOpacity onPress={() => setBingoTypeId(e)} style={bingoTypeId === e ? styles.selectedBtn : styles.unSelectedBtn}>
+          {BINGO.개인.map((e, i) => (
+            <TouchableOpacity
+              key={i}
+              onPress={() => {
+                console.log('뭐야? ', e[0])
+                setType('SINGLE', i === 0 ? 3 : 4)
+              }}
+              style={data.boardType === 'SINGLE' && e[0] === data.bingoSize.toString() ? styles.selectedBtn : styles.unSelectedBtn}>
               <View>
-                <Text style={bingoTypeId === e ? styles.selectedBtnText : styles.unSelectedBtnText}>{e}</Text>
+                <Text style={data.boardType === 'SINGLE' && data.bingoSize.toString() === e[0] ? styles.selectedBtnText : styles.unSelectedBtnText}>
+                  {e}
+                </Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -35,10 +49,15 @@ const Type = ({bingoTypeId, setBingoTypeId}) => {
           <Text style={styles.pContent}>친구들과 빙고를 함께 해요.</Text>
         </View>
         <View style={styles.gridBtn}>
-          {BINGO.그룹.map(e => (
-            <TouchableOpacity onPress={() => setBingoTypeId(e)} style={bingoTypeId === e ? styles.selectedBtn : styles.unSelectedBtn}>
+          {BINGO.그룹.map((e, i) => (
+            <TouchableOpacity
+              key={e}
+              onPress={() => setType('GROUP', i === 0 ? 3 : 4)}
+              style={data.boardType === 'GROUP' && data.bingoSize.toString() === e[0] ? styles.selectedBtn : styles.unSelectedBtn}>
               <View>
-                <Text style={bingoTypeId === e ? styles.selectedBtnText : styles.unSelectedBtnText}>{e}</Text>
+                <Text style={data.boardType === 'GROUP' && data.bingoSize.toString() === e[0] ? styles.selectedBtnText : styles.unSelectedBtnText}>
+                  {e}
+                </Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -48,19 +67,24 @@ const Type = ({bingoTypeId, setBingoTypeId}) => {
   )
 }
 
-const Public = ({disclosure, setDisclosure}) => {
+const Public = () => {
+  const [data, setData] = useAtom(bingo_base_data_atom)
   return (
     <View>
       <Text style={styles.question}>빙고 공개 여부를 선택해주세요.</Text>
       <View style={styles.gridBtn}>
-        <TouchableOpacity onPress={() => setDisclosure('public')} style={disclosure === 'public' ? styles.selectedBtn : styles.unSelectedBtn}>
+        <TouchableOpacity
+          onPress={() => setData(prev => ({...prev, open: true}))}
+          style={data.open === true ? styles.selectedBtn : styles.unSelectedBtn}>
           <View>
-            <Text style={disclosure === 'public' ? styles.selectedBtnText : styles.unSelectedBtnText}>전체 공개</Text>
+            <Text style={data.open === true ? styles.selectedBtnText : styles.unSelectedBtnText}>전체 공개</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setDisclosure('private')} style={disclosure === 'private' ? styles.selectedBtn : styles.unSelectedBtn}>
+        <TouchableOpacity
+          onPress={() => setData(prev => ({...prev, open: false}))}
+          style={data.open === false ? styles.selectedBtn : styles.unSelectedBtn}>
           <View>
-            <Text style={disclosure === 'private' ? styles.selectedBtnText : styles.unSelectedBtnText}>비공개</Text>
+            <Text style={data.open === false ? styles.selectedBtnText : styles.unSelectedBtnText}>비공개</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -68,15 +92,16 @@ const Public = ({disclosure, setDisclosure}) => {
   )
 }
 
-const Title = ({bingoTitle, setBingoTitle}) => {
+const Title = () => {
+  const [data, setData] = useAtom(bingo_base_data_atom)
   return (
     <View>
       <Text style={styles.question}>빙고 제목을 입력해주세요.</Text>
       <View>
         <TextInput
           placeholder="제목을 입력해주세요"
-          onChangeText={t => setBingoTitle(t)}
-          value={bingoTitle}
+          onChangeText={t => setData(prev => ({...prev, title: t}))}
+          value={data.title}
           style={{borderBottomWidth: 1, fontSize: 16, width: '100%', height: 45, fontFamily: 'NotoSansKR_400Regular'}}
         />
       </View>
@@ -84,13 +109,14 @@ const Title = ({bingoTitle, setBingoTitle}) => {
   )
 }
 
-const Goal = ({setGoal, goal}) => {
+const Goal = () => {
+  const [data, setData] = useAtom(bingo_base_data_atom)
   const onIncrease = () => {
-    setGoal((prev: number) => prev + 1)
+    setData(prev => ({...prev, goal: prev.goal + 1}))
   }
   const onDecrease = () => {
-    if (goal === 1) return
-    setGoal((prev: number) => prev - 1)
+    if (data.goal === 1) return
+    setData(prev => ({...prev, goal: prev.goal - 1}))
   }
   return (
     <View>
@@ -99,7 +125,7 @@ const Goal = ({setGoal, goal}) => {
         <TouchableOpacity onPress={onDecrease} style={styles.counterBtn}>
           <Text style={styles.counterBtnTxt}>-</Text>
         </TouchableOpacity>
-        <Text style={styles.countText}>{goal}</Text>
+        <Text style={styles.countText}>{data.goal}</Text>
         <TouchableOpacity onPress={onIncrease} style={styles.counterBtn}>
           <Text style={styles.counterBtnTxt}>+</Text>
         </TouchableOpacity>
@@ -107,34 +133,22 @@ const Goal = ({setGoal, goal}) => {
     </View>
   )
 }
+const STEP: any = {
+  '빙고 타입': <Type />,
+  '빙고 공개 여부': <Public />,
+  '빙고 제목': <Title />,
+  '목표 빙고 개수': <Goal />,
+}
 
 const Input = ({step}: {step: string}) => {
-  const [bingoTypeId, setBingoTypeId] = useState('개인 3×3 9칸')
-  const [disclosure, setDisclosure] = useState('public')
-  const [bingoTitle, setBingoTitle] = useState('')
-  const [goal, setGoal] = useState(1)
-  const STEP: any = {
-    '빙고 타입': <Type setBingoTypeId={setBingoTypeId} bingoTypeId={bingoTypeId} />,
-    '빙고 공개 여부': <Public disclosure={disclosure} setDisclosure={setDisclosure} />,
-    '빙고 제목': <Title bingoTitle={bingoTitle} setBingoTitle={setBingoTitle} />,
-    '목표 빙고 개수': <Goal setGoal={setGoal} goal={goal} />,
-  }
+  const data = useAtomValue(bingo_base_data_atom)
 
-  const BINGO_JSON = {
-    title: bingoTitle,
-    goal: goal,
-    boardType: '',
-    open: disclosure,
-    bingoSize: bingoTypeId,
-    since: '',
-    untile: '',
-  }
-
+  console.log('폼데타', data)
   const CREATE_INFO: any = {
-    '빙고 타입': bingoTypeId,
-    '빙고 공개 여부': disclosure,
-    '빙고 제목': bingoTitle,
-    '목표 빙고 개수': goal,
+    '빙고 타입': data.boardType === 'SINGLE' ? '개인' : '그룹',
+    '빙고 공개 여부': data.open ? '공개' : '비공개',
+    '빙고 제목': data.title,
+    '목표 빙고 개수': data.goal,
   }
 
   const STEPLIST = ['빙고 타입', '빙고 공개 여부', '빙고 제목', '목표 빙고 개수']
@@ -156,10 +170,10 @@ const Input = ({step}: {step: string}) => {
   )
 }
 
-const STEP = ['빙고 타입', '빙고 공개 여부', '빙고 제목', '목표 빙고 개수', '빙고 진행 기간']
-
 export const Form = ({steptext, stepnum, setNowStep}) => {
   const {navigate} = useRoutes()
+  const [data, setData] = useAtom(bingo_base_data_atom)
+
   return (
     <>
       <ScrollView style={styles.headerContainer}>
@@ -169,10 +183,15 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
       </ScrollView>
       <TouchableOpacity
         style={styles.nextBtn}
-        onPress={() => {
+        onPress={async () => {
           if (stepnum === 4) {
-            createBingo()
-            navigate('BingoBoard')
+            const res = await createBingo(data)
+
+            if (res.code === 'OK') {
+              return navigate('BingoBoard', res.data.id)
+            } else {
+              return console.log('생성실패 토큰확인')
+            }
           } else {
             setNowStep((nowStep: number) => nowStep + 1)
           }

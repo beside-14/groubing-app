@@ -1,5 +1,4 @@
 export const generateBingoBoard = (size, items) => {
-  console.log('sizesize', size)
   const board = []
 
   for (let i = 0; i < size; i++) {
