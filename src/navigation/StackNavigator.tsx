@@ -127,20 +127,6 @@ const TabNavigator = () => {
   )
 }
 
-const CommonNavigator = () => {
-  return (
-    <Root.Navigator>
-      <Root.Screen
-        name="BingoCreate"
-        component={Bingo}
-        options={{
-          headerShown: true,
-        }}
-      />
-    </Root.Navigator>
-  )
-}
-
 const StackNavigator = () => {
   const {isLogged} = useAuth()
   const navigationRef = useRef<undefined | any>()
