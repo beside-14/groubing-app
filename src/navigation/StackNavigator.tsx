@@ -57,7 +57,7 @@ const TabNavigator = () => {
     <Tab.Navigator initialRouteName="Home">
       <Tab.Screen
         name="Home"
-        component={TemporaryBoardScreen}
+        component={() => null}
         options={{
           headerShown: false,
           tabBarLabel: '피드',
