@@ -73,24 +73,5 @@
 		<string>kakaolink</string>
 		<string>kakaokompassauth</string>
 	</array>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>kakao2d5b8ccccf4fc28eda66ce60b84d9323</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.groubing</string>
-			</array>
-		</dict>
-	</array>
 </dict>
 </plist>
