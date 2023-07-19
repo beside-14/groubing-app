@@ -1,4 +1,3 @@
-import {useRoute} from '@react-navigation/native'
 import {Images} from 'assets'
 import React, {useState} from 'react'
 import {Alert} from 'react-native'
@@ -12,11 +11,18 @@ const {width} = Dimensions.get('window')
 const BingoItem = ({onToggle, title, size, complete, boardId, id}: any) => {
   const itemSize = width / size
   const fontSize = size === 3 ? 13 : 12
-  let frontstate = complete
 
-  const updateType = complete === true ? 'cancel' : 'complete'
+  const [select, setSelect] = useState<boolean>(complete)
+
   const handleToggle = async () => {
-    let res = await updateItemState(updateType, boardId, id)
+    const updateType = complete === true ? 'cancel' : 'complete'
+    const res = await updateItemState(updateType, boardId, id)
+
+    if (res.status === 200) {
+      return setSelect(prev => !prev)
+    } else {
+      return Alert.alert('요청이 원활하지 않습니다.')
+    }
   }
 
   if (title === null) {
@@ -29,17 +35,15 @@ const BingoItem = ({onToggle, title, size, complete, boardId, id}: any) => {
       </TouchableOpacity>
     )
   }
-  {
-    console.log('complete>>', complete)
-  }
+
   return (
     <TouchableOpacity
-      style={[styles.itemContainer, {width: itemSize, height: itemSize}, frontstate ? styles.selected : styles.unselected]}
+      style={[styles.itemContainer, {width: itemSize, height: itemSize}, select ? styles.selected : styles.unselected]}
       onPress={handleToggle}>
       <Text
         numberOfLines={2}
         ellipsizeMode="tail"
-        style={[styles.itemLabel, frontstate ? styles.selectedFont : styles.unselectedFont, {fontSize: fontSize}]}>
+        style={[styles.itemLabel, select ? styles.selectedFont : styles.unselectedFont, {fontSize: fontSize}]}>
         {title}
       </Text>
     </TouchableOpacity>

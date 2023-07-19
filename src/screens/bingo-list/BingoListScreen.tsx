@@ -21,7 +21,8 @@ const MiniBoard = ({bingo}) => {
                 borderColor: 'white',
                 borderRadius: 4,
                 backgroundColor: complete ? '#FCB179' : '#DDDDDD',
-              }}></View>
+              }}
+            />
           ))}
         </View>
       ))}
