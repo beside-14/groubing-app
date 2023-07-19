@@ -3,4 +3,6 @@
 # firebase 설정 (테스트앱 배포, 푸시알림)
 # 빙고 공유하기
 # 빙고 완료 알림 (firebase message)
-# 카카오로그인 https://ssilook.tistory.com/entry/React-Native-RN-%ED%99%98%EA%B2%BD-%EB%B3%80%EC%88%98%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-API-key-%EC%88%A8%EA%B8%B0%EA%B8%B0
+# 카카오로그인
+- https://ssilook.tistory.com/entry/React-Native-RN-%ED%99%98%EA%B2%BD-%EB%B3%80%EC%88%98%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-API-key-%EC%88%A8%EA%B8%B0%EA%B8%B0
+- https://devbksheen.tistory.com/entry/React-Native-%EC%B9%B4%EC%B9%B4%EC%98%A4-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
