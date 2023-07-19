@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">groubing</string>
-    <string name="kakao_app_key">@string/KAKAO_NATIVE_APP_KEY</string>
+    <string name="kakao_app_key">2d5b8ccccf4fc28eda66ce60b84d9323</string>
 </resources>

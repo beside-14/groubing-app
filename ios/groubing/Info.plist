@@ -66,10 +66,10 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>KAKAO_APP_KEY</key>
-	<string>${KAKAO_NATIVE_APP_KEY}</string>
+	<string>2d5b8ccccf4fc28eda66ce60b84d9323</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>${KAKAO_NATIVE_APP_KEY_WITH_KAKAO}</string>
+		<string>kakao2d5b8ccccf4fc28eda66ce60b84d9323</string>
 		<string>kakaolink</string>
 		<string>kakaokompassauth</string>
 	</array>
@@ -80,7 +80,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>${KAKAO_NATIVE_APP_KEY_WITH_KAKAO}</string>
+				<string>kakao2d5b8ccccf4fc28eda66ce60b84d9323</string>
 			</array>
 		</dict>
 		<dict>
