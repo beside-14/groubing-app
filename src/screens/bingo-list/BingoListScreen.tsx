@@ -5,6 +5,29 @@ import {getBingoList} from './remote'
 import {useRoutes} from 'hooks/useRoutes'
 import {useNavigation} from '@react-navigation/native'
 
+const MiniBoard = ({bingo}) => {
+  const bingoarr = bingo.map(e => e.bingoItems)
+
+  return (
+    <View>
+      {bingoarr.map(e => (
+        <View style={{flexDirection: 'row'}}>
+          {e.map(({complete}) => (
+            <View
+              style={{
+                width: 16,
+                height: 16,
+                borderWidth: 1,
+                borderColor: 'white',
+                borderRadius: 4,
+                backgroundColor: complete ? '#FCB179' : '#DDDDDD',
+              }}></View>
+          ))}
+        </View>
+      ))}
+    </View>
+  )
+}
 export const Card = ({item}) => {
   // const navigation: LooseObject = useNavigation()
 
@@ -62,6 +85,7 @@ const BingoListScreen = () => {
           </View>
 
           <FlatList
+            style={{marginTop: 16}}
             data={list}
             keyExtractor={item => item?.id}
             renderItem={({item}) => {
@@ -69,7 +93,7 @@ const BingoListScreen = () => {
               const type = groupType === 'SINGLE' ? '개인' : '그룹'
               return (
                 <TouchableOpacity onPress={() => navigate('BingoBoard', id)} style={styles.block}>
-                  <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                  <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%'}}>
                     <View style={styles.row}>
                       <Text style={styles.type}>{type}</Text>
                       <Text style={styles.bingotitle}>{title}</Text>
@@ -83,8 +107,8 @@ const BingoListScreen = () => {
                       </Text>
                     </View>
                   </View>
-
-                  <View style={{width: 52, height: 52, backgroundColor: '#FCB179'}} />
+                  <MiniBoard bingo={bingoLines} />
+                  {/* <View style={{width: 52, height: 52, backgroundColor: '#FCB179'}} /> */}
                 </TouchableOpacity>
               )
             }}
@@ -113,7 +137,7 @@ const styles = StyleSheet.create({
   },
   tabname: {},
   ////
-  block: {display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24},
+  block: {height: 52, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24},
   type: {marginRight: 4, fontWeight: '500', fontSize: 16, color: '#3A8ADB'},
-  bingotitle: {fontWeight: '500', fontSize: 16},
+  bingotitle: {fontWeight: '600', fontSize: 16},
 })

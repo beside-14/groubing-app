@@ -40,9 +40,12 @@ const LoginScreen = () => {
       setMicrocopyPw('비밀번호가 입력되지 않았습니다.')
     } else if (!emailValidate(id)) {
       setMicrocopyId('올바른 이메일 형식이 아닙니다. 다시 입력해주세요.')
-    } else if (!passwordValidate(pw)) {
-      setMicrocopyPw('8~20자 이내 영문 대소문자, 숫자, 특수문자')
-    } else {
+    }
+    // if (!passwordValidate(pw)) {
+    //   setMicrocopyPw('8~20자 이내 영문 대소문자, 숫자, 특수문자')
+    // }
+    // else
+    else {
       try {
         const {email, token} = await fetchEmailLogin({email: id, password: pw})
         await setToken(token)
