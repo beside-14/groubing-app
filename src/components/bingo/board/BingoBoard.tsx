@@ -1,19 +1,11 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import {View, StyleSheet} from 'react-native'
-// import BingoItem from "./BingoItem";
-import {generateBingoBoard} from '../../../utils/BingoUtil'
+
 import BingoItem from './BingoItem'
 
 const BingoBoard = ({board, size, items}) => {
-  // console.log('가공전>>', items)
-  // const board = generateBingoBoard(3, items)
-  // console.log('size', size)
-  // console.log('items', items)
-  // console.log('board', board)
-  // console.log('이전데이터!!', board)
-
   const newBoard1 = items.map(e => e.bingoItems)
-  console.log('board', board)
+
   return (
     <View style={styles.container}>
       {newBoard1.map((row, rowIndex) => (

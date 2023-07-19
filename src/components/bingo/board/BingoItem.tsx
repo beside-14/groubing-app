@@ -1,9 +1,11 @@
 import {Images} from 'assets'
+import {useSetAtom} from 'jotai'
 import React, {useState} from 'react'
 import {Alert} from 'react-native'
 import {Image, View} from 'react-native'
 import {TouchableOpacity, StyleSheet, Text, Dimensions} from 'react-native'
 import {updateItemState} from 'screens/board/remote/bingo'
+import {register_item_atom} from 'screens/board/store'
 import {font} from 'shared/styles'
 
 const {width} = Dimensions.get('window')
@@ -13,7 +15,7 @@ const BingoItem = ({onToggle, title, size, complete, boardId, id}: any) => {
   const fontSize = size === 3 ? 13 : 12
 
   const [select, setSelect] = useState<boolean>(complete)
-
+  const registerMode = useSetAtom(register_item_atom)
   const handleToggle = async () => {
     const updateType = complete === true ? 'cancel' : 'complete'
     const res = await updateItemState(updateType, boardId, id)
@@ -27,7 +29,7 @@ const BingoItem = ({onToggle, title, size, complete, boardId, id}: any) => {
 
   if (title === null) {
     return (
-      <TouchableOpacity style={[styles.registerBtn, {width: itemSize, height: itemSize}]} onPress={handleToggle}>
+      <TouchableOpacity onPress={() => registerMode({mode: true, id: id})} style={[styles.registerBtn, {width: itemSize, height: itemSize}]}>
         <View style={styles.make_btn_wrapper}>
           <Image source={Images.icon_make} style={styles.make_btn} />
         </View>

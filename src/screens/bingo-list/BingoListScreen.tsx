@@ -4,6 +4,8 @@ import {View} from 'react-native'
 import {getBingoList} from './remote'
 import {useRoutes} from 'hooks/useRoutes'
 import {useNavigation} from '@react-navigation/native'
+import BottomSheet, {BottomSheetTextInput} from '@gorhom/bottom-sheet'
+import {RegisterSheet} from 'components/bingo/board/TemporaryBoardScreen'
 
 const MiniBoard = ({bingo}) => {
   const bingoarr = bingo.map(e => e.bingoItems)
@@ -71,51 +73,51 @@ const BingoListScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>빙고 목록</Text>
-      <ScrollView>
-        <View style={styles.wrapper}>
-          <View style={styles.row}>
-            <TouchableOpacity style={styles.tab}>
-              <Text style={styles.tabname}>ALL</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.tab}>
-              <Text style={styles.tabname}>개인</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.tab}>
-              <Text style={styles.tabname}>그룹</Text>
-            </TouchableOpacity>
-          </View>
 
-          <FlatList
-            style={{marginTop: 16}}
-            data={list}
-            keyExtractor={item => item?.id}
-            renderItem={({item}) => {
-              const {id, title, since, until, goal, groupType, open, bingoLines, totalCompleteCount} = item || {}
-              const type = groupType === 'SINGLE' ? '개인' : '그룹'
-              return (
-                <TouchableOpacity onPress={() => navigate('BingoBoard', id)} style={styles.block}>
-                  <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%'}}>
-                    <View style={styles.row}>
-                      <Text style={styles.type}>{type}</Text>
-                      <Text style={styles.bingotitle}>{title}</Text>
-                    </View>
-                    <View style={styles.row}>
-                      <Text style={{marginRight: 8}}>
-                        {since} ~ {until}
-                      </Text>
-                      <Text>
-                        {totalCompleteCount}/{goal} 빙고
-                      </Text>
-                    </View>
-                  </View>
-                  <MiniBoard bingo={bingoLines} />
-                  {/* <View style={{width: 52, height: 52, backgroundColor: '#FCB179'}} /> */}
-                </TouchableOpacity>
-              )
-            }}
-          />
+      <View style={styles.wrapper}>
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.tab}>
+            <Text style={styles.tabname}>ALL</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tab}>
+            <Text style={styles.tabname}>개인</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tab}>
+            <Text style={styles.tabname}>그룹</Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
+
+        <FlatList
+          style={{marginTop: 16}}
+          data={list}
+          keyExtractor={item => item?.id}
+          renderItem={({item}) => {
+            const {id, title, since, until, goal, groupType, open, bingoLines, totalCompleteCount} = item || {}
+            const type = groupType === 'SINGLE' ? '개인' : '그룹'
+            return (
+              <TouchableOpacity onPress={() => navigate('BingoBoard', id)} style={styles.block}>
+                <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%'}}>
+                  <View style={styles.row}>
+                    <Text style={styles.type}>{type}</Text>
+                    <Text style={styles.bingotitle}>{title}</Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Text style={{marginRight: 8}}>
+                      {since} ~ {until}
+                    </Text>
+                    <Text>
+                      {totalCompleteCount}/{goal} 빙고
+                    </Text>
+                  </View>
+                </View>
+                <MiniBoard bingo={bingoLines} />
+                {/* <View style={{width: 52, height: 52, backgroundColor: '#FCB179'}} /> */}
+              </TouchableOpacity>
+            )
+          }}
+        />
+      </View>
+      <RegisterSheet setVisible={() => console.log('dd')} />
     </SafeAreaView>
   )
 }

@@ -18,3 +18,8 @@ export const updateItemState = async (updatetype: 'cancel' | 'complete', boardid
   const res = await API.patch(`/api/bingo-boards/${boardid}/bingo-items/${bingoId}/${updatetype}`, {})
   return res
 }
+
+export const registerItem = async (content: {title: string; subTitle: string}, boardid: any, bingoId: number) => {
+  const res = await API.put(`/api/bingo-boards/${boardid}/bingo-items/${bingoId}`, content)
+  return res
+}
