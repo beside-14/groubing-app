@@ -6,7 +6,7 @@ import {generateBingoBoard, countBingos} from '../../utils/BingoUtil'
 import {ProgressBar} from 'react-native-paper'
 import BingoBoard from 'components/bingo/board/BingoBoard'
 import {Memo} from 'components/bingo/board/Memo'
-import {getBingo} from './remote/getBingo'
+import {getBingo} from './remote/bingo'
 import {useQuery} from 'react-query'
 import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
@@ -71,11 +71,14 @@ const BingoScreen = () => {
   useEffect(() => {
     ;(async () => {
       const res = await getBingo(params)
-
+      console.log('빙고조회 데이터!!', res.data.data)
       setData(res.data.data)
     })()
   }, [])
-
+  // "totalCompleteCount": 0,
+  // "horizontalCompleteLineIndexes": [],
+  // "verticalCompleteLineIndexes": [],
+  // "diagonalCompleteLineIndexes": []
   // BingoItemData의 길이에 따라 빙고판의 크기 결정
   const dataSize = BingoItemData.length
   useEffect(() => {
@@ -112,9 +115,10 @@ const BingoScreen = () => {
             </View>
           </View>
         </View>
-        <BingoGoalText bingoPercent={bingoPercent} bingoCount={bingoCount} maxBingoCount={maxBingoCount} />
-        <ProgressBar progress={bingoCount / maxBingoCount} style={styles.progressBar} color="#3A8ADB" />
-        <BingoBoard size={data?.bingoSize} onToggle={handleToggle} items={bingoItems} />
+
+        <BingoGoalText bingoPercent={(data?.bingoMap?.totalCompleteCount / data?.goal) * 100} bingoCount={bingoCount} maxBingoCount={maxBingoCount} />
+        <ProgressBar progress={data?.bingoMap?.totalCompleteCount / data?.goal} style={styles.progressBar} color="#3A8ADB" />
+        <BingoBoard board={data.id} size={data?.bingoSize} onToggle={handleToggle} items={data?.bingoMap?.bingoLines} />
         <Memo content={data?.memo} />
       </ScrollView>
     </SafeAreaView>

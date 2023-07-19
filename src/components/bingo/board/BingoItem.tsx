@@ -1,20 +1,24 @@
+import {useRoute} from '@react-navigation/native'
 import {Images} from 'assets'
 import React, {useState} from 'react'
 import {Alert} from 'react-native'
 import {Image, View} from 'react-native'
 import {TouchableOpacity, StyleSheet, Text, Dimensions} from 'react-native'
+import {updateItemState} from 'screens/board/remote/bingo'
 import {font} from 'shared/styles'
 
 const {width} = Dimensions.get('window')
 
-const BingoItem = ({x, y, onToggle, title, size, selected, id}: any) => {
+const BingoItem = ({onToggle, title, size, complete, boardId, id}: any) => {
   const itemSize = width / size
   const fontSize = size === 3 ? 13 : 12
+  let frontstate = complete
 
-  const handleToggle = () => {
-    console.log(id)
-    onToggle(x, y)
+  const updateType = complete === true ? 'cancel' : 'complete'
+  const handleToggle = async () => {
+    let res = await updateItemState(updateType, boardId, id)
   }
+
   if (title === null) {
     return (
       <TouchableOpacity style={[styles.registerBtn, {width: itemSize, height: itemSize}]} onPress={handleToggle}>
@@ -25,14 +29,17 @@ const BingoItem = ({x, y, onToggle, title, size, selected, id}: any) => {
       </TouchableOpacity>
     )
   }
+  {
+    console.log('complete>>', complete)
+  }
   return (
     <TouchableOpacity
-      style={[styles.itemContainer, {width: itemSize, height: itemSize}, selected ? styles.selected : styles.unselected]}
+      style={[styles.itemContainer, {width: itemSize, height: itemSize}, frontstate ? styles.selected : styles.unselected]}
       onPress={handleToggle}>
       <Text
         numberOfLines={2}
         ellipsizeMode="tail"
-        style={[styles.itemLabel, selected ? styles.selectedFont : styles.unselectedFont, {fontSize: fontSize}]}>
+        style={[styles.itemLabel, frontstate ? styles.selectedFont : styles.unselectedFont, {fontSize: fontSize}]}>
         {title}
       </Text>
     </TouchableOpacity>
