@@ -1,10 +1,10 @@
 import axios from 'axios'
-import {LOCAL_SERVER} from 'api/restful'
+import {API_URL} from 'api/restful'
 import {getToken} from 'utils/asyncStorage'
 
 axios.defaults.withCredentials = true
 export const API = axios.create({
-  baseURL: LOCAL_SERVER,
+  baseURL: API_URL,
 })
 // axios.defaults.withCredentials = true
 API.interceptors.request.use(

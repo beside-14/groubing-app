@@ -23,7 +23,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationCategoryType</key>
-	<string/>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -38,7 +38,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NotoSansKR-Black.otf</string>
@@ -65,5 +65,32 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>KAKAO_APP_KEY</key>
+	<string>${KAKAO_NATIVE_APP_KEY}</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>${KAKAO_NATIVE_APP_KEY_WITH_KAKAO}</string>
+		<string>kakaolink</string>
+		<string>kakaokompassauth</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>${KAKAO_NATIVE_APP_KEY_WITH_KAKAO}</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.groubing</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
