@@ -1,21 +1,17 @@
 import React, {useRef} from 'react'
-import {Image, StyleSheet, StatusBar, Touchable} from 'react-native'
+import {Image, StyleSheet, StatusBar} from 'react-native'
 import {createStackNavigator} from '@react-navigation/stack'
-import {NavigationContainer, useNavigation} from '@react-navigation/native'
+import {NavigationContainer} from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {Login, FindId, FindPw, SignUp, BingoScreen, Feed, BingoListScreen} from 'screens'
-import {useAuth} from 'hooks/useAuth'
+import {Login, FindId, FindPw, SignUp, BingoScreen, BingoListScreen} from 'screens'
 import NavigatorHeader from 'components/common/NavigatorHeader'
 import {Images} from 'assets'
 
 import {View} from 'react-native'
 import {Text} from 'react-native'
 import {TouchableOpacity} from 'react-native-gesture-handler'
-import {useRoutes} from 'hooks/useRoutes'
 import Bingo from 'screens/create-bingo/CreateBingoScreen'
 import TemporaryBoardScreen from 'components/bingo/board/TemporaryBoardScreen'
-import BingoBoard from 'components/bingo/board/BingoBoard'
-// import {BingoListScreen} from 'screens/bingo-list'
 
 const Auth = createStackNavigator()
 const Root = createStackNavigator()
@@ -128,11 +124,8 @@ const TabNavigator = () => {
 }
 
 const StackNavigator = () => {
-  const {isLogged} = useAuth()
   const navigationRef = useRef<undefined | any>()
-  // const {navigate} = useRoutes()
   const bottomAnimation = {animation: 'slide_from_bottom'}
-  // const navigation = useNavigation()
 
   return (
     <NavigationContainer ref={navigationRef}>
@@ -142,7 +135,9 @@ const StackNavigator = () => {
           headerShown: false,
           animationEnabled: false,
         }}>
-        {isLogged ? <Root.Screen name="Main" component={TabNavigator} /> : <Root.Screen name="Auth" component={AuthNavigator} />}
+        {/* {isLogged ? <Root.Screen name="Main" component={TabNavigator} /> : <Root.Screen name="Auth" component={AuthNavigator} />} */}
+        <Root.Screen name="Main" component={TabNavigator} />
+        <Root.Screen name="Auth" component={AuthNavigator} />
         {/* <Root.Screen name="Common" component={CommonNavigator} /> */}
         <Root.Screen
           name="BingoCreate"
