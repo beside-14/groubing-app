@@ -20,21 +20,11 @@ export const getToken = async () => {
   }
 }
 
-export const setIsLogged = async (isLogged: boolean) => {
-  const _isLogged = JSON.stringify(isLogged)
+export const removeToken = async () => {
   try {
-    await AsyncStorage.setItem(IS_LOGGED_STORAGE_KEY, _isLogged)
+    await AsyncStorage.removeItem(TOKEN_STORAGE_KEY)
   } catch (error) {
-    console.error('Error storing isLogged', error)
-  }
-}
-
-export const getIsLogged = async () => {
-  try {
-    const isLogged = (await AsyncStorage.getItem(IS_LOGGED_STORAGE_KEY)) as string
-    return JSON.parse(isLogged)
-  } catch (error) {
-    console.error('Error retrieving isLogged', error)
+    console.error('Error removing token:', error)
   }
 }
 

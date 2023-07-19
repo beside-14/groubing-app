@@ -21,5 +21,9 @@ export const useRoutes = () => {
     navigation.dispatch(CommonActions.goBack)
   }
 
-  return {navigate, back}
+  const resetNavigation = (path: string) => {
+    navigation.reset({index: 0, routes: [{name: path}]})
+  }
+
+  return {navigate, back, resetNavigation}
 }

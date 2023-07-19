@@ -1,5 +1,5 @@
 // import { login } from "../../utils/AuthUtil";
-import {useAuth} from 'hooks/useIsLogged'
+import {useIsLogged} from 'hooks/useIsLogged'
 import React, {useState} from 'react'
 import {
   View,
@@ -27,8 +27,8 @@ const LoginScreen = () => {
   const [pw, setPw] = useState('')
   const [microcopyId, setMicrocopyId] = useState('')
   const [microcopyPw, setMicrocopyPw] = useState('')
-  const {changeNavigationStack} = useAuth()
   const {navigate} = useRoutes()
+  const {login} = useIsLogged()
 
   async function handleLogin() {
     setMicrocopyId('')
@@ -45,8 +45,8 @@ const LoginScreen = () => {
     } else {
       try {
         const {email, token} = await fetchEmailLogin({email: id, password: pw})
-        setToken(token)
-        changeNavigationStack()
+        await setToken(token)
+        login()
       } catch (error) {
         console.error('login error', error)
         // TODO: 에러 처리. 아이디 또는 비밀번호 잘못 입력했을 때.

@@ -21,6 +21,7 @@ const LoginInput = ({value, setValue, placeholder, microcopy, inputStyle, isEmai
         value={value}
         style={{...styles.textInput, ...inputStyle}}
         keyboardType={isEmail ? 'email-address' : 'default'}
+        secureTextEntry={!isEmail}
         autoCapitalize="none"
       />
       <Microcopy microcopy={microcopy} />

@@ -4,7 +4,6 @@ import {createStackNavigator} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {Login, FindId, FindPw, SignUp, BingoScreen, BingoListScreen} from 'screens'
-import {useIsLogged} from 'hooks/useIsLogged'
 import NavigatorHeader from 'components/common/NavigatorHeader'
 import {Images} from 'assets'
 
@@ -125,11 +124,8 @@ const TabNavigator = () => {
 }
 
 const StackNavigator = () => {
-  const {isLogged} = useIsLogged()
   const navigationRef = useRef<undefined | any>()
-  // const {navigate} = useRoutes()
   const bottomAnimation = {animation: 'slide_from_bottom'}
-  // const navigation = useNavigation()
 
   return (
     <NavigationContainer ref={navigationRef}>
@@ -139,7 +135,9 @@ const StackNavigator = () => {
           headerShown: false,
           animationEnabled: false,
         }}>
-        {isLogged ? <Root.Screen name="Main" component={TabNavigator} /> : <Root.Screen name="Auth" component={AuthNavigator} />}
+        {/* {isLogged ? <Root.Screen name="Main" component={TabNavigator} /> : <Root.Screen name="Auth" component={AuthNavigator} />} */}
+        <Root.Screen name="Main" component={TabNavigator} />
+        <Root.Screen name="Auth" component={AuthNavigator} />
         {/* <Root.Screen name="Common" component={CommonNavigator} /> */}
         <Root.Screen
           name="BingoCreate"
