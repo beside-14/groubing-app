@@ -7,7 +7,7 @@ import StepBar from 'components/bingo/create/StepBar'
 
 import {useRoutes} from 'hooks/useRoutes'
 import {font} from 'shared/styles'
-import {useAuth} from 'hooks/useAuth'
+import {useAuth} from 'hooks/useIsLogged'
 import Email from './contents/Email'
 import EmailAuth from './contents/EmailAuth'
 import FindPwContent from './contents/FindPwContent'

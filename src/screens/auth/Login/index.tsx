@@ -1,5 +1,5 @@
 // import { login } from "../../utils/AuthUtil";
-import {useAuth} from 'hooks/useAuth'
+import {useAuth} from 'hooks/useIsLogged'
 import React, {useState} from 'react'
 import {
   View,
