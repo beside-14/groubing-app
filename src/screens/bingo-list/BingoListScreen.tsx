@@ -63,6 +63,8 @@ export const Card = ({item}) => {
 const BingoListScreen = () => {
   const {navigate} = useRoutes()
   const [list, setList] = useState([])
+  const [category, setCategory] = useState<string>('ALL')
+
   useEffect(() => {
     ;(async () => {
       const res = await getBingoList()
@@ -70,21 +72,22 @@ const BingoListScreen = () => {
     })()
   }, [])
   // kay_TODO: 카드분리
+
+  console.log('list', list)
+  // const newList = list.map(e => e.groupType)
+  const CATEGORY: string[] = ['ALL', '개인', '그룹']
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>빙고 목록</Text>
 
       <View style={styles.wrapper}>
         <View style={styles.row}>
-          <TouchableOpacity style={styles.tab}>
-            <Text style={styles.tabname}>ALL</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab}>
-            <Text style={styles.tabname}>개인</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab}>
-            <Text style={styles.tabname}>그룹</Text>
-          </TouchableOpacity>
+          {CATEGORY.map(name => (
+            <TouchableOpacity onPress={() => setCategory(name)} style={styles[category === name ? 'activetab' : 'tab']}>
+              <Text style={{color: category === name ? 'white' : 'black'}}>{name}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
 
         <FlatList
@@ -138,7 +141,16 @@ const styles = StyleSheet.create({
     borderColor: '#DDDDDD',
     backgroundColor: 'white',
   },
-  tabname: {},
+  activetab: {
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginRight: 4,
+    borderRadius: 99,
+    borderWidth: 1,
+    borderColor: '#DDDDDD',
+    backgroundColor: 'black',
+  },
+  tabname: {color: 'white'},
   ////
   block: {height: 52, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24},
   type: {marginRight: 4, fontWeight: '500', fontSize: 16, color: '#3A8ADB'},
