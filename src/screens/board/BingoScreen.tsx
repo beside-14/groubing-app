@@ -12,8 +12,8 @@ import {useQuery} from 'react-query'
 import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
 import {RegisterSheet} from 'components/bingo/board/TemporaryBoardScreen'
-import {useAtom} from 'jotai'
-import {register_item_atom} from './store'
+import {useAtom, useAtomValue} from 'jotai'
+import {bingo_count_atom, register_item_atom, retech_atom} from './store'
 // import {TextInput} from 'react-native-gesture-handler'
 
 type BingoGoalText = {
@@ -53,6 +53,7 @@ export const TestInput = () => {
     title: '',
     subTitle: '',
   })
+  const [refetch, setRetech] = useAtom(retech_atom)
 
   const addItem = async () => {
     if (!boardId) return
@@ -60,6 +61,7 @@ export const TestInput = () => {
     const res = await registerItem(content, boardId, state.id as number)
     console.log(res)
     setState({mode: false, id: null})
+    setRetech(true)
   }
   if (!state.mode) return null
   return (
@@ -97,53 +99,36 @@ export const TestInput = () => {
     </View>
   )
 }
+
 const BingoScreen = () => {
-  const [boardSize, setBoardSize] = useState<number>(3) // 초기값은 3
-  const [board, setBoard] = useState<any>([]) // 빙고판 상태
-  const [bingoCount, setBingoCount] = useState(0) // 빙고 수
+  const [visibleForm, setVisibleForm] = useState<boolean>(false)
+  const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
 
-  const [visibleForm, setVisibleForm] = useState<boolean>(true)
-
-  const maxBingoCount = 2 * boardSize + 2 //목표 빙고 수
-
+  const [refetch, setRetech] = useAtom(retech_atom)
   const {params} = useRoute()
 
   const [data, setData] = useState()
   const handleToggle = (x: number, y: number) => {}
 
+  const isTemporary = !data?.complete
+
   useEffect(() => {
     ;(async () => {
       const res = await getBingo(params)
-      console.log('빙고조회 데이터!!', res.data.data)
+      setBingoCount(res.data.data.bingoMap.totalBingoCount)
       setData(res.data.data)
     })()
   }, [])
-  // "totalCompleteCount": 0,
-  // "horizontalCompleteLineIndexes": [],
-  // "verticalCompleteLineIndexes": [],
-  // "diagonalCompleteLineIndexes": []
-  // BingoItemData의 길이에 따라 빙고판의 크기 결정
 
-  const dataSize = BingoItemData.length
   useEffect(() => {
-    let initialBoardSize = 0
-    let initialBoard
-
-    if (dataSize <= 9) {
-      initialBoardSize = 3
-      initialBoard = generateBingoBoard(3, BingoItemData)
-    } else if (dataSize <= 16) {
-      initialBoardSize = 4
-      initialBoard = generateBingoBoard(4, BingoItemData)
-    }
-
-    setBoardSize(initialBoardSize)
-    setBoard(initialBoard)
-
-    // 초기 빙고 달성 수 계산
-    const initialBingoCount = countBingos(initialBoard, initialBoardSize)
-    setBingoCount(initialBingoCount)
-  }, [dataSize])
+    if (!refetch) return
+    ;(async () => {
+      const res = await getBingo(params)
+      setBingoCount(res.data.data.bingoMap.totalBingoCount)
+      setData(res.data.data)
+      setRetech(false)
+    })()
+  }, [refetch])
 
   if (!data) return null
   return (
@@ -161,17 +146,13 @@ const BingoScreen = () => {
             </View>
           </View>
 
-          <BingoGoalText
-            bingoPercent={(data?.bingoMap?.totalCompleteCount / data?.goal) * 100}
-            bingoCount={bingoCount}
-            maxBingoCount={maxBingoCount}
-          />
-          <ProgressBar progress={data?.bingoMap?.totalCompleteCount / data?.goal} style={styles.progressBar} color="#3A8ADB" />
-          <BingoBoard board={data.id} size={data?.bingoSize} onToggle={handleToggle} items={data?.bingoMap?.bingoLines} />
+          <BingoGoalText bingoPercent={(bingoCount / data?.goal) * 100} bingoCount={bingoCount} maxBingoCount={data?.goal} />
+          <ProgressBar progress={bingoCount / data?.goal} style={styles.progressBar} color="#3A8ADB" />
+          <BingoBoard isTemporary={isTemporary} board={data.id} size={data?.bingoSize} onToggle={handleToggle} items={data?.bingoMap?.bingoLines} />
           <Memo content={data?.memo} />
         </ScrollView>
 
-        {/* {true && <RegisterSheet setVisible={() => setVisibleForm(true)} />} */}
+        {/* {state.mode && <RegisterSheet setVisible={() => setState({mode: false, id: null})} />} */}
       </SafeAreaView>
       <TestInput />
     </>

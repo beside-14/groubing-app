@@ -3,7 +3,7 @@ import {FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity} 
 import {View} from 'react-native'
 import {getBingoList} from './remote'
 import {useRoutes} from 'hooks/useRoutes'
-import {useNavigation} from '@react-navigation/native'
+import {useIsFocused, useNavigation} from '@react-navigation/native'
 import BottomSheet, {BottomSheetTextInput} from '@gorhom/bottom-sheet'
 import {RegisterSheet} from 'components/bingo/board/TemporaryBoardScreen'
 
@@ -63,12 +63,15 @@ export const Card = ({item}) => {
 const BingoListScreen = () => {
   const {navigate} = useRoutes()
   const [list, setList] = useState([])
+
+  const isFocused = useIsFocused()
   useEffect(() => {
+    if (!isFocused) return
     ;(async () => {
       const res = await getBingoList()
       setList(res.data.data)
     })()
-  }, [])
+  }, [isFocused])
   // kay_TODO: 카드분리
   return (
     <SafeAreaView style={styles.container}>
@@ -117,7 +120,7 @@ const BingoListScreen = () => {
           }}
         />
       </View>
-      <RegisterSheet setVisible={() => console.log('dd')} />
+      {/* <RegisterSheet setVisible={() => console.log('dd')} /> */}
     </SafeAreaView>
   )
 }
