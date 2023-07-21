@@ -5,22 +5,27 @@ import {Alert} from 'react-native'
 import {Image, View} from 'react-native'
 import {TouchableOpacity, StyleSheet, Text, Dimensions} from 'react-native'
 import {updateItemState} from 'screens/board/remote/bingo'
-import {register_item_atom} from 'screens/board/store'
+import {bingo_count_atom, register_item_atom} from 'screens/board/store'
 import {font} from 'shared/styles'
 
 const {width} = Dimensions.get('window')
 
-const BingoItem = ({onToggle, title, size, complete, boardId, id}: any) => {
+const BingoItem = ({title, size, complete, boardId, id, isTemporary}: any) => {
   const itemSize = width / size
   const fontSize = size === 3 ? 13 : 12
 
   const [select, setSelect] = useState<boolean>(complete)
   const registerMode = useSetAtom(register_item_atom)
+
+  const setBingoCount = useSetAtom(bingo_count_atom)
+
   const handleToggle = async () => {
-    const updateType = complete === true ? 'cancel' : 'complete'
+    if (isTemporary) return
+    const updateType = select === true ? 'cancel' : 'complete'
     const res = await updateItemState(updateType, boardId, id)
 
     if (res.status === 200) {
+      setBingoCount(res?.data?.data?.totalBingoCount)
       return setSelect(prev => !prev)
     } else {
       return Alert.alert('요청이 원활하지 않습니다.')
