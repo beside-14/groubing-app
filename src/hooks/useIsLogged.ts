@@ -1,15 +1,16 @@
 import {removeToken} from 'utils/asyncStorage'
-import {useRoutes} from './useRoutes'
+import {isLoggedAtom} from 'store'
+import {useSetAtom} from 'utils/jotai'
 
 export const useIsLogged = () => {
-  const {resetNavigation} = useRoutes()
+  const setIsLogged = useSetAtom(isLoggedAtom)
   const login = () => {
-    resetNavigation('Main')
+    setIsLogged(true)
   }
 
   const logout = async () => {
     await removeToken()
-    resetNavigation('Auth')
+    setIsLogged(false)
   }
 
   return {login, logout}
