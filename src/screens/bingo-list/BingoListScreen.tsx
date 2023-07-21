@@ -117,7 +117,6 @@ const BingoListScreen = () => {
           }}
         />
       </View>
-      <RegisterSheet setVisible={() => console.log('dd')} />
     </SafeAreaView>
   )
 }

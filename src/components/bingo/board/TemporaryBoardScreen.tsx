@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import {
   Image,
   Keyboard,
@@ -19,14 +19,34 @@ import BottomSheet, {BottomSheetTextInput} from '@gorhom/bottom-sheet'
 import {registerItem} from './remote'
 import {Images} from 'assets'
 import {ForceTouchGesture} from 'react-native-gesture-handler/lib/typescript/handlers/gestures/forceTouchGesture'
+import {useRoute} from '@react-navigation/native'
+import {useAtom} from 'jotai'
+import {register_item_atom} from 'screens/board/store'
 
 export const RegisterSheet = ({setVisible}) => {
   const bottomSheetRef = useRef<BottomSheet>(null)
+  const {params: boardId} = useRoute()
+  const [state, setState] = useAtom(register_item_atom)
+  const [content, setContent] = useState<{title: string; subTitle: string}>({
+    title: '',
+    subTitle: '',
+  })
+  console.log('@@', state)
   const snapPoints = useMemo(() => ['25%', '50%'], [])
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index)
   }, [])
+  const addItem = async () => {
+    if (!boardId) return
 
+    const res = await registerItem(content, boardId, state.id as number)
+    console.log(res)
+    setState({mode: false, id: null})
+  }
+
+  useEffect(() => {
+    return () => setState({mode: false, id: null})
+  }, [])
   return (
     <BottomSheet ref={bottomSheetRef} index={1} snapPoints={snapPoints} keyboardBehavior="fillParent" onChange={handleSheetChanges}>
       <View style={styles.sheetContainer}>
@@ -39,14 +59,24 @@ export const RegisterSheet = ({setVisible}) => {
           </View>
           <View style={styles.inputWrapper}>
             <Text style={styles.inputTitle}>제목</Text>
-            <BottomSheetTextInput placeholder="빙고 항목의 타이틀을 작성하세요." style={styles.input} />
+            <BottomSheetTextInput
+              placeholder="빙고 항목의 타이틀을 작성하세요."
+              onChangeText={t => setContent(prev => ({...prev, title: t}))}
+              value={content.title}
+              style={{borderBottomWidth: 1, fontSize: 16, width: '100%', height: 45, fontFamily: 'NotoSansKR_400Regular', marginBottom: 12}}
+            />
           </View>
           <View style={styles.inputWrapper}>
             <Text style={styles.inputTitle}>내용</Text>
-            <BottomSheetTextInput placeholder="자세한 내용을 작성하세요." style={styles.input} />
+            <BottomSheetTextInput
+              placeholder="자세한 내용을 작성하세요."
+              onChangeText={t => setContent(prev => ({...prev, subTitle: t}))}
+              value={content.subTitle}
+              style={{borderBottomWidth: 1, fontSize: 16, width: '100%', height: 45, fontFamily: 'NotoSansKR_400Regular', marginBottom: 12}}
+            />
           </View>
         </View>
-        <TouchableOpacity style={styles.registerButton}>
+        <TouchableOpacity onPress={() => addItem()} style={styles.registerButton}>
           <Text style={styles.btnText}>완료</Text>
         </TouchableOpacity>
       </View>
@@ -106,7 +136,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  arrow: {width: 10},
+  arrow: {width: 30, height: 30},
   arrowWrapper: {paddingVertical: 5, paddingRight: 8},
   title: {marginLeft: 2, fontWeight: '500', fontSize: 18},
   input: {
