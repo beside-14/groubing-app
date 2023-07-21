@@ -9,9 +9,9 @@ export const API = axios.create({
 // axios.defaults.withCredentials = true
 API.interceptors.request.use(
   async config => {
-    // const token = await getToken()
-    const token =
-      'eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MywiZW1haWwiOiJhd2FqaTA4MjlAZ21haWwuY29tIiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTY4OTkwNzg0NiwiZXhwIjoxNjg5OTI5NDQ2fQ.P4PzLpr_W0turWWnQt9rv36Xm5MLFpaEk1abo8OUFlMDbvN2h7PD7OqiVeC-dl_sitfbaw2oivf1VAGLVW1VDw'
+    const token = await getToken()
+    // const token =
+    //   'eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MywiZW1haWwiOiJhd2FqaTA4MjlAZ21haWwuY29tIiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTY4OTkzMDExMiwiZXhwIjoxNjg5OTUxNzEyfQ.oeN1HwABxRh7FocmRnnX6z-66hG8e3nDMFaAJlXL7lvpGXbunwOE90OQEFzvLWPV6WiXlYR1Cw8BokwyLQ04Qw'
     if (token) {
       config.withCredentials = true
       config.headers.Authorization = `Bearer ${token}`
