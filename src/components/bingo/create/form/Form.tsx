@@ -4,7 +4,9 @@ import {TouchableOpacity} from 'react-native-gesture-handler'
 import {createBingo} from '../remote'
 import {useRoutes} from 'hooks/useRoutes'
 import {useAtom, useAtomValue} from 'jotai'
-import {bingo_base_data_atom} from 'screens/board/store'
+import {FORM_BASE_DATA, bingoBaseData, bingo_base_data_atom} from 'screens/board/store'
+import {useResetAtom} from 'jotai/utils'
+import {useRoute} from '@react-navigation/native'
 
 const Type = () => {
   const [data, setData] = useAtom(bingo_base_data_atom)
@@ -174,6 +176,7 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
   const {navigate} = useRoutes()
   const [data, setData] = useAtom(bingo_base_data_atom)
 
+  const init = useResetAtom(FORM_BASE_DATA)
   return (
     <>
       <ScrollView style={styles.headerContainer}>
@@ -188,6 +191,7 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
             const res = await createBingo(data)
 
             if (res.code === 'OK') {
+              init()
               return navigate('BingoBoard', res.data.id)
             } else {
               return console.log('생성실패 토큰확인')
