@@ -5,5 +5,4 @@ type FormType = {title: string; goal: number; boardType: string; open: boolean; 
 export const createBingo = async (form: FormType): Promise<any> => {
   const {data} = await API.post('/api/bingo-boards', form)
   return data
-  console.log('포스트 결과', data)
 }

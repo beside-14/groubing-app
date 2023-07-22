@@ -1,5 +1,5 @@
 // import { login } from "../../utils/AuthUtil";
-import {useAuth} from 'hooks/useAuth'
+import {useIsLogged} from 'hooks/useIsLogged'
 import React, {useState} from 'react'
 import {
   View,
@@ -27,8 +27,8 @@ const LoginScreen = () => {
   const [pw, setPw] = useState('')
   const [microcopyId, setMicrocopyId] = useState('')
   const [microcopyPw, setMicrocopyPw] = useState('')
-  const {changeNavigationStack} = useAuth()
   const {navigate} = useRoutes()
+  const {login} = useIsLogged()
 
   async function handleLogin() {
     setMicrocopyId('')
@@ -40,13 +40,16 @@ const LoginScreen = () => {
       setMicrocopyPw('비밀번호가 입력되지 않았습니다.')
     } else if (!emailValidate(id)) {
       setMicrocopyId('올바른 이메일 형식이 아닙니다. 다시 입력해주세요.')
-    } else if (!passwordValidate(pw)) {
-      setMicrocopyPw('8~20자 이내 영문 대소문자, 숫자, 특수문자')
-    } else {
+    }
+    // if (!passwordValidate(pw)) {
+    //   setMicrocopyPw('8~20자 이내 영문 대소문자, 숫자, 특수문자')
+    // }
+    // else
+    else {
       try {
         const {email, token} = await fetchEmailLogin({email: id, password: pw})
-        setToken(token)
-        changeNavigationStack()
+        await setToken(token)
+        login()
       } catch (error) {
         console.error('login error', error)
         // TODO: 에러 처리. 아이디 또는 비밀번호 잘못 입력했을 때.

@@ -20,7 +20,7 @@ import {registerItem} from './remote'
 import {Images} from 'assets'
 import {ForceTouchGesture} from 'react-native-gesture-handler/lib/typescript/handlers/gestures/forceTouchGesture'
 
-const RegisterSheet = ({setVisible}) => {
+export const RegisterSheet = ({setVisible}) => {
   const bottomSheetRef = useRef<BottomSheet>(null)
   const snapPoints = useMemo(() => ['25%', '50%'], [])
   const handleSheetChanges = useCallback((index: number) => {

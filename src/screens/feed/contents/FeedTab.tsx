@@ -21,6 +21,7 @@ const FeedTab = () => {
     <View style={styles.container}>
       {TABS.map(item => (
         <TouchableOpacity
+          key={item?.code}
           style={[styles.tab_container, currentFeedTab === item.code && styles.tab_container_clicked]}
           onPress={() => handleTabPress(item.code)}>
           <Text style={[styles.tab, currentFeedTab === item.code && styles.tab_clicked]}>{item.name}</Text>

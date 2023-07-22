@@ -7,7 +7,6 @@ import StepBar from 'components/bingo/create/StepBar'
 
 import {useRoutes} from 'hooks/useRoutes'
 import {font} from 'shared/styles'
-import {useAuth} from 'hooks/useAuth'
 import Email from './contents/Email'
 import EmailAuth from './contents/EmailAuth'
 import FindPwContent from './contents/FindPwContent'
@@ -39,7 +38,6 @@ const SignUpScreen = () => {
   const [microcopy, setMicrocopy] = useState('')
 
   const {navigate} = useRoutes()
-  const {changeNavigationStack} = useAuth()
 
   async function handleSignUp() {
     //비밀번호 형식 체크
@@ -79,7 +77,6 @@ const SignUpScreen = () => {
         // }
         //회원가입 성공 시 닉네임 설정 화면 이동
         // navigate('Home')
-        changeNavigationStack()
       } catch (error) {
         console.log(error)
         Alert.alert('회원가입 실패', '서버와의 연결이 원활하지 않습니다.')
