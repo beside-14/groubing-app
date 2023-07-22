@@ -2,7 +2,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <RNKakaoLogins.h>
-// #import <Firebase.h>
+ #import <Firebase.h>
 
 
 @implementation AppDelegate
@@ -19,7 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  // [FIRApp configure];
+   [FIRApp configure];
   
   self.moduleName = @"groubing";
   // You can add your custom initial props in the dictionary below.
