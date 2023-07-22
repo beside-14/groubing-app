@@ -21,6 +21,7 @@ import {emailValidate, passwordValidate} from 'utils/validate'
 import LoginInput from './contents/LoginInput'
 import {fetchEmailLogin} from 'hooks/auth'
 import {setToken} from 'utils/asyncStorage'
+import Kakao from './contents/Kakao'
 
 const LoginScreen = () => {
   const [id, setId] = useState('')
@@ -107,9 +108,7 @@ const LoginScreen = () => {
             <TouchableOpacity style={styles.snsBtn} onPress={() => Alert.alert('준비 중입니다.')}>
               <Image source={Images.apple_icon} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.snsBtn} onPress={() => Alert.alert('준비 중입니다.')}>
-              <Image source={Images.kakao_icon} />
-            </TouchableOpacity>
+            <Kakao />
           </View>
         </View>
       </TouchableWithoutFeedback>
