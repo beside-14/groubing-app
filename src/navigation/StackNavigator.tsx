@@ -57,7 +57,7 @@ const StackNavigator = () => {
           component={BingoScreen}
           options={{
             title: '',
-            headerShown: true,
+            headerShown: false,
             animationEnabled: true,
             gestureDirection: 'vertical',
             headerRight: () => (
@@ -66,25 +66,7 @@ const StackNavigator = () => {
               </TouchableOpacity>
             ),
             headerLeft: () => null,
-            headerStyle: {borderBottomWidth: 0},
-            // animation: 'slide_from_bottom',
-          }}
-        />
-        <Root.Screen
-          name="TemporaryBoard"
-          component={TemporaryBoardScreen}
-          options={{
-            title: '',
-            headerShown: true,
-            animationEnabled: true,
-            gestureDirection: 'vertical',
-            headerRight: () => (
-              <TouchableOpacity onPress={() => navigationRef.current.navigate('BingoList')} style={{paddingHorizontal: 20}}>
-                <Text>닫기</Text>
-              </TouchableOpacity>
-            ),
-            headerLeft: () => null,
-            headerStyle: {borderBottomWidth: 0},
+            headerStyle: {borderColor: 'white'},
             // animation: 'slide_from_bottom',
           }}
         />

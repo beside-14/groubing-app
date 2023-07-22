@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useState} from 'react'
 import {FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import {View} from 'react-native'
 import {getBingoList} from './remote'
@@ -63,39 +63,46 @@ export const Card = ({item}) => {
 const BingoListScreen = () => {
   const {navigate} = useRoutes()
   const [list, setList] = useState([])
-
+  const [category, setCategory] = useState<string>('ALL')
   const isFocused = useIsFocused()
   useEffect(() => {
     if (!isFocused) return
     ;(async () => {
       const res = await getBingoList()
-      setList(res.data.data)
+      setList(res.data.data.reverse())
     })()
   }, [isFocused])
-  // kay_TODO: 카드분리
+
+  const CATEGORY: string[] = ['ALL', '개인', '그룹']
+
+  const singleList = useMemo(() => list.filter(e => e?.groupType === 'SINGLE'), [list])
+  const groupList = useMemo(() => list.filter(e => e?.groupType === 'GROUP'), [list])
+
+  const selectedList = (category: string) => {
+    if (category === '개인') return singleList
+    if (category === '그룹') return groupList
+    return list
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>빙고 목록</Text>
 
       <View style={styles.wrapper}>
         <View style={styles.row}>
-          <TouchableOpacity style={styles.tab}>
-            <Text style={styles.tabname}>ALL</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab}>
-            <Text style={styles.tabname}>개인</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab}>
-            <Text style={styles.tabname}>그룹</Text>
-          </TouchableOpacity>
+          {CATEGORY.map(name => (
+            <TouchableOpacity onPress={() => setCategory(name)} style={styles[category === name ? 'activetab' : 'tab']}>
+              <Text style={{color: category === name ? 'white' : 'black'}}>{name}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
 
         <FlatList
           style={{marginTop: 16}}
-          data={list}
+          data={selectedList(category)}
           keyExtractor={item => item?.id}
           renderItem={({item}) => {
-            const {id, title, since, until, goal, groupType, open, bingoLines, totalCompleteCount} = item || {}
+            const {id, title, since, until, goal, groupType, open, bingoLines, totalBingoCount} = item || {}
             const type = groupType === 'SINGLE' ? '개인' : '그룹'
             return (
               <TouchableOpacity onPress={() => navigate('BingoBoard', id)} style={styles.block}>
@@ -104,17 +111,16 @@ const BingoListScreen = () => {
                     <Text style={styles.type}>{type}</Text>
                     <Text style={styles.bingotitle}>{title}</Text>
                   </View>
-                  <View style={styles.row}>
-                    <Text style={{marginRight: 8}}>
+                  <View style={{...styles.row, marginTop: 4}}>
+                    <Text style={{marginRight: 8, color: '#666666'}}>
                       {since} ~ {until}
                     </Text>
-                    <Text>
-                      {totalCompleteCount}/{goal} 빙고
+                    <Text style={{color: '#666666'}}>
+                      {totalBingoCount}/{goal} 빙고
                     </Text>
                   </View>
                 </View>
                 <MiniBoard bingo={bingoLines} />
-                {/* <View style={{width: 52, height: 52, backgroundColor: '#FCB179'}} /> */}
               </TouchableOpacity>
             )
           }}
@@ -141,7 +147,17 @@ const styles = StyleSheet.create({
     borderColor: '#DDDDDD',
     backgroundColor: 'white',
   },
-  tabname: {},
+  activetab: {
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginRight: 4,
+    borderRadius: 99,
+    borderWidth: 1,
+    borderColor: '#DDDDDD',
+    backgroundColor: 'black',
+  },
+  activename: {color: 'white'},
+
   ////
   block: {height: 52, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24},
   type: {marginRight: 4, fontWeight: '500', fontSize: 16, color: '#3A8ADB'},

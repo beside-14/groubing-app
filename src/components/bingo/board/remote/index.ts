@@ -14,8 +14,8 @@ export const registerItem = async (item: ItemType): Promise<any> => {
     subTitle: subTitle,
   })
 
-  if (data.code === 'OK') return console.log('성공완')
-  return console.log('싪패', data)
+  if (data.code === 'OK') return console.log('아이템 등룍완료')
+  return console.log('아이템 등록실패 error')
 }
 
 export const updateMemo = async (baordId: number, content: string) => {
@@ -23,4 +23,15 @@ export const updateMemo = async (baordId: number, content: string) => {
     memo: content,
   }
   await API.patch(`/api/bingo-boards/${baordId}/memo`, payload)
+}
+
+export const updateBingoInfo = async (baordId: number, payload: any) => {
+  //일단 날짜 고정
+  payload = {
+    ...payload,
+    since: '2023-07-21',
+    until: '2023-08-28',
+  }
+  const res = await API.patch(`/api/bingo-boards/${baordId}/base`, payload)
+  return res
 }
