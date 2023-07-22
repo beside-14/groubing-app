@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "331365595229",
+    "project_id": "groubing-68b92",
+    "storage_bucket": "groubing-68b92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331365595229:android:f44836cd4d087abee675b4",
+        "android_client_info": {
+          "package_name": "com.groubing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331365595229-c20hedp9k6ho8tbpfpboiioccmllhnts.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABCN6-qEJ1P-E_n2uVjrLT3-_Fozs3PPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331365595229-c20hedp9k6ho8tbpfpboiioccmllhnts.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "331365595229-1ukuqai21j47mdia20lt3ihm35igklnh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.groubing"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

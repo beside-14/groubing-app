@@ -44,6 +44,9 @@ target 'groubing' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
+  # 없는 경우에는 package.json의 sdkVersions.ios.kakao를 따릅니다.
+  # $KakaoSDKVersion='2.11.1'
+  # pod 'KakaoSDK', $KakaoSDKVersion
 
   target 'groubingTests' do
     inherit! :complete

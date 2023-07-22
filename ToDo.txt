@@ -1,5 +1,12 @@
-# splash 이미지
+# splash screen
 # oauth 로그인 (구글, 카카오, 애플)
 # firebase 설정 (테스트앱 배포, 푸시알림)
+# google, apple 개발자 계정 앱 등록
 # 빙고 공유하기
 # 빙고 완료 알림 (firebase message)
+# custom toast 팝업
+# 비밀번호 정규표현식 변경
+- ^[a-zA-Z0-9!-/:-@\\[-_~]{8,20}
+# 피드, 알림, 마이페이지
+# 이용약관 링크 확인
+# 카카오로그인
