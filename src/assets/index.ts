@@ -44,4 +44,5 @@ export const Images = {
   icon_search: require('./images/icon_search.png'),
   icon_info_red: require('./images/icon_info_red.png'),
   icon_info_gray: require('./images/icon_info_gray.png'),
+  icon_arrow_blue: require('./images/icon_arrow_blue.png'),
 }
