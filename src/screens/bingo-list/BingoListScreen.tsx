@@ -6,6 +6,8 @@ import {useRoutes} from 'hooks/useRoutes'
 import {useIsFocused, useNavigation} from '@react-navigation/native'
 import BottomSheet, {BottomSheetTextInput} from '@gorhom/bottom-sheet'
 import {RegisterSheet} from 'components/bingo/board/TemporaryBoardScreen'
+import {Images} from 'assets'
+import {Image} from 'react-native'
 
 const MiniBoard = ({bingo}) => {
   const bingoarr = bingo.map(e => e.bingoItems)
@@ -39,8 +41,8 @@ export const Card = ({item}) => {
   const type = groupType === 'SINGLE' ? '개인' : '그룹'
 
   return (
-    <TouchableOpacity>
-      <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+    <TouchableOpacity style={{backgroundColor: 'green'}}>
+      <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginHorizontal: 8}}>
         <View style={styles.row}>
           <Text style={styles.type}>{type}</Text>
           <Text style={styles.bingotitle}>{title}</Text>
@@ -65,6 +67,7 @@ const BingoListScreen = () => {
   const [list, setList] = useState([])
   const [category, setCategory] = useState<string>('ALL')
   const isFocused = useIsFocused()
+
   useEffect(() => {
     if (!isFocused) return
     ;(async () => {
@@ -96,35 +99,64 @@ const BingoListScreen = () => {
             </TouchableOpacity>
           ))}
         </View>
-
-        <FlatList
-          style={{marginTop: 16}}
-          data={selectedList(category)}
-          keyExtractor={item => item?.id}
-          renderItem={({item}) => {
-            const {id, title, since, until, goal, groupType, open, bingoLines, totalBingoCount} = item || {}
-            const type = groupType === 'SINGLE' ? '개인' : '그룹'
-            return (
-              <TouchableOpacity onPress={() => navigate('BingoBoard', id)} style={styles.block}>
-                <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%'}}>
-                  <View style={styles.row}>
-                    <Text style={styles.type}>{type}</Text>
-                    <Text style={styles.bingotitle}>{title}</Text>
-                  </View>
-                  <View style={{...styles.row, marginTop: 4}}>
-                    <Text style={{marginRight: 8, color: '#666666'}}>
-                      {since} ~ {until}
-                    </Text>
-                    <Text style={{color: '#666666'}}>
-                      {totalBingoCount}/{goal} 빙고
-                    </Text>
-                  </View>
-                </View>
-                <MiniBoard bingo={bingoLines} />
-              </TouchableOpacity>
-            )
-          }}
-        />
+        {!list.length ? (
+          <View style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              <Image source={Images.emoji_01} style={{width: 75, height: 75}} />
+              <Text style={{marginTop: 16, fontWeight: '500', fontSize: 18}}>생성된 빙고가 없습니다.</Text>
+              <Text style={{marginTop: 4, fontWeight: '400', fontSize: 14, color: '#666666'}}>빙고를 생성하여 빙고목록에서 확인해보세요.</Text>
+            </View>
+          </View>
+        ) : (
+          <FlatList
+            style={{marginTop: 16}}
+            data={selectedList(category)}
+            keyExtractor={item => item?.id}
+            renderItem={({item}) => {
+              const {id, title, since, until, goal, groupType, open, bingoLines, totalBingoCount, completed} = item || {}
+              const type = groupType === 'SINGLE' ? '개인' : '그룹'
+              return (
+                <>
+                  {completed ? (
+                    <TouchableOpacity onPress={() => navigate('BingoBoard', id)} style={styles.block}>
+                      <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%'}}>
+                        <View style={styles.row}>
+                          <Text style={styles.type}>{type}</Text>
+                          <Text style={styles.bingotitle}>{title}</Text>
+                        </View>
+                        <View style={{...styles.row, marginTop: 4}}>
+                          <Text style={{marginRight: 8, color: '#666666'}}>
+                            {since} ~ {until}
+                          </Text>
+                          <Text style={{color: '#666666'}}>
+                            {totalBingoCount}/{goal} 빙고
+                          </Text>
+                        </View>
+                      </View>
+                      <MiniBoard bingo={bingoLines} />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={() => navigate('BingoBoard', id)} style={styles.temporaryBlock}>
+                      <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%'}}>
+                        <Text style={{fontSize: 13, color: '#3A8ADB', fontWeight: '500'}}>빙고 생성을 완료해주세요!</Text>
+                        <View style={{...styles.row, marginTop: 6, gap: 4}}>
+                          <Text style={{color: '#A6A6A6', fontWeight: '500', fontSize: 16}}>{type}</Text>
+                          <Text style={{color: '#666666', fontWeight: '500', fontSize: 16}}>{title}</Text>
+                        </View>
+                      </View>
+                      <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                        <Text style={{fontWeight: '500', fontSize: 13, color: '#3A8ADB'}}>마저 만들기</Text>
+                        <View style={{padding: 3}}>
+                          <Image source={Images.icon_arrow_blue} style={{width: 5, height: 10}} />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+                </>
+              )
+            }}
+          />
+        )}
       </View>
       {/* <RegisterSheet setVisible={() => console.log('dd')} /> */}
     </SafeAreaView>
@@ -159,7 +191,30 @@ const styles = StyleSheet.create({
   activename: {color: 'white'},
 
   ////
-  block: {height: 52, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24},
+  block: {
+    height: 52,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+    marginHorizontal: 8,
+  },
+  temporaryBlock: {
+    height: 72,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+    marginHorizontal: 8,
+    backgroundColor: '#F3F3F3',
+    paddingVertical: 18,
+    paddingHorizontal: 12,
+    borderLeftWidth: 3,
+    borderColor: '#3A8ADB',
+    borderRadius: 8,
+  },
   type: {marginRight: 4, fontWeight: '500', fontSize: 16, color: '#3A8ADB'},
   bingotitle: {fontWeight: '600', fontSize: 16},
 })
