@@ -1,5 +1,5 @@
 import {StyleSheet, SafeAreaView, ScrollView, View, Text, StatusBar, TouchableOpacity, TextInput, Image} from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef, useMemo, useCallback} from 'react'
 
 import BingoItemData from '../../assets/dataset/BingoItemData.json'
 import {generateBingoBoard, countBingos} from '../../utils/BingoUtil'
@@ -119,23 +119,34 @@ const BingoScreen = () => {
   const {navigate, back} = useRoutes()
   const [refetch, setRetech] = useAtom(retech_atom)
   const {params} = useRoute()
-
+  const {fromCreate, id} = params || {}
   const [data, setData] = useState()
 
   const isTemporary = !data?.completed
+  ////
+  const bottomSheetRef = useRef<BottomSheet>(null)
 
+  // variables
+  const snapPoints = useMemo(() => ['25%', '50%'], [])
+
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index)
+  }, [])
+  ////
   useEffect(() => {
     ;(async () => {
-      const res = await getBingo(params)
+      const res = await getBingo(id)
       setBingoCount(res.data.data.bingoMap.totalBingoCount)
       setData(res.data.data)
+      console.log(data)
     })()
   }, [])
 
   useEffect(() => {
     if (!refetch) return
     ;(async () => {
-      const res = await getBingo(params)
+      const res = await getBingo(id)
       setBingoCount(res.data.data.bingoMap.totalBingoCount)
       setData(res.data.data)
       setRetech(false)
@@ -144,9 +155,9 @@ const BingoScreen = () => {
 
   if (!data) return null
   return (
-    <>
-      <SafeAreaView style={styles.safeAreaContainer}>
-        {/* 헤더 분리작업 필요 */}
+    <View style={{flex: 1, backgroundColor: 'green'}}>
+      {/* <SafeAreaView style={styles.safeAreaContainer}>
+        
         <View
           style={{
             height: 60,
@@ -156,14 +167,20 @@ const BingoScreen = () => {
             alignItems: 'center',
             paddingHorizontal: 20,
           }}>
-          <TouchableOpacity onPress={() => back()} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-            <Image source={Images.back_btn} style={{width: 30, height: 30}} />
-          </TouchableOpacity>
+      
+
+          {fromCreate ? (
+            <View></View>
+          ) : (
+            <TouchableOpacity onPress={() => back()} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+              <Image source={Images.back_btn} style={{width: 30, height: 30}} />
+            </TouchableOpacity>
+          )}
+
           {isTemporary ? (
             <TouchableOpacity
               onPress={async () => {
                 const result = await updateBingoInfo(data.id, {title: data.title, goal: data.goal})
-                console.log('?????', result)
                 if (result?.status === 200) navigate('BingoList')
                 return
               }}
@@ -195,11 +212,10 @@ const BingoScreen = () => {
           <BingoBoard isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
           <Memo content={data?.memo} />
         </ScrollView>
-
-        {/* {state.mode && <RegisterSheet setVisible={() => setState({mode: false, id: null})} />} */}
-      </SafeAreaView>
+      </SafeAreaView> */}
       <TestInput />
-    </>
+      <RegisterSheet />
+    </View>
   )
 }
 
