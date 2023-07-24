@@ -156,8 +156,7 @@ const BingoScreen = () => {
   if (!data) return null
   return (
     <View style={{flex: 1, backgroundColor: 'green'}}>
-      {/* <SafeAreaView style={styles.safeAreaContainer}>
-        
+      <SafeAreaView style={styles.safeAreaContainer}>
         <View
           style={{
             height: 60,
@@ -167,8 +166,6 @@ const BingoScreen = () => {
             alignItems: 'center',
             paddingHorizontal: 20,
           }}>
-      
-
           {fromCreate ? (
             <View></View>
           ) : (
@@ -212,9 +209,10 @@ const BingoScreen = () => {
           <BingoBoard isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
           <Memo content={data?.memo} />
         </ScrollView>
-      </SafeAreaView> */}
+
+        <RegisterSheet />
+      </SafeAreaView>
       <TestInput />
-      <RegisterSheet />
     </View>
   )
 }
