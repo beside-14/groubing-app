@@ -1,5 +1,7 @@
 import {StyleSheet, SafeAreaView, ScrollView, View, Text, StatusBar, TouchableOpacity, TextInput, Image} from 'react-native'
+
 import React, {useState, useEffect, useRef, useMemo, useCallback} from 'react'
+
 
 import BingoItemData from '../../assets/dataset/BingoItemData.json'
 import {generateBingoBoard, countBingos} from '../../utils/BingoUtil'
@@ -11,11 +13,12 @@ import BottomSheet, {BottomSheetTextInput} from '@gorhom/bottom-sheet'
 import {useQuery} from 'react-query'
 import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
-import {RegisterSheet} from 'components/bingo/board/TemporaryBoardScreen'
-import {useAtom, useAtomValue} from 'jotai'
+
+import {useAtom, useAtomValue, useSetAtom} from 'jotai'
 import {bingo_count_atom, register_item_atom, retech_atom} from './store'
 import {Images} from 'assets'
 import {updateBingoInfo} from 'components/bingo/board/remote'
+import {ItemRegisterSheet} from 'components/bingo/board/contents/ItemRegisterSheet'
 // import {TextInput} from 'react-native-gesture-handler'
 
 type BingoGoalText = {
@@ -55,7 +58,7 @@ export const TestInput = () => {
     title: '',
     subTitle: '',
   })
-  const [refetch, setRetech] = useAtom(retech_atom)
+  const setRetech = useSetAtom(retech_atom)
   const reset = () => {
     setContent({
       title: '',
@@ -178,6 +181,7 @@ const BingoScreen = () => {
             <TouchableOpacity
               onPress={async () => {
                 const result = await updateBingoInfo(data.id, {title: data.title, goal: data.goal})
+
                 if (result?.status === 200) navigate('BingoList')
                 return
               }}
@@ -210,10 +214,9 @@ const BingoScreen = () => {
           <Memo content={data?.memo} />
         </ScrollView>
 
-        <RegisterSheet />
+        <ItemRegisterSheet boardId={3} />
       </SafeAreaView>
-      <TestInput />
-    </View>
+    </>
   )
 }
 

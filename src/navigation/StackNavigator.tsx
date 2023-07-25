@@ -5,7 +5,7 @@ import {NavigationContainer} from '@react-navigation/native'
 import {BingoScreen, CreateBingoScreen} from 'screens'
 
 import {TouchableOpacity} from 'react-native-gesture-handler'
-import TemporaryBoardScreen from 'components/bingo/board/TemporaryBoardScreen'
+
 import {getToken} from 'utils/asyncStorage'
 import {isLoggedAtom} from 'store'
 import {useAtom} from 'utils/jotai'
