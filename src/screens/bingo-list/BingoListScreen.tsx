@@ -14,10 +14,11 @@ const MiniBoard = ({bingo}) => {
 
   return (
     <View>
-      {bingoarr.map(e => (
-        <View style={{flexDirection: 'row'}}>
-          {e.map(({complete}) => (
+      {bingoarr.map((e, i) => (
+        <View key={i} style={{flexDirection: 'row'}}>
+          {e.map(({complete}, i) => (
             <View
+              key={i}
               style={{
                 width: 16,
                 height: 16,
@@ -87,6 +88,8 @@ const BingoListScreen = () => {
     return list
   }
 
+  const goToBoard = (id: number) => navigate('BingoBoard', {id: id})
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>빙고 목록</Text>
@@ -118,7 +121,7 @@ const BingoListScreen = () => {
               return (
                 <>
                   {completed ? (
-                    <TouchableOpacity onPress={() => navigate('BingoBoard', id)} style={styles.block}>
+                    <TouchableOpacity onPress={() => goToBoard(id)} style={styles.block}>
                       <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%'}}>
                         <View style={styles.row}>
                           <Text style={styles.type}>{type}</Text>
@@ -136,7 +139,7 @@ const BingoListScreen = () => {
                       <MiniBoard bingo={bingoLines} />
                     </TouchableOpacity>
                   ) : (
-                    <TouchableOpacity onPress={() => navigate('BingoBoard', id)} style={styles.temporaryBlock}>
+                    <TouchableOpacity onPress={() => goToBoard(id)} style={styles.temporaryBlock}>
                       <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%'}}>
                         <Text style={{fontSize: 13, color: '#3A8ADB', fontWeight: '500'}}>빙고 생성을 완료해주세요!</Text>
                         <View style={{...styles.row, marginTop: 6, gap: 4}}>

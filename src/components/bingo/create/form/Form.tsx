@@ -192,7 +192,7 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
 
             if (res.code === 'OK') {
               init()
-              return navigate('BingoBoard', res.data.id)
+              return navigate('BingoBoard', {id: res.data.id, fromCreate: true})
             } else {
               return console.log('생성실패 토큰확인')
             }

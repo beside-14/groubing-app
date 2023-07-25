@@ -20,19 +20,25 @@ import {registerItem} from './remote'
 import {Images} from 'assets'
 import {ForceTouchGesture} from 'react-native-gesture-handler/lib/typescript/handlers/gestures/forceTouchGesture'
 
-export const RegisterSheet = ({setVisible}) => {
+export const RegisterSheet = () => {
   const bottomSheetRef = useRef<BottomSheet>(null)
   const snapPoints = useMemo(() => ['25%', '50%'], [])
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index)
   }, [])
 
+  const close = () => bottomSheetRef.current?.close()
+  const backButtonHandler = () => {
+    Keyboard.dismiss()
+    close()
+  }
+
   return (
     <BottomSheet ref={bottomSheetRef} index={1} snapPoints={snapPoints} keyboardBehavior="fillParent" onChange={handleSheetChanges}>
       <View style={styles.sheetContainer}>
         <View>
           <View style={styles.row}>
-            <TouchableOpacity onPress={() => setVisible(false)} style={styles.arrowWrapper}>
+            <TouchableOpacity onPress={backButtonHandler} style={styles.arrowWrapper}>
               <Image style={styles.arrow} source={Images.back_btn} />
             </TouchableOpacity>
             <Text style={styles.title}>항목 작성</Text>
@@ -106,7 +112,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  arrow: {width: 10},
+  arrow: {width: 25, height: 25},
   arrowWrapper: {paddingVertical: 5, paddingRight: 8},
   title: {marginLeft: 2, fontWeight: '500', fontSize: 18},
   input: {

@@ -13,6 +13,7 @@ import {useAtom} from 'utils/jotai'
 import AuthNavigator from './AuthNavigator'
 import SplashScreen from './SplashScreen'
 import TabNavigator from './TabNavigator'
+import Test from 'screens/Test'
 
 const Root = createStackNavigator()
 
