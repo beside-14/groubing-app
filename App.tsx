@@ -1,7 +1,7 @@
 import React from 'react'
-
 import StackNavigator from 'navigation/StackNavigator'
 import {QueryClient, QueryClientProvider} from 'react-query'
+
 import 'react-native-devsettings'
 
 const queryClient = new QueryClient()

@@ -1,7 +1,7 @@
 import React from 'react'
 import {Image, View, StyleSheet} from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {BingoListScreen, Feed, CreateBingoScreen} from 'screens'
+import {BingoListScreen, Feed, CreateBingoScreen, Mypage} from 'screens'
 import {Images} from 'assets'
 
 const Tab = createBottomTabNavigator()
@@ -64,8 +64,8 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="MyPage"
-        component={CreateBingoScreen}
+        name="Mypage"
+        component={Mypage}
         options={{
           headerShown: false,
           tabBarLabel: '마이페이지',

@@ -9,8 +9,12 @@ export const useIsLogged = () => {
   }
 
   const logout = async () => {
-    await removeToken()
-    setIsLogged(false)
+    try {
+      await removeToken()
+      setIsLogged(false)
+    } catch (error) {
+      // TODO: 로그아웃 실패 toast
+    }
   }
 
   return {login, logout}

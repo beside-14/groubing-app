@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const TOKEN_STORAGE_KEY = 'accessToken'
-const IS_LOGGED_STORAGE_KEY = 'isLogged'
+const USER_INFO_STORAGE_KEY = 'userInfo'
 
 export const setToken = async (token: string) => {
   try {
@@ -25,6 +25,31 @@ export const removeToken = async () => {
     await AsyncStorage.removeItem(TOKEN_STORAGE_KEY)
   } catch (error) {
     console.error('Error removing token:', error)
+  }
+}
+
+export const setUserInfo = async (data: UserInfoType) => {
+  try {
+    await AsyncStorage.setItem(USER_INFO_STORAGE_KEY, JSON.stringify(data))
+  } catch (error) {
+    console.error('Error storing userInfo', error)
+  }
+}
+
+export const getUserInfo = async () => {
+  try {
+    const userInfo = await AsyncStorage.getItem(USER_INFO_STORAGE_KEY)
+    return userInfo === null ? null : JSON.parse(userInfo)
+  } catch (error) {
+    console.error('Error retrieving userInfo', error)
+  }
+}
+
+export const removeUserInfo = async () => {
+  try {
+    await AsyncStorage.removeItem(USER_INFO_STORAGE_KEY)
+  } catch (error) {
+    console.error('Error removing userInfo:', error)
   }
 }
 

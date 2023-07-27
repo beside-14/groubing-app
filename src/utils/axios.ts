@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, {AxiosError} from 'axios'
 import {API_URL} from 'api/restful'
 import {getToken} from 'utils/asyncStorage'
 
@@ -39,4 +39,4 @@ const patch = async (url: string, params: Record<string, unknown>): Promise<any>
   return data
 }
 
-export {axios, get, post, patch}
+export {axios, AxiosError, get, post, patch}

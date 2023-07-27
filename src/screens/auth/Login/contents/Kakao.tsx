@@ -6,7 +6,7 @@ import {Images} from 'assets'
 const kakaoLogin = () => {
   login()
     .then(result => {
-      console.log('Login Success', JSON.stringify(result))
+      console.log(result)
       fetchKakaoProfile()
     })
     .catch(error => {
@@ -20,7 +20,7 @@ const kakaoLogin = () => {
 const fetchKakaoProfile = () => {
   getProfile()
     .then(result => {
-      console.log('GetProfile Success', JSON.stringify(result))
+      console.log(result)
     })
     .catch(error => {
       console.log(`GetProfile Fail(code:${error.code})`, error.message)
