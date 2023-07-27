@@ -20,8 +20,9 @@ import {font} from 'shared/styles'
 import {emailValidate, passwordValidate} from 'utils/validate'
 import LoginInput from './contents/LoginInput'
 import {fetchEmailLogin} from 'hooks/auth'
-import {setToken} from 'utils/asyncStorage'
+import {setToken, setUserInfo} from 'utils/asyncStorage'
 import Kakao from './contents/Kakao'
+import {AxiosError} from 'utils/axios'
 
 const LoginScreen = () => {
   const [id, setId] = useState('')
@@ -45,12 +46,15 @@ const LoginScreen = () => {
       setMicrocopyPw('8~20자 이내 영문 대소문자, 숫자, 특수문자')
     } else {
       try {
-        const {email, token} = await fetchEmailLogin({email: id, password: pw})
-        await setToken(token)
+        const res = await fetchEmailLogin({email: id, password: pw})
+        setUserInfo(res)
+        await setToken(res.token)
         login()
-      } catch (error) {
-        console.error('login error', error)
-        // TODO: 에러 처리. 아이디 또는 비밀번호 잘못 입력했을 때.
+      } catch (error: unknown) {
+        if (error instanceof AxiosError) {
+          console.log(error?.response?.data?.message)
+          // TODO: 에러 처리. 아이디 또는 비밀번호 잘못 입력했을 때.
+        }
       }
     }
   }

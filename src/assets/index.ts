@@ -1,8 +1,9 @@
-export const Images = {
+export const Images: Record<string, ImageSource> = {
   accept_icon: require('./images/accept_icon.png'),
   adaptive_icon: require('./images/adaptive_icon.png'),
   apple_icon: require('./images/apple_icon.png'),
   back_btn: require('./images/back_btn.png'),
+  back_btn_red: require('./images/back_btn_red.png'),
   caution_icon: require('./images/caution_icon.png'),
   edit: require('./images/edit.png'),
   emoji_01: require('./images/emoji_01.png'),
@@ -44,5 +45,14 @@ export const Images = {
   icon_search: require('./images/icon_search.png'),
   icon_info_red: require('./images/icon_info_red.png'),
   icon_info_gray: require('./images/icon_info_gray.png'),
+  ico_alert: require('./images/ico_alert.png'),
+  ico_chat_bubble: require('./images/ico_chat_bubble.png'),
+  ico_document: require('./images/ico_document.png'),
+  ico_friend: require('./images/ico_friend.png'),
+  ico_info: require('./images/ico_info.png'),
+  ico_setting: require('./images/ico_setting.png'),
+  ico_lock: require('./images/ico_lock.png'),
+  ico_logout: require('./images/ico_logout.png'),
+  ico_account_delete: require('./images/ico_account_delete.png'),
   icon_arrow_blue: require('./images/icon_arrow_blue.png'),
 }
