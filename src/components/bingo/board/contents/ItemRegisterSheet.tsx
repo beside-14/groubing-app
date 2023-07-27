@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import BottomSheet, {BottomSheetTextInput} from '@gorhom/bottom-sheet'
 import {StyleSheet, Text, Image, TouchableOpacity, View} from 'react-native'
 import {Images} from 'assets'
