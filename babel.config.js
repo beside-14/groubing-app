@@ -16,6 +16,11 @@ module.exports = {
       },
     ],
 
-    'react-native-reanimated/plugin',
+    [
+      'react-native-reanimated/plugin',
+      {
+        relativeSourceLocation: true,
+      },
+    ],
   ],
 }

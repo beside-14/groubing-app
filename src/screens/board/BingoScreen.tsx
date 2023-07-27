@@ -1,5 +1,6 @@
 import {StyleSheet, SafeAreaView, ScrollView, View, Text, StatusBar, TouchableOpacity, TextInput, Image} from 'react-native'
-import React, {useState, useEffect} from 'react'
+
+import React, {useState, useEffect, useRef, useMemo, useCallback} from 'react'
 
 import BingoItemData from '../../assets/dataset/BingoItemData.json'
 import {generateBingoBoard, countBingos} from '../../utils/BingoUtil'
@@ -7,15 +8,19 @@ import {ProgressBar} from 'react-native-paper'
 import BingoBoard from 'components/bingo/board/BingoBoard'
 import {Memo} from 'components/bingo/board/Memo'
 import {getBingo, registerItem} from './remote/bingo'
-import BottomSheet, {BottomSheetTextInput} from '@gorhom/bottom-sheet'
+import BottomSheet, {BottomSheetModal, BottomSheetModalProvider, BottomSheetTextInput} from '@gorhom/bottom-sheet'
 import {useQuery} from 'react-query'
 import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
-import {RegisterSheet} from 'components/bingo/board/TemporaryBoardScreen'
-import {useAtom, useAtomValue} from 'jotai'
+
+import {useAtom, useAtomValue, useSetAtom} from 'jotai'
 import {bingo_count_atom, register_item_atom, retech_atom} from './store'
 import {Images} from 'assets'
 import {updateBingoInfo} from 'components/bingo/board/remote'
+import {ItemRegisterSheet} from 'components/bingo/board/contents/ItemRegisterSheet'
+import {BingoGoalText} from './contents/BingoGoalText'
+import {TestInput, TestMemoInput} from './contents/Test'
+
 // import {TextInput} from 'react-native-gesture-handler'
 
 type BingoGoalText = {
@@ -24,118 +29,40 @@ type BingoGoalText = {
   maxBingoCount: number
 }
 
-export const BingoGoalText = ({bingoPercent, bingoCount, maxBingoCount}: BingoGoalText) => {
-  if (bingoPercent >= 100) {
-    return (
-      <View style={styles.bingoGoal}>
-        <Text style={styles.bingoGoalText}>목표를 달성했어요!</Text>
-        <Text style={styles.bingoCountText}>
-          <Text style={styles.bingoCountTextColor}>{bingoCount}</Text>/<Text style={styles.bingoCountTextPadding}>{maxBingoCount}</Text>빙고
-        </Text>
-      </View>
-    )
-  } else {
-    return (
-      <View style={styles.bingoGoal}>
-        <Text style={styles.bingoGoalText}>
-          목표까지 <Text style={styles.bingoPercent}>{bingoPercent.toFixed(0)}%</Text> 남았어요!
-        </Text>
-        <Text style={styles.bingoCountText}>
-          <Text style={styles.bingoCountTextColor}>{bingoCount}</Text>/<Text style={styles.bingoCountTextPadding}>{maxBingoCount}</Text>빙고
-        </Text>
-      </View>
-    )
-  }
-}
-
-export const TestInput = () => {
-  const {params: boardId} = useRoute()
-  const [state, setState] = useAtom(register_item_atom)
-  const [content, setContent] = useState<{title: string; subTitle: string}>({
-    title: '',
-    subTitle: '',
-  })
-  const [refetch, setRetech] = useAtom(retech_atom)
-  const reset = () => {
-    setContent({
-      title: '',
-      subTitle: '',
-    })
-  }
-  const addItem = async () => {
-    if (!boardId) return
-
-    const res = await registerItem(content, boardId, state.id as number)
-
-    reset()
-    setState({mode: false, id: null})
-    setRetech(true)
-  }
-  if (!state.mode) return null
-  return (
-    <View
-      style={{
-        position: 'absolute',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rbga(0,0,0,0.3)',
-        zIndex: 20,
-      }}>
-      <View style={{marginTop: 60, backgroundColor: 'white', padding: 20, width: '80%', borderWidth: 1, borderRadius: 5}}>
-        <TextInput
-          placeholder="제목을 입력해주세요"
-          onChangeText={t => setContent(prev => ({...prev, title: t}))}
-          value={content.title}
-          style={{borderBottomWidth: 1, fontSize: 16, width: '100%', height: 45, fontFamily: 'NotoSansKR_400Regular', marginBottom: 12}}
-        />
-        <TextInput
-          placeholder="내용을 입력해주세요"
-          onChangeText={t => setContent(prev => ({...prev, subTitle: t}))}
-          value={content.subTitle}
-          style={{borderBottomWidth: 1, fontSize: 16, width: '100%', height: 45, fontFamily: 'NotoSansKR_400Regular'}}
-        />
-        <TouchableOpacity onPress={() => addItem()} style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
-          <Text style={{textAlign: 'center', color: 'white'}}>제출</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            reset()
-            setState({mode: false, id: null})
-          }}
-          style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
-          <Text style={{textAlign: 'center', color: 'white'}}>닫기</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  )
-}
-
 const BingoScreen = () => {
   const [visibleForm, setVisibleForm] = useState<boolean>(false)
   const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
   const {navigate, back} = useRoutes()
   const [refetch, setRetech] = useAtom(retech_atom)
   const {params} = useRoute()
-
+  const {fromCreate, id} = params || {}
   const [data, setData] = useState()
 
   const isTemporary = !data?.completed
+  ////
+  const bottomSheetRef = useRef<BottomSheet>(null)
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  // variables
+  const snapPoints = useMemo(() => ['25%', '50%'], [])
 
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index)
+  }, [])
+  ////
   useEffect(() => {
     ;(async () => {
-      const res = await getBingo(params)
+      const res = await getBingo(id)
       setBingoCount(res.data.data.bingoMap.totalBingoCount)
       setData(res.data.data)
+      console.log(data)
     })()
   }, [])
 
   useEffect(() => {
     if (!refetch) return
     ;(async () => {
-      const res = await getBingo(params)
+      const res = await getBingo(id)
       setBingoCount(res.data.data.bingoMap.totalBingoCount)
       setData(res.data.data)
       setRetech(false)
@@ -144,9 +71,8 @@ const BingoScreen = () => {
 
   if (!data) return null
   return (
-    <>
+    <View style={{flex: 1, backgroundColor: 'green'}}>
       <SafeAreaView style={styles.safeAreaContainer}>
-        {/* 헤더 분리작업 필요 */}
         <View
           style={{
             height: 60,
@@ -156,14 +82,19 @@ const BingoScreen = () => {
             alignItems: 'center',
             paddingHorizontal: 20,
           }}>
-          <TouchableOpacity onPress={() => back()} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-            <Image source={Images.back_btn} style={{width: 30, height: 30}} />
-          </TouchableOpacity>
+          {fromCreate ? (
+            <View></View>
+          ) : (
+            <TouchableOpacity onPress={() => back()} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+              <Image source={Images.back_btn} style={{width: 30, height: 30}} />
+            </TouchableOpacity>
+          )}
+
           {isTemporary ? (
             <TouchableOpacity
               onPress={async () => {
                 const result = await updateBingoInfo(data.id, {title: data.title, goal: data.goal})
-                console.log('?????', result)
+
                 if (result?.status === 200) navigate('BingoList')
                 return
               }}
@@ -172,7 +103,10 @@ const BingoScreen = () => {
               <Text>저장하기</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity onPress={() => navigate('BingoList')} style={{alignItems: 'center'}}>
+            <TouchableOpacity
+              // onPress={() => navigate('BingoList')}
+              onPress={() => bottomSheetModalRef.current?.present()}
+              style={{alignItems: 'center'}}>
               <Image source={Images.icon_more} style={{width: 24, height: 24, marginRight: 4}} />
             </TouchableOpacity>
           )}
@@ -195,11 +129,12 @@ const BingoScreen = () => {
           <BingoBoard isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
           <Memo content={data?.memo} />
         </ScrollView>
-
-        {/* {state.mode && <RegisterSheet setVisible={() => setState({mode: false, id: null})} />} */}
+        {/* {true && <ItemRegisterSheet boardId={3} />} */}
       </SafeAreaView>
+      {/* <ItemRegisterSheet boardId={3} /> */}
       <TestInput />
-    </>
+      <TestMemoInput />
+    </View>
   )
 }
 
@@ -253,48 +188,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: 'NotoSansKR_400Regular',
   },
-  bingoGoal: {
-    marginBottom: 5,
-    flexDirection: 'row',
-  },
+
   progressBar: {
     height: 5,
     marginBottom: 20,
     marginHorizontal: 10,
   },
-  bingoPercent: {
-    flex: 1,
-    fontFamily: 'NotoSansKR_700Bold',
-    alignItems: 'flex-start',
-    paddingLeft: 4,
-    paddingRight: 4,
-    color: '#3A8ADB',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  bingoGoalText: {
-    flex: 1,
-    fontFamily: 'NotoSansKR_700Bold',
-    alignItems: 'flex-start',
 
-    fontSize: 13,
-    color: '#000000',
-  },
-  bingoCountText: {
-    flex: 1,
-    alignItems: 'flex-end',
-    textAlign: 'right',
-
-    fontFamily: 'NotoSansKR_700Bold',
-    fontSize: 13,
-    color: '#666666',
-    marginRight: 1,
-  },
   bingoCountTextPadding: {
     paddingHorizontal: 2,
-  },
-  bingoCountTextColor: {
-    color: '#3A8ADB',
-    fontSize: 18,
   },
 })

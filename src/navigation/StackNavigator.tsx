@@ -4,6 +4,7 @@ import {createStackNavigator, StackNavigationOptions} from '@react-navigation/st
 import {NavigationContainer} from '@react-navigation/native'
 import {BingoScreen, CreateBingoScreen, MypageSetting} from 'screens'
 
+import {TouchableOpacity} from 'react-native-gesture-handler'
 import {getToken} from 'utils/asyncStorage'
 import {isLoggedAtom} from 'store'
 import {useAtom} from 'utils/jotai'
@@ -59,6 +60,8 @@ const screens: ScreenItemType[] = [
   },
   // 여기에 추가 스크린 정보를 추가합니다.
 ]
+
+import Test from 'screens/Test'
 
 const Root = createStackNavigator()
 
