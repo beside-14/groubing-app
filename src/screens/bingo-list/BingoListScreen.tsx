@@ -4,8 +4,7 @@ import {View} from 'react-native'
 import {getBingoList} from './remote'
 import {useRoutes} from 'hooks/useRoutes'
 import {useIsFocused, useNavigation} from '@react-navigation/native'
-import BottomSheet, {BottomSheetTextInput} from '@gorhom/bottom-sheet'
-import {RegisterSheet} from 'components/bingo/board/TemporaryBoardScreen'
+
 import {Images} from 'assets'
 import {Image} from 'react-native'
 
