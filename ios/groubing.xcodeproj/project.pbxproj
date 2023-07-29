@@ -20,10 +20,10 @@
 		5E7F8C852A6C09A6001D32B1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5E7F8C842A6C09A6001D32B1 /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A77EAEEB975AD03CC9794D34 /* libPods-groubing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F191D57BF144609EAC09290 /* libPods-groubing.a */; };
-		AA46BE0945EC55D7A53F8D45 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		AA46BE0945EC55D7A53F8D45 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		B5697421C8FDE66D235461EB /* libPods-groubing-groubingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31889B5DE98842EA0C8CBB2E /* libPods-groubing-groubingTests.a */; };
 		B7055FBF1E7D4A9D90D094B3 /* NotoSansKR-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CB8C7D3DAF854E9DAF8A466D /* NotoSansKR-Light.otf */; };
-		BA90062A2C8A3B7CC17D99F2 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		BA90062A2C8A3B7CC17D99F2 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		D90BED5415E240699D6BF324 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3517FE0B0B824AEEBCAE2675 /* Montserrat-Regular.ttf */; };
 		DAA877AC4BF14446A5E89FCF /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0B7D8C7E34542D78F4E746A /* Montserrat-Bold.ttf */; };
 		E0440AD736B24062A91A9A20 /* NotoSansKR-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 787AE98CD0804C17943C1DFB /* NotoSansKR-Black.otf */; };
@@ -75,7 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA46BE0945EC55D7A53F8D45 /* BuildFile in Frameworks */,
+				AA46BE0945EC55D7A53F8D45 /* (null) in Frameworks */,
 				B5697421C8FDE66D235461EB /* libPods-groubing-groubingTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,7 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E7F8C832A6C0878001D32B1 /* FirebaseMessaging in Frameworks */,
-				BA90062A2C8A3B7CC17D99F2 /* BuildFile in Frameworks */,
+				BA90062A2C8A3B7CC17D99F2 /* (null) in Frameworks */,
 				A77EAEEB975AD03CC9794D34 /* libPods-groubing.a in Frameworks */,
 				5E7F8C812A6C0878001D32B1 /* FirebaseAnalytics in Frameworks */,
 			);
