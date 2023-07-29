@@ -14,9 +14,9 @@ import AuthNavigator from './AuthNavigator'
 import SplashScreen from './SplashScreen'
 import TabNavigator from './TabNavigator'
 import Test from 'screens/Test'
+import {EditScreen} from 'screens/board/contents/EditScreen'
 
 const Root = createStackNavigator()
-
 const StackNavigator = () => {
   const navigationRef = useRef<undefined | any>()
   const [loading, setLoading] = useState(true)
@@ -68,6 +68,24 @@ const StackNavigator = () => {
             ),
             headerLeft: () => null,
             headerStyle: {borderColor: 'white'},
+            // animation: 'slide_from_bottom',
+          }}
+        />
+        <Root.Screen
+          name="BingoEdit"
+          component={EditScreen}
+          options={{
+            title: '',
+            headerShown: true,
+            animationEnabled: true,
+            gestureDirection: 'vertical',
+            // headerRight: () => (
+            //   <TouchableOpacity onPress={() => navigationRef.current.navigate('BingoList')} style={{paddingHorizontal: 20}}>
+            //     <Text>닫기</Text>
+            //   </TouchableOpacity>
+            // ),
+            // headerLeft: () => null,
+            // headerStyle: {borderColor: 'white'},
             // animation: 'slide_from_bottom',
           }}
         />
