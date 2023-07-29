@@ -7,6 +7,7 @@ import {useAtom, useAtomValue} from 'jotai'
 import {FORM_BASE_DATA, bingoBaseData, bingo_base_data_atom} from 'screens/board/store'
 import {useResetAtom} from 'jotai/utils'
 import {useRoute} from '@react-navigation/native'
+import {MENU} from 'navigation/menu'
 
 const Type = () => {
   const [data, setData] = useAtom(bingo_base_data_atom)
@@ -145,7 +146,6 @@ const STEP: any = {
 const Input = ({step}: {step: string}) => {
   const data = useAtomValue(bingo_base_data_atom)
 
-  console.log('폼데타', data)
   const CREATE_INFO: any = {
     '빙고 타입': data.boardType === 'SINGLE' ? '개인' : '그룹',
     '빙고 공개 여부': data.open ? '공개' : '비공개',
@@ -192,7 +192,7 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
 
             if (res.code === 'OK') {
               init()
-              return navigate('BingoBoard', {id: res.data.id, fromCreate: true})
+              return navigate(MENU.BINGO_BOARD, {id: res.data.id, fromCreate: true})
             } else {
               return console.log('생성실패 토큰확인')
             }

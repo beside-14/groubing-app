@@ -7,6 +7,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native'
 
 import {Images} from 'assets'
 import {Image} from 'react-native'
+import {MENU} from 'navigation/menu'
 
 const MiniBoard = ({bingo}) => {
   const bingoarr = bingo.map(e => e.bingoItems)
@@ -87,7 +88,7 @@ const BingoListScreen = () => {
     return list
   }
 
-  const goToBoard = (id: number) => navigate('BingoBoard', {id: id})
+  const goToBoard = (id: number) => navigate(MENU.BINGO_BOARD, {id: id})
 
   return (
     <SafeAreaView style={styles.container}>

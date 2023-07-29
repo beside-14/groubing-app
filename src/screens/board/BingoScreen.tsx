@@ -14,12 +14,13 @@ import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
 
 import {useAtom, useAtomValue, useSetAtom} from 'jotai'
-import {bingo_count_atom, register_item_atom, retech_atom} from './store'
+import {bingo_count_atom, register_item_atom, retech_atom, show_edit_box_atom} from './store'
 import {Images} from 'assets'
 import {updateBingoInfo} from 'components/bingo/board/remote'
 import {ItemRegisterSheet} from 'components/bingo/board/contents/ItemRegisterSheet'
 import {BingoGoalText} from './contents/BingoGoalText'
 import {TestInput, TestMemoInput} from './contents/Test'
+import {MENU} from 'navigation/menu'
 
 // import {TextInput} from 'react-native-gesture-handler'
 
@@ -29,11 +30,53 @@ type BingoGoalText = {
   maxBingoCount: number
 }
 
+export const MoreModal = () => {
+  const {navigate} = useRoutes()
+  const {params} = useRoute()
+  const {id} = params || {}
+
+  const [visible, setVisible] = useAtom(show_edit_box_atom)
+  if (!visible) return null
+  return (
+    <View
+      style={{
+        position: 'absolute',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.6)',
+
+        zIndex: 20,
+      }}>
+      <View style={{marginTop: 60, backgroundColor: 'white', padding: 20, width: '80%', borderWidth: 1, borderRadius: 5}}>
+        <TouchableOpacity
+          onPress={() => {
+            setVisible(false)
+            navigate(MENU.BINGO_EDIT, {id: id})
+          }}
+          style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
+          <Text style={{textAlign: 'center', color: 'white'}}>수정</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {}} style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
+          <Text style={{textAlign: 'center', color: 'white'}}>삭제</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setVisible(false)} style={{backgroundColor: 'red', padding: 5, marginTop: 20}}>
+          <Text style={{textAlign: 'center', color: 'white'}}>닫기</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  )
+}
+
 const BingoScreen = () => {
   const [visibleForm, setVisibleForm] = useState<boolean>(false)
   const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
   const {navigate, back} = useRoutes()
   const [refetch, setRetech] = useAtom(retech_atom)
+
+  const showEditBox = useSetAtom(show_edit_box_atom)
   const {params} = useRoute()
   const {fromCreate, id} = params || {}
   const [data, setData] = useState()
@@ -105,7 +148,7 @@ const BingoScreen = () => {
           ) : (
             <TouchableOpacity
               // onPress={() => navigate('BingoList')}
-              onPress={() => bottomSheetModalRef.current?.present()}
+              onPress={() => showEditBox(true)}
               style={{alignItems: 'center'}}>
               <Image source={Images.icon_more} style={{width: 24, height: 24, marginRight: 4}} />
             </TouchableOpacity>
@@ -113,7 +156,7 @@ const BingoScreen = () => {
         </View>
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.bingoTypeContainer}>
-            <Text style={styles.bingoType}>{data?.type === 'SINGLE' ? '개인' : '그룹'}</Text>
+            <Text style={styles.bingoType}>{data?.groupType === 'SINGLE' ? '개인' : '그룹'}</Text>
             <View style={styles.bingoTitleContainer}>
               <Text style={styles.bingoTitle}>{data?.title}</Text>
               <View style={styles.remainingDaysContainer}>
@@ -129,11 +172,11 @@ const BingoScreen = () => {
           <BingoBoard isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
           <Memo content={data?.memo} />
         </ScrollView>
-        {/* {true && <ItemRegisterSheet boardId={3} />} */}
       </SafeAreaView>
       {/* <ItemRegisterSheet boardId={3} /> */}
       <TestInput />
       <TestMemoInput />
+      <MoreModal />
     </View>
   )
 }

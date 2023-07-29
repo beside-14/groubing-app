@@ -29,8 +29,6 @@ export const updateBingoInfo = async (baordId: number, payload: any) => {
   //일단 날짜 고정
   payload = {
     ...payload,
-    since: '2023-07-21',
-    until: '2023-08-28',
   }
   const res = await API.patch(`/api/bingo-boards/${baordId}/base`, payload)
   return res
