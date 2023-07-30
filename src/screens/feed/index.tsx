@@ -1,6 +1,18 @@
 import React from 'react'
-import {StyleSheet, SafeAreaView} from 'react-native'
+import {StyleSheet, SafeAreaView, Text} from 'react-native'
 import {FeedHeader, FeedTab} from './contents'
+import {View} from 'react-native'
+
+const Card = () => {
+  return (
+    <View style={styles.block}>
+      <View style={styles.row}>
+        <View style={styles.profileimg} />
+        <Text>kay</Text>
+      </View>
+    </View>
+  )
+}
 
 const Feed = () => {
   return (
@@ -10,6 +22,7 @@ const Feed = () => {
       {/* 탭 */}
       <FeedTab />
       {/* 피드 리스트 */}
+      <Card />
     </SafeAreaView>
   )
 }
@@ -21,4 +34,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  row: {display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8},
+  profileimg: {width: 36, height: 36, backgroundColor: 'pink', borderRadius: 50},
+  username: {fontWeight: '500', fontSize: 16},
+  block: {padding: 20},
 })
