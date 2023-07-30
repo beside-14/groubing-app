@@ -1,4 +1,4 @@
-import {StyleSheet, SafeAreaView, ScrollView, View, Text, StatusBar, TouchableOpacity, TextInput, Image} from 'react-native'
+import {StyleSheet, SafeAreaView, ScrollView, View, Text, StatusBar, TouchableOpacity, TextInput, Image, Alert} from 'react-native'
 
 import React, {useState, useEffect, useRef, useMemo, useCallback} from 'react'
 
@@ -7,7 +7,7 @@ import {generateBingoBoard, countBingos} from '../../utils/BingoUtil'
 import {ProgressBar} from 'react-native-paper'
 import BingoBoard from 'components/bingo/board/BingoBoard'
 import {Memo} from 'components/bingo/board/Memo'
-import {getBingo, registerItem} from './remote/bingo'
+import {deleteBingo, getBingo, registerItem} from './remote/bingo'
 import BottomSheet, {BottomSheetModal, BottomSheetModalProvider, BottomSheetTextInput} from '@gorhom/bottom-sheet'
 import {useQuery} from 'react-query'
 import {useRoutes} from 'hooks/useRoutes'
@@ -37,6 +37,17 @@ export const MoreModal = () => {
 
   const [visible, setVisible] = useAtom(show_edit_box_atom)
   if (!visible) return null
+
+  const deleteBoard = async () => {
+    const res = await deleteBingo(id)
+
+    if (res.status === 200) {
+      setVisible(false)
+      navigate('BingoList')
+      return Alert.alert('삭제가 완료되었습니다.')
+    }
+  }
+
   return (
     <View
       style={{
@@ -59,7 +70,7 @@ export const MoreModal = () => {
           style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
           <Text style={{textAlign: 'center', color: 'white'}}>수정</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}} style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
+        <TouchableOpacity onPress={() => deleteBoard()} style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
           <Text style={{textAlign: 'center', color: 'white'}}>삭제</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setVisible(false)} style={{backgroundColor: 'red', padding: 5, marginTop: 20}}>
