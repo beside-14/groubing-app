@@ -32,7 +32,6 @@ const Type = () => {
             <TouchableOpacity
               key={i}
               onPress={() => {
-                console.log('뭐야? ', e[0])
                 setType('SINGLE', i === 0 ? 3 : 4)
               }}
               style={data.boardType === 'SINGLE' && e[0] === data.bingoSize.toString() ? styles.selectedBtn : styles.unSelectedBtn}>
@@ -259,7 +258,7 @@ const styles = StyleSheet.create({
   },
   unSelectedBtnText: {
     width: '100%',
-    height: 16,
+
     fontSize: 15,
     color: '#666666',
   },
@@ -277,14 +276,14 @@ const styles = StyleSheet.create({
   },
   selectedBtnText: {
     width: '100%',
-    height: 16,
+
     fontSize: 15,
     color: '#FFFFFF',
   },
   selectedBtn: {
     backgroundColor: '#3A8ADB',
 
-    height: 45,
+    // height: 45,
     borderRadius: 99,
     justifyContent: 'center',
     alignItems: 'center',

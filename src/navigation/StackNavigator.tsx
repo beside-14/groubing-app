@@ -72,6 +72,7 @@ const screens: ScreenItemType[] = [
 import {EditScreen} from 'screens/board/contents/EditScreen'
 
 const Root = createStackNavigator()
+
 const StackNavigator = () => {
   const navigationRef = useRef<undefined | any>()
   const [loading, setLoading] = useState(true)
