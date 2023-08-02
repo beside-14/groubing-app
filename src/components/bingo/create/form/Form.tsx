@@ -1,5 +1,5 @@
 import {StyleSheet, Text, ScrollView, View, TextInput} from 'react-native'
-import React from 'react'
+import React, {useEffect} from 'react'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import {createBingo} from '../remote'
 import {useRoutes} from 'hooks/useRoutes'
@@ -175,7 +175,6 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
   const {navigate} = useRoutes()
   const [data, setData] = useAtom(bingo_base_data_atom)
 
-  const init = useResetAtom(FORM_BASE_DATA)
   return (
     <>
       <ScrollView style={styles.headerContainer}>
@@ -190,7 +189,7 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
             const res = await createBingo(data)
 
             if (res.code === 'OK') {
-              init()
+              setData(bingoBaseData)
               return navigate(MENU.BINGO_BOARD, {id: res.data.id, fromCreate: true})
             } else {
               return console.log('생성실패 토큰확인')

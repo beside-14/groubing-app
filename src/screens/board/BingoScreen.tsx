@@ -1,23 +1,11 @@
-import {
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-  TextInput,
-  Image,
-  Alert,
-  DeviceEventEmitter,
-} from 'react-native'
+import {StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, Image, Alert, DeviceEventEmitter} from 'react-native'
 
 import React, {useState, useEffect, useRef, useMemo, useCallback} from 'react'
 
 import {ProgressBar} from 'react-native-paper'
 import BingoBoard from 'components/bingo/board/BingoBoard'
 import {Memo} from 'components/bingo/board/Memo'
-import {deleteBingo, getBingo} from './remote/bingo'
+import {deleteBingo, getBingo, shuffleItems} from './remote/bingo'
 import BottomSheet, {BottomSheetModal} from '@gorhom/bottom-sheet'
 
 import {useRoutes} from 'hooks/useRoutes'
@@ -125,7 +113,6 @@ const BingoScreen = () => {
       const res = await getBingo(id)
       setBingoCount(res.data.data.bingoMap.totalBingoCount)
       setData(res.data.data)
-      console.log(data)
     })()
   }, [])
 
@@ -145,6 +132,12 @@ const BingoScreen = () => {
     })
     return () => subscription.remove()
   }, [])
+
+  const shuffle = async () => {
+    const res = await shuffleItems(id)
+
+    if (res?.status === 200) setRetech(true)
+  }
 
   if (!data) return null
   return (
@@ -203,6 +196,11 @@ const BingoScreen = () => {
           </View>
 
           <BingoBoard isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
+          {isTemporary && (
+            <TouchableOpacity onPress={() => shuffle()}>
+              <Text style={{textAlign: 'right', padding: 20, paddingBottom: 0, fontWeight: '500', color: '#666666'}}>섞기</Text>
+            </TouchableOpacity>
+          )}
           <Memo content={data?.memo} />
         </ScrollView>
       </SafeAreaView>
