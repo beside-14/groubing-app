@@ -1,23 +1,21 @@
-import {StyleSheet, SafeAreaView, ScrollView, View, Text, StatusBar, TouchableOpacity, TextInput, Image, Alert} from 'react-native'
+import {StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, Image, Alert, DeviceEventEmitter} from 'react-native'
 
 import React, {useState, useEffect, useRef, useMemo, useCallback} from 'react'
 
-import BingoItemData from '../../assets/dataset/BingoItemData.json'
-import {generateBingoBoard, countBingos} from '../../utils/BingoUtil'
 import {ProgressBar} from 'react-native-paper'
 import BingoBoard from 'components/bingo/board/BingoBoard'
 import {Memo} from 'components/bingo/board/Memo'
-import {deleteBingo, getBingo, registerItem} from './remote/bingo'
-import BottomSheet, {BottomSheetModal, BottomSheetModalProvider, BottomSheetTextInput} from '@gorhom/bottom-sheet'
-import {useQuery} from 'react-query'
+import {deleteBingo, getBingo, shuffleItems} from './remote/bingo'
+import BottomSheet, {BottomSheetModal} from '@gorhom/bottom-sheet'
+
 import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
 
-import {useAtom, useAtomValue, useSetAtom} from 'jotai'
-import {bingo_count_atom, register_item_atom, retech_atom, show_edit_box_atom} from './store'
+import {useAtom, useSetAtom} from 'jotai'
+import {bingo_count_atom, retech_atom, show_edit_box_atom} from './store'
 import {Images} from 'assets'
 import {updateBingoInfo} from 'components/bingo/board/remote'
-import {ItemRegisterSheet} from 'components/bingo/board/contents/ItemRegisterSheet'
+
 import {BingoGoalText} from './contents/BingoGoalText'
 import {TestInput, TestMemoInput} from './contents/Test'
 import {MENU} from 'navigation/menu'
@@ -44,6 +42,7 @@ export const MoreModal = () => {
     if (res.status === 200) {
       setVisible(false)
       navigate('BingoList')
+
       return Alert.alert('삭제가 완료되었습니다.')
     }
   }
@@ -70,7 +69,12 @@ export const MoreModal = () => {
           style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
           <Text style={{textAlign: 'center', color: 'white'}}>수정</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => deleteBoard()} style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
+        <TouchableOpacity
+          onPress={() => {
+            setVisible(false)
+            deleteBoard()
+          }}
+          style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
           <Text style={{textAlign: 'center', color: 'white'}}>삭제</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setVisible(false)} style={{backgroundColor: 'red', padding: 5, marginTop: 20}}>
@@ -109,7 +113,6 @@ const BingoScreen = () => {
       const res = await getBingo(id)
       setBingoCount(res.data.data.bingoMap.totalBingoCount)
       setData(res.data.data)
-      console.log(data)
     })()
   }, [])
 
@@ -122,6 +125,19 @@ const BingoScreen = () => {
       setRetech(false)
     })()
   }, [refetch])
+
+  useEffect(() => {
+    let subscription = DeviceEventEmitter.addListener('EDIT_COMPLETE', () => {
+      setRetech(true)
+    })
+    return () => subscription.remove()
+  }, [])
+
+  const shuffle = async () => {
+    const res = await shuffleItems(id)
+
+    if (res?.status === 200) setRetech(true)
+  }
 
   if (!data) return null
   return (
@@ -148,7 +164,6 @@ const BingoScreen = () => {
             <TouchableOpacity
               onPress={async () => {
                 const result = await updateBingoInfo(data.id, {title: data.title, goal: data.goal})
-
                 if (result?.status === 200) navigate('BingoList')
                 return
               }}
@@ -181,6 +196,11 @@ const BingoScreen = () => {
           </View>
 
           <BingoBoard isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
+          {isTemporary && (
+            <TouchableOpacity onPress={() => shuffle()}>
+              <Text style={{textAlign: 'right', padding: 20, paddingBottom: 0, fontWeight: '500', color: '#666666'}}>섞기</Text>
+            </TouchableOpacity>
+          )}
           <Memo content={data?.memo} />
         </ScrollView>
       </SafeAreaView>

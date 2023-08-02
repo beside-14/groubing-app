@@ -36,7 +36,6 @@ export const updateBingoInfo = async (baordId: number, payload: any) => {
     payload.until = '2023-08-30'
   }
 
-  console.log()
   const res = await API.patch(`/api/bingo-boards/${baordId}/base`, payload)
   return res
 }

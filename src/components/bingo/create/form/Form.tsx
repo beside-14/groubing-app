@@ -1,5 +1,5 @@
 import {StyleSheet, Text, ScrollView, View, TextInput} from 'react-native'
-import React from 'react'
+import React, {useEffect} from 'react'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import {createBingo} from '../remote'
 import {useRoutes} from 'hooks/useRoutes'
@@ -32,7 +32,6 @@ const Type = () => {
             <TouchableOpacity
               key={i}
               onPress={() => {
-                console.log('뭐야? ', e[0])
                 setType('SINGLE', i === 0 ? 3 : 4)
               }}
               style={data.boardType === 'SINGLE' && e[0] === data.bingoSize.toString() ? styles.selectedBtn : styles.unSelectedBtn}>
@@ -176,7 +175,6 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
   const {navigate} = useRoutes()
   const [data, setData] = useAtom(bingo_base_data_atom)
 
-  const init = useResetAtom(FORM_BASE_DATA)
   return (
     <>
       <ScrollView style={styles.headerContainer}>
@@ -191,7 +189,7 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
             const res = await createBingo(data)
 
             if (res.code === 'OK') {
-              init()
+              setData(bingoBaseData)
               return navigate(MENU.BINGO_BOARD, {id: res.data.id, fromCreate: true})
             } else {
               return console.log('생성실패 토큰확인')
@@ -259,7 +257,7 @@ const styles = StyleSheet.create({
   },
   unSelectedBtnText: {
     width: '100%',
-    height: 16,
+
     fontSize: 15,
     color: '#666666',
   },
@@ -277,14 +275,14 @@ const styles = StyleSheet.create({
   },
   selectedBtnText: {
     width: '100%',
-    height: 16,
+
     fontSize: 15,
     color: '#FFFFFF',
   },
   selectedBtn: {
     backgroundColor: '#3A8ADB',
 
-    height: 45,
+    // height: 45,
     borderRadius: 99,
     justifyContent: 'center',
     alignItems: 'center',

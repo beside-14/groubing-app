@@ -27,3 +27,8 @@ export const registerItem = async (content: {title: string; subTitle: string}, b
   const res = await API.put(`/api/bingo-boards/${boardid}/bingo-items/${bingoId}`, content)
   return res
 }
+
+export const shuffleItems = async (boardid: number) => {
+  const res = await API.put(`/api/bingo-boards/${boardid}/bingo-items`)
+  return res
+}
