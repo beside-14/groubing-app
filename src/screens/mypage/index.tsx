@@ -4,6 +4,7 @@ import {font} from 'shared/styles'
 import {Images} from 'assets'
 import {MENU} from 'navigation/menu'
 import {useRoutes} from 'hooks/useRoutes'
+import useUserInfo from 'hooks/useUserInfo'
 
 type ButtonType = {name: string; icon: ImageSource; route?: string}
 const BUTTONS: ButtonType[] = [
@@ -17,6 +18,7 @@ const BUTTONS: ButtonType[] = [
 
 const Mypage = () => {
   const {navigate} = useRoutes()
+  const {userInfo} = useUserInfo()
 
   const handleItemClick = async (item: ButtonType) => {
     if (item.name === '서비스 문의') {
@@ -26,14 +28,12 @@ const Mypage = () => {
     }
   }
 
-  useEffect(() => {}, [])
-
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>마이페이지</Text>
       <View style={styles.profile}>
         <View style={styles.profile_info}>
-          <Image style={styles.profile_image} source={Images.profile} resizeMode="cover" />
+          <Image style={styles.profile_image} source={userInfo?.profileUrl ? userInfo?.profileUrl : Images.profile} resizeMode="cover" />
           <Text style={styles.profile_text}>닉네임</Text>
         </View>
         <TouchableOpacity style={styles.profile_edit}>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   header: {marginTop: 24, paddingLeft: 20, fontSize: 24, ...font.NotoSansKR_Bold},
   profile: {marginTop: 40, marginBottom: 24, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'},
   profile_info: {flexDirection: 'row', alignItems: 'center'},
-  profile_image: {width: 72, height: 72, marginRight: 12, backgroundColor: 'lightgray 50%', borderRadius: 100},
+  profile_image: {width: 72, height: 72, marginRight: 12, backgroundColor: 'rgba(211, 211, 211, 0.5)', borderRadius: 100},
   profile_text: {fontSize: 20, ...font.NotoSansKR_Medium},
   profile_edit: {flexDirection: 'row', alignItems: 'center'},
   profile_edit_text: {fontSize: 14, ...font.NotoSansKR_Regular},

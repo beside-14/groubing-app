@@ -4,8 +4,7 @@ import {createStackNavigator, StackNavigationOptions} from '@react-navigation/st
 import {NavigationContainer} from '@react-navigation/native'
 import {BingoScreen, CreateBingoScreen, MypageSetting} from 'screens'
 
-import {TouchableOpacity} from 'react-native-gesture-handler'
-import {getToken} from 'utils/asyncStorage'
+import {getToken, getUserInfo} from 'utils/asyncStorage'
 import {isLoggedAtom} from 'store'
 import {useAtom} from 'utils/jotai'
 
@@ -14,6 +13,7 @@ import SplashScreen from './SplashScreen'
 import TabNavigator from './TabNavigator'
 import {MENU} from './menu'
 import NavigatorHeader from 'components/common/NavigatorHeader'
+import useUserInfo from 'hooks/useUserInfo'
 
 interface ScreenItemType {
   name: string
@@ -69,8 +69,10 @@ const StackNavigator = () => {
   const navigationRef = useRef<undefined | any>()
   const [loading, setLoading] = useState(true)
   const [isLogged, setIsLogged] = useAtom(isLoggedAtom)
+  const {setUserInfo} = useUserInfo()
 
   useEffect(() => {
+    // 로그인 여부 확인
     const checkToken = async () => {
       const token = await getToken()
       if (token) {
@@ -80,6 +82,15 @@ const StackNavigator = () => {
     }
     checkToken()
   }, [isLogged])
+
+  useEffect(() => {
+    // 로그인 유저 정보 확인
+    const checkUserInfo = async () => {
+      const user = await getUserInfo()
+      setUserInfo(user)
+    }
+    checkUserInfo()
+  }, [])
 
   return loading ? (
     <SplashScreen />
