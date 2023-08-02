@@ -13,6 +13,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Alert,
+  Dimensions,
 } from 'react-native'
 import {Images} from 'assets'
 import {useRoutes} from 'hooks/useRoutes'
@@ -75,8 +76,10 @@ const LoginScreen = () => {
     <SafeAreaView style={styles.safeAreaContainer}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <Text style={styles.mainText}>GROUBING</Text>
-          <Text style={styles.subText}>우리 모두 그루버해요!</Text>
+          <View style={styles.top}>
+            <Text style={styles.mainText}>GROUBING</Text>
+            <Text style={styles.subText}>우리 모두 그루버해요!</Text>
+          </View>
 
           <View style={styles.formContainer}>
             <LoginInput value={id} setValue={setId} microcopy={microcopyId} placeholder={'아이디(이메일)'} isEmail />
@@ -99,17 +102,18 @@ const LoginScreen = () => {
               </TouchableOpacity>
             </View>
           </View>
+          <View>
+            <Text style={styles.snsText}>SNS 계정으로 로그인하기</Text>
 
-          <Text style={styles.snsText}>SNS 계정으로 로그인하기</Text>
-
-          <View style={styles.snsBtnContainer}>
-            <TouchableOpacity style={styles.snsBtn} onPress={() => Alert.alert('준비 중입니다.')}>
-              <Image source={Images.google_icon} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.snsBtn} onPress={() => Alert.alert('준비 중입니다.')}>
-              <Image source={Images.apple_icon} />
-            </TouchableOpacity>
-            <Kakao />
+            <View style={styles.snsBtnContainer}>
+              <TouchableOpacity style={styles.snsBtn} onPress={() => Alert.alert('준비 중입니다.')}>
+                <Image source={Images.google_icon} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.snsBtn} onPress={() => Alert.alert('준비 중입니다.')}>
+                <Image source={Images.apple_icon} />
+              </TouchableOpacity>
+              <Kakao />
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -129,6 +133,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     width: '100%',
+    justifyContent: 'space-between',
+  },
+  top: {
+    width: '100%',
+    alignSelf: 'flex-start',
+    alignItems: 'center',
   },
   mainText: {
     fontStyle: 'normal',
@@ -137,7 +147,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#3A8ADB',
     textShadowColor: 'rgba(0, 0, 0, 0.25)',
-    marginTop: 110,
+    marginTop: 80,
     ...font.Montserrat_ExtraBold,
   },
   subText: {
@@ -149,9 +159,10 @@ const styles = StyleSheet.create({
     ...font.NotoSansKR_Regular,
   },
   formContainer: {
-    marginTop: 131,
     width: '100%',
     paddingHorizontal: 20,
+    // flex: 1,
+    // justifyContent: 'center',
   },
 
   textInputPw: {
@@ -177,7 +188,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 12,
   },
   subBtnTxt: {
     justifyContent: 'center',
@@ -185,6 +195,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontStyle: 'normal',
     ...font.NotoSansKR_Regular,
+    color: '#000',
   },
   line: {
     width: 1,
@@ -196,14 +207,14 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontSize: 14,
     textAlign: 'center',
-    marginTop: 120,
     ...font.NotoSansKR_Regular,
+    color: '#000',
   },
   snsBtnContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 12,
+    marginBottom: 75,
   },
   snsBtn: {
     marginHorizontal: 6,

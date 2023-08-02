@@ -75,10 +75,19 @@ export default MypageSetting
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#fff', paddingTop: 28},
-  item: {flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 10},
-  item_left: {flexDirection: 'row'},
+  item: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  item_left: {flexDirection: 'row', height: 44, alignItems: 'center'},
   item_left_image: {width: 24, height: 24, marginRight: 10},
-  item_left_text: {...font.NotoSansKR_Regular, fontSize: 16},
+  item_left_text: {
+    ...font.NotoSansKR_Regular,
+    fontSize: 16,
+  },
   rotate: {transform: [{rotate: '180deg'}]},
   text_red: {color: '#ff3c3c'},
   button: {width: 24, height: 24},

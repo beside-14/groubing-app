@@ -1,8 +1,9 @@
 import React from 'react'
 import AuthInput from 'components/auth/AuthInput'
-import {StyleSheet, View, Image, Text, TextStyle} from 'react-native'
+import {StyleSheet, View, Image, Text, TextStyle, Platform} from 'react-native'
 import {Images} from 'assets'
 import Microcopy from 'components/auth/Microcopy'
+import {font} from 'shared/styles'
 
 type LoginInputProps = {
   value: string
@@ -34,5 +35,13 @@ export default LoginInput
 const styles = StyleSheet.create({
   textInput: {
     paddingHorizontal: 8,
+    ...font.NotoSansKR_Regular,
+    fontSize: 16,
+    justifyContent: 'center',
+    ...Platform.select({
+      android: {
+        height: 60,
+      },
+    }),
   },
 })

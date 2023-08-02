@@ -1,13 +1,11 @@
 # splash screen
 # oauth 로그인 (구글, 카카오, 애플)
-# firebase 설정 (테스트앱 배포, 푸시알림)
-# google, apple 개발자 계정 앱 등록
 # 빙고 공유하기
-# 빙고 완료 알림 (firebase message)
+# 푸시 알림 (firebase message)
 # custom toast 팝업
 # 피드, 알림, 마이페이지
 # 이용약관 및 정책, 서비스 문의
 # navigation MENU 모듈화
 # 네이버 이메일 인증 api
-# 로그인 유저정보 atom
-# 6시간 이후 자동 로그아웃 (토큰만료)
+# 이미지 width, height 설정
+# 로그아웃 시 마이페이지가 일시적으로 보이는 현상 해결
