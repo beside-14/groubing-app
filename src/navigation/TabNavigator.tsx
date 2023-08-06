@@ -4,6 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {BingoListScreen, Feed, CreateBingoScreen, Mypage} from 'screens'
 import {Images} from 'assets'
 import {MENU} from './menu'
+import Notification from 'screens/notification'
 
 const Tab = createBottomTabNavigator()
 // const bottomAnimation = {animation: 'slide_from_bottom'}
@@ -55,7 +56,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Alarm"
-        component={CreateBingoScreen}
+        component={Notification}
         options={{
           headerShown: false,
           tabBarLabel: '알림',

@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect, ComponentType} from 'react'
-import {StyleSheet, StatusBar} from 'react-native'
+import {StyleSheet, StatusBar, Alert} from 'react-native'
 import {createStackNavigator, StackNavigationOptions} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native'
 import {BingoScreen, CreateBingoScreen, MypageSetting} from 'screens'
@@ -66,6 +66,7 @@ const screens: ScreenItemType[] = [
       // headerLeft: () => <NavigatorHeader title={'설정'} />,
     },
   },
+
   // 여기에 추가 스크린 정보를 추가합니다.
 ]
 

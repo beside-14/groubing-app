@@ -15,11 +15,11 @@ function addMonths(date, months) {
 }
 
 export const EditScreen = () => {
-  const [data, setData] = useState({title: '', goal: 2})
   const dateobject = new Date()
   const {back} = useRoutes()
   const {params} = useRoute()
-  const {id} = params || {}
+  const {id, title, goal, since, until} = params || {}
+  const [data, setData] = useState({title: title, goal: goal, since: since, until: until})
   const today = format(dateobject, 'yyyy-MM-dd')
   const inituntil = format(addMonths(dateobject, 1), 'yyyy-MM-dd')
   const [datePicker, setDatePicker] = useState('false')
