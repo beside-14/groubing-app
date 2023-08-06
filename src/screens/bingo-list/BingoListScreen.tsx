@@ -9,7 +9,7 @@ import {Images} from 'assets'
 import {Image} from 'react-native'
 import {MENU} from 'navigation/menu'
 
-const MiniBoard = ({bingo}) => {
+const MiniBoard = ({bingo, color}) => {
   const bingoarr = bingo.map(e => e.bingoItems)
 
   return (
@@ -25,7 +25,7 @@ const MiniBoard = ({bingo}) => {
                 borderWidth: 1,
                 borderColor: 'white',
                 borderRadius: 4,
-                backgroundColor: complete ? '#FCB179' : '#DDDDDD',
+                backgroundColor: complete ? color : '#DDDDDD',
               }}
             />
           ))}
@@ -116,7 +116,7 @@ const BingoListScreen = () => {
             data={selectedList(category)}
             keyExtractor={item => item?.id}
             renderItem={({item}) => {
-              const {id, title, since, until, goal, groupType, open, bingoLines, totalBingoCount, completed} = item || {}
+              const {id, title, since, until, goal, groupType, open, bingoLines, totalBingoCount, completed, bingoColorValue} = item || {}
               const type = groupType === 'SINGLE' ? '개인' : '그룹'
               return (
                 <>
@@ -136,7 +136,7 @@ const BingoListScreen = () => {
                           </Text>
                         </View>
                       </View>
-                      <MiniBoard bingo={bingoLines} />
+                      <MiniBoard bingo={bingoLines} color={bingoColorValue} />
                     </TouchableOpacity>
                   ) : (
                     <TouchableOpacity onPress={() => goToBoard(id)} style={styles.temporaryBlock}>

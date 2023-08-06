@@ -6,7 +6,7 @@ import {ProgressBar} from 'react-native-paper'
 import BingoBoard from 'components/bingo/board/BingoBoard'
 import {Memo} from 'components/bingo/board/Memo'
 import {deleteBingo, getBingo, shuffleItems} from './remote/bingo'
-import BottomSheet, {BottomSheetModal} from '@gorhom/bottom-sheet'
+// import BottomSheet, {BottomSheetModal} from '@gorhom/bottom-sheet'
 
 import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
@@ -19,6 +19,7 @@ import {updateBingoInfo} from 'components/bingo/board/remote'
 import {BingoGoalText} from './contents/BingoGoalText'
 import {TestInput, TestMemoInput} from './contents/Test'
 import {MENU} from 'navigation/menu'
+import BottomSheet, {BottomSheetRefProps} from 'components/common/BottomSheet'
 
 // import {TextInput} from 'react-native-gesture-handler'
 
@@ -28,7 +29,7 @@ type BingoGoalText = {
   maxBingoCount: number
 }
 
-export const MoreModal = () => {
+export const MoreModal = ({info}) => {
   const {navigate} = useRoutes()
   const {params} = useRoute()
   const {id} = params || {}
@@ -47,6 +48,8 @@ export const MoreModal = () => {
     }
   }
 
+  console.log('인포₩!', info)
+
   return (
     <View
       style={{
@@ -64,7 +67,7 @@ export const MoreModal = () => {
         <TouchableOpacity
           onPress={() => {
             setVisible(false)
-            navigate(MENU.BINGO_EDIT, {id: id})
+            navigate(MENU.BINGO_EDIT, {id: id, ...info})
           }}
           style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
           <Text style={{textAlign: 'center', color: 'white'}}>수정</Text>
@@ -98,8 +101,8 @@ const BingoScreen = () => {
 
   const isTemporary = !data?.completed
   ////
-  const bottomSheetRef = useRef<BottomSheet>(null)
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  // const bottomSheetRef = useRef<BottomSheet>(null)
+  // const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   // variables
   const snapPoints = useMemo(() => ['25%', '50%'], [])
 
@@ -138,7 +141,23 @@ const BingoScreen = () => {
 
     if (res?.status === 200) setRetech(true)
   }
+  const ref = useRef<BottomSheetRefProps>(null)
 
+  const onPress = useCallback(() => {
+    const isActive = ref?.current?.isActive()
+    if (isActive) {
+      ref?.current?.scrollTo(0)
+    } else {
+      ref?.current?.scrollTo(-200)
+    }
+  }, [])
+
+  const editData = {
+    title: data?.title,
+    goal: data?.goal,
+    since: data?.since,
+    until: data?.until,
+  }
   if (!data) return null
   return (
     <View style={{flex: 1, backgroundColor: 'green'}}>
@@ -202,12 +221,17 @@ const BingoScreen = () => {
             </TouchableOpacity>
           )}
           <Memo content={data?.memo} />
+
+          {/* <BottomSheet ref={ref}>
+            <View style={{flex: 1, backgroundColor: 'orange'}} />
+          </BottomSheet> */}
         </ScrollView>
       </SafeAreaView>
+
       {/* <ItemRegisterSheet boardId={3} /> */}
       <TestInput />
       <TestMemoInput />
-      <MoreModal />
+      <MoreModal info={editData} />
     </View>
   )
 }
