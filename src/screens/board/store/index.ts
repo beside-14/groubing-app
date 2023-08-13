@@ -1,3 +1,4 @@
+import {format} from 'date-fns'
 import {atom} from 'jotai'
 import {atomWithReset, atomWithStorage} from 'jotai/utils'
 
@@ -7,7 +8,18 @@ type BingoBaseType = {
   boardType: string
   open: boolean
   bingoSize: number
+  since: string
+  until: string
 }
+
+export const addMonths = (date, months) => {
+  date.setMonth(date.getMonth() + months)
+
+  return date
+}
+const dateobject = new Date()
+const today = format(dateobject, 'yyyy-MM-dd')
+const inituntil = format(addMonths(dateobject, 1), 'yyyy-MM-dd')
 
 export const bingoBaseData = {
   title: '',
@@ -15,6 +27,8 @@ export const bingoBaseData = {
   boardType: 'SINGLE',
   open: true,
   bingoSize: 3,
+  since: today,
+  until: inituntil,
 }
 
 export const FORM_BASE_DATA = atomWithReset(bingoBaseData)

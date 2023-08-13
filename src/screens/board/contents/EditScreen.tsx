@@ -3,9 +3,8 @@ import {updateBingoInfo} from 'components/bingo/board/remote'
 import {format} from 'date-fns'
 import {useRoutes} from 'hooks/useRoutes'
 import React, {useState} from 'react'
-import {Alert, DeviceEventEmitter} from 'react-native'
+import {Alert, Text, View, DeviceEventEmitter} from 'react-native'
 import {StyleSheet, TextInput, TouchableOpacity} from 'react-native'
-import {Text, View} from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 
 function addMonths(date, months) {

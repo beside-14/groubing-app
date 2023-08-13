@@ -1,4 +1,3 @@
-import axios from 'axios'
 import {API} from 'utils/axios'
 
 export const getBingo = async id => {
@@ -30,5 +29,28 @@ export const registerItem = async (content: {title: string; subTitle: string}, b
 
 export const shuffleItems = async (boardid: number) => {
   const res = await API.put(`/api/bingo-boards/${boardid}/bingo-items`)
+  return res
+}
+
+export const publicBoard = async (boardid: number, isopen: boolean) => {
+  let payload = {
+    open: isopen,
+  }
+  const res = await API.patch(`/api/bingo-boards/${boardid}/open`, payload)
+  return res
+}
+
+export const getFriends = async () => {
+  const res = await API.get(`/api/friends`)
+  return res
+}
+
+export const publishBingo = async (id: number, date: {since: string; until: string}, members: number[]) => {
+  let payload = {
+    bingoMembers: members,
+    since: date.since,
+    until: date.until,
+  }
+  const res = await API.patch(`/api/bingo-boards/${id}/publish-info`, payload)
   return res
 }

@@ -11,7 +11,7 @@ const CreateBingo = () => {
   const isIphone = isIphoneX() && Platform.OS === 'ios'
   const paddingBottom = isIphone ? 90 : 0
 
-  const STEP = ['빙고 타입', '빙고 공개 여부', '빙고 제목', '목표 빙고 개수', '빙고 진행 기간']
+  const STEP = ['빙고 타입', '빙고 공개 여부', '빙고 제목', '목표 빙고 개수']
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{...styles.container}}>

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {StyleSheet, SafeAreaView, Text} from 'react-native'
 import {FeedHeader, FeedTab} from './contents'
 import {View} from 'react-native'
+import {API} from 'utils/axios'
 
 const Card = () => {
   return (
@@ -14,7 +15,20 @@ const Card = () => {
   )
 }
 
+const getFriends = async () => {
+  const res = await API.get('/api/friends')
+
+  return res
+}
 const Feed = () => {
+  useEffect(() => {
+    ;(async () => {
+      const res = await getFriends()
+
+      console.log('결과값!', res)
+    })()
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
       {/* 헤더 */}
