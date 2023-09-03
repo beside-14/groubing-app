@@ -23,6 +23,7 @@ import {FlatList} from 'react-native-gesture-handler'
 import {format} from 'date-fns'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import {updateBingoInfo} from 'components/bingo/board/remote'
+import {MiniBoard} from 'screens/bingo-list/BingoListScreen'
 
 type BingoGoalText = {
   bingoPercent: number
@@ -274,6 +275,8 @@ const BingoScreen = () => {
 
   const [dateGroup, setDateGroup] = useState({since: '', until: ''})
 
+  const [otherBingos, setOtherBingos] = useState([])
+
   useEffect(() => {
     if (modalState === 'none') return
     refRBSheet?.current?.open()
@@ -284,6 +287,7 @@ const BingoScreen = () => {
       const res = await getBingo(id)
       setBingoCount(res.data.data.bingoMap.totalBingoCount)
       setData(res.data.data)
+      setOtherBingos(res.data.data.otherBingoMaps)
     })()
   }, [])
 
@@ -340,6 +344,12 @@ const BingoScreen = () => {
   }
 
   if (!data) return null
+
+  const formatOtherBingo = bingo => {
+    const arr1 = bingo.bingoLines?.map(e => e.bingoItems)
+    // console.log('방고', arr1)
+    // return arr1
+  }
 
   return (
     <View style={{flex: 1, backgroundColor: 'green'}}>
@@ -402,6 +412,39 @@ const BingoScreen = () => {
               <Text style={{textAlign: 'right', padding: 20, paddingBottom: 0, fontWeight: '500', color: '#666666'}}>섞기</Text>
             </TouchableOpacity>
           )}
+          {IS_GROUP && (
+            <View style={styles.miniboardContainer}>
+              <Text style={styles.title}>함께하는 그루버</Text>
+              <View style={{display: 'flex', flexDirection: 'row', gap: 20}}>
+                {otherBingos?.map(bingo => {
+                  const bingoarr = bingo?.bingoLines?.map(e => e?.bingoItems)
+
+                  return (
+                    <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                      {bingoarr?.map((e, i) => (
+                        <View key={i} style={{flexDirection: 'row'}}>
+                          {e?.map(({complete}, i) => (
+                            <View
+                              key={i}
+                              style={{
+                                width: 16,
+                                height: 16,
+                                borderWidth: 1,
+                                borderColor: 'white',
+                                borderRadius: 4,
+                                backgroundColor: complete ? 'pink' : '#DDDDDD',
+                              }}
+                            />
+                          ))}
+                        </View>
+                      ))}
+                      <Text style={{marginTop: 8}}>{bingo?.nickName}</Text>
+                    </View>
+                  )
+                })}
+              </View>
+            </View>
+          )}
           <Memo content={data?.memo} />
         </ScrollView>
         <RBSheet
@@ -437,6 +480,12 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingBottom: 100, // 하단 네비게이터 높이만큼 패딩을 추가
+  },
+  miniboardContainer: {marginTop: 40, paddingHorizontal: 20},
+  title: {
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 12,
   },
   bingoTypeContainer: {
     flex: 1,
