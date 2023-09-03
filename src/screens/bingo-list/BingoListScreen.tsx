@@ -9,8 +9,9 @@ import {Images} from 'assets'
 import {Image} from 'react-native'
 import {MENU} from 'navigation/menu'
 
-const MiniBoard = ({bingo, color}) => {
-  const bingoarr = bingo.map(e => e.bingoItems)
+export const MiniBoard = ({bingo, color}) => {
+  const bingoarr = bingo.map(e => e?.bingoItems)
+  // console.log('bingoarr?', bingoarr)
 
   return (
     <View>
@@ -73,7 +74,7 @@ const BingoListScreen = () => {
     if (!isFocused) return
     ;(async () => {
       const res = await getBingoList()
-      setList(res.data.data.reverse())
+      setList(res.data.data)
     })()
   }, [isFocused])
 
@@ -97,7 +98,7 @@ const BingoListScreen = () => {
       <View style={styles.wrapper}>
         <View style={styles.row}>
           {CATEGORY.map(name => (
-            <TouchableOpacity onPress={() => setCategory(name)} style={styles[category === name ? 'activetab' : 'tab']}>
+            <TouchableOpacity key={name} onPress={() => setCategory(name)} style={styles[category === name ? 'activetab' : 'tab']}>
               <Text style={{color: category === name ? 'white' : 'black'}}>{name}</Text>
             </TouchableOpacity>
           ))}
