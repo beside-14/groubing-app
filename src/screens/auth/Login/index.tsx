@@ -14,6 +14,7 @@ import {
   TouchableWithoutFeedback,
   Alert,
   Dimensions,
+  KeyboardAvoidingView,
 } from 'react-native'
 import {Images} from 'assets'
 import {useRoutes} from 'hooks/useRoutes'
@@ -189,6 +190,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 12,
   },
   subBtnTxt: {
     justifyContent: 'center',
@@ -216,6 +218,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 75,
+    marginTop: 12,
   },
   snsBtn: {
     marginHorizontal: 6,

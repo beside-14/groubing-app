@@ -1,6 +1,8 @@
 module.exports = {
   project: {
-    ios: {},
+    ios: {
+      unstable_reactLegacyComponentNames: ['react-native-fast-image', 'CellContainer', 'AutoLayoutView'],
+    },
     android: {},
   },
   assets: ['src/assets/fonts'],

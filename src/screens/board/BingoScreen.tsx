@@ -1,28 +1,23 @@
-import {StyleSheet, SafeAreaView, ScrollView, View, Text, StatusBar, TouchableOpacity, TextInput, Image, Alert} from 'react-native'
+import {StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, Image, DeviceEventEmitter} from 'react-native'
 
-import React, {useState, useEffect, useRef, useMemo, useCallback} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 
-import BingoItemData from '../../assets/dataset/BingoItemData.json'
-import {generateBingoBoard, countBingos} from '../../utils/BingoUtil'
 import {ProgressBar} from 'react-native-paper'
 import BingoBoard from 'components/bingo/board/BingoBoard'
 import {Memo} from 'components/bingo/board/Memo'
-import {deleteBingo, getBingo, registerItem} from './remote/bingo'
-import BottomSheet, {BottomSheetModal, BottomSheetModalProvider, BottomSheetTextInput} from '@gorhom/bottom-sheet'
-import {useQuery} from 'react-query'
+import {getBingo, shuffleItems} from './remote/bingo'
+
 import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
 
-import {useAtom, useAtomValue, useSetAtom} from 'jotai'
-import {bingo_count_atom, register_item_atom, retech_atom, show_edit_box_atom} from './store'
+import {useAtom} from 'jotai'
+import {bingo_count_atom, retech_atom} from './store'
 import {Images} from 'assets'
-import {updateBingoInfo} from 'components/bingo/board/remote'
-import {ItemRegisterSheet} from 'components/bingo/board/contents/ItemRegisterSheet'
+
 import {BingoGoalText} from './contents/BingoGoalText'
 import {TestInput, TestMemoInput} from './contents/Test'
-import {MENU} from 'navigation/menu'
-
-// import {TextInput} from 'react-native-gesture-handler'
+import RBSheet from 'react-native-raw-bottom-sheet'
+import {DateModal, InviteModal, MoreModal, PublicModal} from './contents/bottom-sheet/modal'
 
 type BingoGoalText = {
   bingoPercent: number
@@ -30,86 +25,38 @@ type BingoGoalText = {
   maxBingoCount: number
 }
 
-export const MoreModal = () => {
-  const {navigate} = useRoutes()
-  const {params} = useRoute()
-  const {id} = params || {}
-
-  const [visible, setVisible] = useAtom(show_edit_box_atom)
-  if (!visible) return null
-
-  const deleteBoard = async () => {
-    const res = await deleteBingo(id)
-
-    if (res.status === 200) {
-      setVisible(false)
-      navigate('BingoList')
-      return Alert.alert('삭제가 완료되었습니다.')
-    }
-  }
-
-  return (
-    <View
-      style={{
-        position: 'absolute',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0,0,0,0.6)',
-
-        zIndex: 20,
-      }}>
-      <View style={{marginTop: 60, backgroundColor: 'white', padding: 20, width: '80%', borderWidth: 1, borderRadius: 5}}>
-        <TouchableOpacity
-          onPress={() => {
-            setVisible(false)
-            navigate(MENU.BINGO_EDIT, {id: id})
-          }}
-          style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
-          <Text style={{textAlign: 'center', color: 'white'}}>수정</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => deleteBoard()} style={{backgroundColor: 'black', padding: 5, marginTop: 20}}>
-          <Text style={{textAlign: 'center', color: 'white'}}>삭제</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setVisible(false)} style={{backgroundColor: 'red', padding: 5, marginTop: 20}}>
-          <Text style={{textAlign: 'center', color: 'white'}}>닫기</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  )
-}
+type ModalState = 'more' | 'public' | 'invite' | 'date' | 'none'
 
 const BingoScreen = () => {
-  const [visibleForm, setVisibleForm] = useState<boolean>(false)
   const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
   const {navigate, back} = useRoutes()
   const [refetch, setRetech] = useAtom(retech_atom)
+  const refRBSheet = useRef()
 
-  const showEditBox = useSetAtom(show_edit_box_atom)
   const {params} = useRoute()
   const {fromCreate, id} = params || {}
   const [data, setData] = useState()
 
-  const isTemporary = !data?.completed
-  ////
-  const bottomSheetRef = useRef<BottomSheet>(null)
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  // variables
-  const snapPoints = useMemo(() => ['25%', '50%'], [])
+  const [modalState, setModalState] = useState<ModalState>('none')
 
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index)
-  }, [])
-  ////
+  const isTemporary = !data?.completed
+  let IS_GROUP = data?.groupType === 'GROUP'
+
+  const [dateGroup, setDateGroup] = useState({since: '', until: ''})
+
+  const [otherBingos, setOtherBingos] = useState([])
+
+  useEffect(() => {
+    if (modalState === 'none') return
+    refRBSheet?.current?.open()
+  }, [modalState])
+
   useEffect(() => {
     ;(async () => {
       const res = await getBingo(id)
       setBingoCount(res.data.data.bingoMap.totalBingoCount)
       setData(res.data.data)
-      console.log(data)
+      setOtherBingos(res.data.data.otherBingoMaps)
     })()
   }, [])
 
@@ -119,11 +66,55 @@ const BingoScreen = () => {
       const res = await getBingo(id)
       setBingoCount(res.data.data.bingoMap.totalBingoCount)
       setData(res.data.data)
+      setOtherBingos(res.data.data.otherBingoMaps)
       setRetech(false)
     })()
   }, [refetch])
 
+  useEffect(() => {
+    let subscription = DeviceEventEmitter.addListener('EDIT_COMPLETE', () => {
+      setRetech(true)
+    })
+    return () => subscription.remove()
+  }, [])
+
+  const shuffle = async () => {
+    const res = await shuffleItems(id)
+
+    if (res?.status === 200) setRetech(true)
+  }
+  const closeModal = () => {
+    setModalState('none')
+    refRBSheet?.current?.close()
+  }
+
+  const dateCloseModal = (date?: {since: string; until: string}) => {
+    if (!date) {
+      setModalState('none')
+      refRBSheet?.current?.close()
+    } else {
+      setDateGroup(date)
+      setModalState('invite')
+    }
+  }
+
+  const editData = {
+    title: data?.title,
+    goal: data?.goal,
+    since: data?.since,
+    until: data?.until,
+  }
+
+  const MODAL = {
+    more: {content: <MoreModal info={editData} close={closeModal} />, height: 200},
+    public: {content: <PublicModal state={data?.open} close={closeModal} />, height: 300},
+    invite: {content: <InviteModal close={closeModal} editDate={dateGroup} refetch={() => setRetech(true)} />, height: 400},
+    date: {content: <DateModal info={editData} group={IS_GROUP} close={dateCloseModal} refetch={() => setRetech(true)} />, height: 400},
+    none: '',
+  }
+
   if (!data) return null
+
   return (
     <View style={{flex: 1, backgroundColor: 'green'}}>
       <SafeAreaView style={styles.safeAreaContainer}>
@@ -137,32 +128,31 @@ const BingoScreen = () => {
             paddingHorizontal: 20,
           }}>
           {fromCreate ? (
-            <View></View>
+            <TouchableOpacity onPress={() => navigate('BingoList')} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+              <Image source={Images.back_btn} style={{width: 30, height: 30}} />
+            </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={() => back()} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
               <Image source={Images.back_btn} style={{width: 30, height: 30}} />
             </TouchableOpacity>
           )}
+          {/* 발행하기 버튼 원진님께 9개 다 채웠는지 상태값받기 그걸로 disabled*/}
 
           {isTemporary ? (
-            <TouchableOpacity
-              onPress={async () => {
-                const result = await updateBingoInfo(data.id, {title: data.title, goal: data.goal})
-
-                if (result?.status === 200) navigate('BingoList')
-                return
-              }}
-              style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TouchableOpacity onPress={() => setModalState('date')} style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image source={Images.icon_check_black} style={{width: 24, height: 24, marginRight: 4}} />
-              <Text>저장하기</Text>
+              <Text>발행하기</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity
-              // onPress={() => navigate('BingoList')}
-              onPress={() => showEditBox(true)}
-              style={{alignItems: 'center'}}>
-              <Image source={Images.icon_more} style={{width: 24, height: 24, marginRight: 4}} />
-            </TouchableOpacity>
+            <View style={{display: 'flex', flexDirection: 'row', gap: 8}}>
+              {/* 공개  */}
+              <TouchableOpacity onPress={() => setModalState('public')} style={{alignItems: 'center'}}>
+                <Image source={Images.ico_lock} style={{width: 24, height: 24, marginRight: 4}} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setModalState('more')} style={{alignItems: 'center'}}>
+                <Image source={Images.icon_more} style={{width: 24, height: 24, marginRight: 4}} />
+              </TouchableOpacity>
+            </View>
           )}
         </View>
         <ScrollView contentContainerStyle={styles.container}>
@@ -181,13 +171,66 @@ const BingoScreen = () => {
           </View>
 
           <BingoBoard isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
+          {isTemporary && (
+            <TouchableOpacity onPress={() => shuffle()}>
+              <Text style={{textAlign: 'right', padding: 20, paddingBottom: 0, fontWeight: '500', color: '#666666'}}>섞기</Text>
+            </TouchableOpacity>
+          )}
+          {IS_GROUP && !isTemporary && (
+            <View style={styles.miniboardContainer}>
+              <Text style={styles.title}>함께하는 그루버</Text>
+              <View style={{display: 'flex', flexDirection: 'row', gap: 20}}>
+                {otherBingos?.map(bingo => {
+                  const bingoarr = bingo?.bingoLines?.map(e => e?.bingoItems)
+
+                  return (
+                    <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                      {bingoarr?.map((e, i) => (
+                        <View key={i} style={{flexDirection: 'row'}}>
+                          {e?.map(({complete}, i) => (
+                            <View
+                              key={i}
+                              style={{
+                                width: 16,
+                                height: 16,
+                                borderWidth: 1,
+                                borderColor: 'white',
+                                borderRadius: 4,
+                                backgroundColor: complete ? 'pink' : '#DDDDDD',
+                              }}
+                            />
+                          ))}
+                        </View>
+                      ))}
+                      <Text style={{marginTop: 8}}>{bingo?.nickName}</Text>
+                    </View>
+                  )
+                })}
+              </View>
+            </View>
+          )}
           <Memo content={data?.memo} />
         </ScrollView>
+        <RBSheet
+          ref={refRBSheet}
+          onClose={() => setModalState('none')}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          height={MODAL[modalState].height}
+          customStyles={{
+            wrapper: {
+              backgroundColor: 'transparent',
+            },
+            draggableIcon: {
+              backgroundColor: '#000',
+            },
+          }}>
+          {MODAL[modalState].content}
+        </RBSheet>
       </SafeAreaView>
-      {/* <ItemRegisterSheet boardId={3} /> */}
+
       <TestInput />
       <TestMemoInput />
-      <MoreModal />
     </View>
   )
 }
@@ -201,6 +244,12 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingBottom: 100, // 하단 네비게이터 높이만큼 패딩을 추가
+  },
+  miniboardContainer: {marginTop: 40, paddingHorizontal: 20},
+  title: {
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 12,
   },
   bingoTypeContainer: {
     flex: 1,
@@ -252,4 +301,37 @@ const styles = StyleSheet.create({
   bingoCountTextPadding: {
     paddingHorizontal: 2,
   },
+  btnWrapper: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 20,
+    justifyContent: 'center',
+    alignitems: 'center',
+  },
+  button: {
+    backgroundColor: '#000000',
+    // width: '100%',
+    padding: 15,
+    margin: 20,
+    marginTop: 45,
+    borderRadius: 4,
+    // position: 'absolute',
+    // bottom: 0,
+  },
+
+  profile: {
+    width: 36,
+    height: 36,
+    borderRadius: 50,
+    backgroundColor: 'green',
+  },
+  counterContainer: {
+    margin: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    paddingVertical: 10,
+  },
+  date: {fontSize: 16},
 })

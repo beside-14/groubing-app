@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect, ComponentType} from 'react'
-import {StyleSheet, StatusBar} from 'react-native'
+import {StyleSheet, StatusBar, Alert} from 'react-native'
 import {createStackNavigator, StackNavigationOptions} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native'
 import {BingoScreen, CreateBingoScreen, MypageSetting, MypageProfile, PasswordChange, MypageFriend} from 'screens'
@@ -98,6 +98,7 @@ import {EditScreen} from 'screens/board/contents/EditScreen'
 import FriendHeaderRight from './components/FriendHeaderRight'
 
 const Root = createStackNavigator()
+
 const StackNavigator = () => {
   const navigationRef = useRef<undefined | any>()
   const [loading, setLoading] = useState(true)

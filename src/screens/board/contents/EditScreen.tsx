@@ -3,9 +3,8 @@ import {updateBingoInfo} from 'components/bingo/board/remote'
 import {format} from 'date-fns'
 import {useRoutes} from 'hooks/useRoutes'
 import React, {useState} from 'react'
-import {Alert} from 'react-native'
+import {Alert, Text, View, DeviceEventEmitter} from 'react-native'
 import {StyleSheet, TextInput, TouchableOpacity} from 'react-native'
-import {Text, View} from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 
 function addMonths(date, months) {
@@ -15,11 +14,11 @@ function addMonths(date, months) {
 }
 
 export const EditScreen = () => {
-  const [data, setData] = useState({title: '', goal: 2})
   const dateobject = new Date()
   const {back} = useRoutes()
   const {params} = useRoute()
-  const {id} = params || {}
+  const {id, title, goal, since, until} = params || {}
+  const [data, setData] = useState({title: title, goal: goal, since: since, until: until})
   const today = format(dateobject, 'yyyy-MM-dd')
   const inituntil = format(addMonths(dateobject, 1), 'yyyy-MM-dd')
   const [datePicker, setDatePicker] = useState('false')
@@ -53,7 +52,9 @@ export const EditScreen = () => {
 
     const res = await updateBingoInfo(id, {...data, ...date})
     if (res.status === 200) {
+      DeviceEventEmitter.emit('EDIT_COMPLETE')
       Alert.alert('빙고 수정이 완료되었습니다.')
+
       back()
       return
     }

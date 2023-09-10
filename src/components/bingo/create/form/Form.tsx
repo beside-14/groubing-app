@@ -1,5 +1,5 @@
 import {StyleSheet, Text, ScrollView, View, TextInput} from 'react-native'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import {createBingo} from '../remote'
 import {useRoutes} from 'hooks/useRoutes'
@@ -8,6 +8,8 @@ import {FORM_BASE_DATA, bingoBaseData, bingo_base_data_atom} from 'screens/board
 import {useResetAtom} from 'jotai/utils'
 import {useRoute} from '@react-navigation/native'
 import {MENU} from 'navigation/menu'
+import DateTimePickerModal from 'react-native-modal-datetime-picker'
+import {format} from 'date-fns'
 
 const Type = () => {
   const [data, setData] = useAtom(bingo_base_data_atom)
@@ -32,7 +34,6 @@ const Type = () => {
             <TouchableOpacity
               key={i}
               onPress={() => {
-                console.log('뭐야? ', e[0])
                 setType('SINGLE', i === 0 ? 3 : 4)
               }}
               style={data.boardType === 'SINGLE' && e[0] === data.bingoSize.toString() ? styles.selectedBtn : styles.unSelectedBtn}>
@@ -136,11 +137,56 @@ const Goal = () => {
     </View>
   )
 }
+
+const Period = () => {
+  const [data, setData] = useAtom(bingo_base_data_atom)
+  const [datePicker, setDatePicker] = useState('false')
+  const [visible, setVisible] = useState<boolean>(false)
+  const openCalendar = () => {
+    // setVisible(true)
+  }
+  const onConfirm = (type, selectedDate) => {
+    let formatdate = format(selectedDate, 'yyyy-MM-dd')
+    setData(prev => {
+      return {...prev, [type]: formatdate}
+    })
+  }
+
+  const onCancel = () => {
+    // setVisible(false)
+  }
+
+  return (
+    <View>
+      <Text style={styles.question}>빙고 진행 기간을 입력해주세요.</Text>
+      <View style={styles.counterContainer}>
+        <TouchableOpacity onPress={() => setDatePicker('since')}>
+          <Text style={styles.date}>{data.since}</Text>
+        </TouchableOpacity>
+        <Text style={{marginHorizontal: 20}}>~</Text>
+        <TouchableOpacity onPress={() => setDatePicker('until')}>
+          <Text style={styles.date}>{data.until}</Text>
+        </TouchableOpacity>
+      </View>
+      <DateTimePickerModal
+        isVisible={datePicker !== 'false'}
+        mode="date"
+        onConfirm={date => {
+          onConfirm(datePicker, date)
+          setDatePicker('false')
+        }}
+        onCancel={() => setDatePicker('false')}
+      />
+    </View>
+  )
+}
+
 const STEP: any = {
   '빙고 타입': <Type />,
   '빙고 공개 여부': <Public />,
   '빙고 제목': <Title />,
   '목표 빙고 개수': <Goal />,
+  // '빙고 진행 기간': <Period />,
 }
 
 const Input = ({step}: {step: string}) => {
@@ -151,6 +197,7 @@ const Input = ({step}: {step: string}) => {
     '빙고 공개 여부': data.open ? '공개' : '비공개',
     '빙고 제목': data.title,
     '목표 빙고 개수': data.goal,
+    // '빙고 진행 기간': {since: data.since, until: data.until},
   }
 
   const STEPLIST = ['빙고 타입', '빙고 공개 여부', '빙고 제목', '목표 빙고 개수']
@@ -176,7 +223,6 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
   const {navigate} = useRoutes()
   const [data, setData] = useAtom(bingo_base_data_atom)
 
-  const init = useResetAtom(FORM_BASE_DATA)
   return (
     <>
       <ScrollView style={styles.headerContainer}>
@@ -191,7 +237,7 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
             const res = await createBingo(data)
 
             if (res.code === 'OK') {
-              init()
+              setData(bingoBaseData)
               return navigate(MENU.BINGO_BOARD, {id: res.data.id, fromCreate: true})
             } else {
               return console.log('생성실패 토큰확인')
@@ -259,7 +305,7 @@ const styles = StyleSheet.create({
   },
   unSelectedBtnText: {
     width: '100%',
-    height: 16,
+
     fontSize: 15,
     color: '#666666',
   },
@@ -277,14 +323,14 @@ const styles = StyleSheet.create({
   },
   selectedBtnText: {
     width: '100%',
-    height: 16,
+
     fontSize: 15,
     color: '#FFFFFF',
   },
   selectedBtn: {
     backgroundColor: '#3A8ADB',
 
-    height: 45,
+    // height: 45,
     borderRadius: 99,
     justifyContent: 'center',
     alignItems: 'center',
@@ -375,29 +421,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  date: {fontSize: 16},
 })
-// const Period = () => {
-//   const [visible, setVisible] = useState(false)
-//   const openCalendar = () => {
-//     setVisible(true)
-//   }
-//   const onConfirm = date => {
-//     console.log('A date has been picked : ', date)
-//     onCancel()
-//   }
-//   const onCancel = () => {
-//     setVisible(false)
-//   }
-
-//   return (
-//     <View>
-//       <Text style={styles.question}>빙고 진행 기간을 입력해주세요.</Text>
-//       <View style={{flexDirection: 'row', borderBottomColor: '#DDDDDD', borderBottomWidth: 1, paddingBottom: 10}}>
-//         <TouchableOpacity onPress={openCalendar}>
-//           <Text style={{width: 280, height: 16, marginRight: 15, marginLeft: 2, fontSize: 16}}>2023-03-12~2023-04-12</Text>
-//         </TouchableOpacity>
-//       </View>
-//       <DateTimePickerModal isVisible={visible} mode="date" onConfirm={onConfirm} onCancel={onCancel} />
-//     </View>
-//   )
-// }
