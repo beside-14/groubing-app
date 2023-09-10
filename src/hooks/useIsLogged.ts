@@ -1,4 +1,4 @@
-import {removeToken} from 'utils/asyncStorage'
+import {clearAllAsyncStorage, removeToken} from 'utils/asyncStorage'
 import {isLoggedAtom} from 'store'
 import {useSetAtom} from 'utils/jotai'
 
@@ -16,7 +16,8 @@ export const useIsLogged = () => {
 
   const logout = async () => {
     try {
-      await removeToken()
+      await clearAllAsyncStorage()
+      // await removeToken()
       setIsLogged(false)
       //TODO: 로그아웃 완료 toast
     } catch (error) {

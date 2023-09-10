@@ -9,4 +9,5 @@ declare type UserInfoType = {
   id: number
   profileUrl: string | null
   token: string
+  nickname: string
 } | null

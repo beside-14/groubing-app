@@ -5,6 +5,7 @@ import {Images} from 'assets'
 import CustomModal from 'components/common/CustomModal'
 import {useIsLogged} from 'hooks/useIsLogged'
 import {useRoutes} from 'hooks/useRoutes'
+import {MENU} from 'navigation/menu'
 
 type ListItemName = '비밀번호 변경' | '로그아웃' | '회원탈퇴'
 type ListItemType = {
@@ -22,10 +23,11 @@ const LIST: ListItemType[] = [
 const MypageSetting = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const {logout} = useIsLogged()
-  const {back} = useRoutes()
+  const {back, navigate} = useRoutes()
 
   const handleItemClick = (name: ListItemName) => {
     if (name === '비밀번호 변경') {
+      navigate(MENU.PASSWORD_CHANGE)
     } else if (name === '로그아웃') {
       setModalVisible(true)
     } else if (name === '회원탈퇴') {

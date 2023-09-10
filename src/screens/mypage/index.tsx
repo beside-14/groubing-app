@@ -28,15 +28,19 @@ const Mypage = () => {
     }
   }
 
+  const handleProfile = () => {
+    navigate(MENU.MYPAGE_PROFILE)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>마이페이지</Text>
       <View style={styles.profile}>
         <View style={styles.profile_info}>
           <Image style={styles.profile_image} source={userInfo?.profileUrl ? userInfo?.profileUrl : Images.profile} resizeMode="cover" />
-          <Text style={styles.profile_text}>닉네임</Text>
+          <Text style={styles.profile_text}>{userInfo?.nickname ? userInfo?.nickname : '닉네임'}</Text>
         </View>
-        <TouchableOpacity style={styles.profile_edit}>
+        <TouchableOpacity style={styles.profile_edit} onPress={handleProfile}>
           <Text style={styles.profile_edit_text}>프로필 관리</Text>
           <Image style={styles.profile_edit_btn} source={Images.back_btn} />
         </TouchableOpacity>

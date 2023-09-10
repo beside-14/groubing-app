@@ -49,6 +49,7 @@ const LoginScreen = () => {
     } else {
       try {
         const res = await fetchEmailLogin({email: id, password: pw})
+        console.log(res)
         setUserInfo(res)
         await setToken(res.token)
         login()

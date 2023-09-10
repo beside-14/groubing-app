@@ -3,7 +3,7 @@ import {Image, View, StyleSheet} from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {BingoListScreen, Feed, CreateBingoScreen, Mypage} from 'screens'
 import {Images} from 'assets'
-import {MENU} from './menu'
+import {MENU} from '../menu'
 import Notification from 'screens/notification'
 
 const Tab = createBottomTabNavigator()

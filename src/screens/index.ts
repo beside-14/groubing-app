@@ -14,3 +14,6 @@ export {default as Mypage} from './mypage'
 
 // Root
 export {default as MypageSetting} from './mypage-setting'
+export {default as PasswordChange} from './password-change'
+export {default as MypageProfile} from './mypage-profile'
+export {default as MypageFriend} from './mypage-friend'
