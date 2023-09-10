@@ -2,15 +2,15 @@ import React, {useRef, useState, useEffect, ComponentType} from 'react'
 import {StyleSheet, StatusBar} from 'react-native'
 import {createStackNavigator, StackNavigationOptions} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native'
-import {BingoScreen, CreateBingoScreen, MypageSetting} from 'screens'
+import {BingoScreen, CreateBingoScreen, MypageSetting, MypageProfile, PasswordChange, MypageFriend} from 'screens'
 
 import {getToken, getUserInfo} from 'utils/asyncStorage'
 import {isLoggedAtom} from 'store'
 import {useAtom} from 'utils/jotai'
 
-import AuthNavigator from './AuthNavigator'
-import SplashScreen from './SplashScreen'
-import TabNavigator from './TabNavigator'
+import AuthNavigator from './components/AuthNavigator'
+import SplashScreen from './components/SplashScreen'
+import TabNavigator from './components/TabNavigator'
 import {MENU} from './menu'
 import NavigatorHeader from 'components/common/NavigatorHeader'
 import useUserInfo from 'hooks/useUserInfo'
@@ -66,10 +66,36 @@ const screens: ScreenItemType[] = [
       // headerLeft: () => <NavigatorHeader title={'설정'} />,
     },
   },
+  {
+    name: MENU.PASSWORD_CHANGE,
+    component: PasswordChange,
+    options: {
+      ...defaultOptions,
+      headerLeft: () => <NavigatorHeader title={'비밀번호 변경'} />,
+    },
+  },
+  {
+    name: MENU.MYPAGE_PROFILE,
+    component: MypageProfile,
+    options: {
+      ...defaultOptions,
+      headerLeft: () => <NavigatorHeader title={'프로필 관리'} />,
+    },
+  },
+  {
+    name: MENU.MYPAGE_FRIEND,
+    component: MypageFriend,
+    options: {
+      ...defaultOptions,
+      headerLeft: () => <NavigatorHeader title={'친구 관리'} />,
+      headerRight: () => <FriendHeaderRight />,
+    },
+  },
   // 여기에 추가 스크린 정보를 추가합니다.
 ]
 
 import {EditScreen} from 'screens/board/contents/EditScreen'
+import FriendHeaderRight from './components/FriendHeaderRight'
 
 const Root = createStackNavigator()
 const StackNavigator = () => {
@@ -97,7 +123,7 @@ const StackNavigator = () => {
       setUserInfo(user)
     }
     checkUserInfo()
-  }, [])
+  }, [isLogged])
 
   return loading ? (
     <SplashScreen />

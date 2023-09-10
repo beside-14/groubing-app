@@ -3,7 +3,7 @@ import {Image, View, StyleSheet} from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {BingoListScreen, Feed, CreateBingoScreen, Mypage} from 'screens'
 import {Images} from 'assets'
-import {MENU} from './menu'
+import {MENU} from '../menu'
 
 const Tab = createBottomTabNavigator()
 // const bottomAnimation = {animation: 'slide_from_bottom'}
