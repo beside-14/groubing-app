@@ -1,6 +1,6 @@
 import React from 'react'
 import StackNavigator from 'navigation/StackNavigator'
-import {QueryClient, QueryClientProvider} from 'react-query'
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 
 import 'react-native-devsettings'
 import {GestureHandlerRootView, gestureHandlerRootHOC} from 'react-native-gesture-handler'

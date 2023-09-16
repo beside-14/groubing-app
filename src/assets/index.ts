@@ -26,6 +26,7 @@ export const Images: Record<string, ImageSource> = {
   icon_check_black: require('./images/icon_check_black.png'),
   icon_feed: require('./images/icon_feed.png'),
   icon_feed_focused: require('./images/icon_feed_focused.png'),
+  icon_profile: require('./images/icon_profile.png'),
   icon_list: require('./images/icon_list.png'),
   icon_list_focused: require('./images/icon_list_focused.png'),
   icon_make: require('./images/icon_make.png'),

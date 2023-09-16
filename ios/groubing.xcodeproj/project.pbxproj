@@ -15,11 +15,11 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		158AF61CE79B4D27A963C26B /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 732F12A3E54D4413A92B6B44 /* Montserrat-ExtraBold.ttf */; };
 		328C4B6DB3494C7AAD68015E /* NotoSansKR-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2579E2FD69F241FCBFDB57D1 /* NotoSansKR-Bold.otf */; };
-		516EFFB8D3E8C57F36E26F98 /* libPods-groubing-groubingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94AB35FA3C9D48BDBCE41481 /* libPods-groubing-groubingTests.a */; };
+		369565709F974283577CDF8F /* libPods-groubing-groubingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F588CCC5D86EB739442C0598 /* libPods-groubing-groubingTests.a */; };
+		5678ED024A56DB6CB9256229 /* libPods-groubing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1254B0260FDD1020688BFF86 /* libPods-groubing.a */; };
 		5E7F8C812A6C0878001D32B1 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5E7F8C802A6C0878001D32B1 /* FirebaseAnalytics */; };
 		5E7F8C832A6C0878001D32B1 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 5E7F8C822A6C0878001D32B1 /* FirebaseMessaging */; };
 		5E7F8C852A6C09A6001D32B1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5E7F8C842A6C09A6001D32B1 /* GoogleService-Info.plist */; };
-		79CFE1932F23A01254A079F2 /* libPods-groubing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 040C4C39617A2647B19F1CA6 /* libPods-groubing.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		AA46BE0945EC55D7A53F8D45 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		B7055FBF1E7D4A9D90D094B3 /* NotoSansKR-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CB8C7D3DAF854E9DAF8A466D /* NotoSansKR-Light.otf */; };
@@ -44,29 +44,29 @@
 		00E356EE1AD99517003FC87E /* groubingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = groubingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* groubingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = groubingTests.m; sourceTree = "<group>"; };
-		040C4C39617A2647B19F1CA6 /* libPods-groubing.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-groubing.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		08221DF650B5221B3AD4328F /* Pods-groubing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing.debug.xcconfig"; path = "Target Support Files/Pods-groubing/Pods-groubing.debug.xcconfig"; sourceTree = "<group>"; };
 		11F4A8C007C444A99375884C /* NotoSansKR-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Thin.otf"; path = "../src/assets/fonts/NotoSansKR-Thin.otf"; sourceTree = "<group>"; };
+		1254B0260FDD1020688BFF86 /* libPods-groubing.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-groubing.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* groubing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = groubing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = groubing/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = groubing/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = groubing/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = groubing/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = groubing/main.m; sourceTree = "<group>"; };
+		23EA64EB6FD3F99152FD038D /* Pods-groubing-groubingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing-groubingTests.debug.xcconfig"; path = "Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2579E2FD69F241FCBFDB57D1 /* NotoSansKR-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Bold.otf"; path = "../src/assets/fonts/NotoSansKR-Bold.otf"; sourceTree = "<group>"; };
 		3517FE0B0B824AEEBCAE2675 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
-		5221EC9B74BCDFFDCE90D65D /* Pods-groubing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing.release.xcconfig"; path = "Target Support Files/Pods-groubing/Pods-groubing.release.xcconfig"; sourceTree = "<group>"; };
-		54692F9922C4D903EE80AF98 /* Pods-groubing-groubingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing-groubingTests.release.xcconfig"; path = "Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests.release.xcconfig"; sourceTree = "<group>"; };
+		486A61964EF600DC18CEDAD4 /* Pods-groubing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing.debug.xcconfig"; path = "Target Support Files/Pods-groubing/Pods-groubing.debug.xcconfig"; sourceTree = "<group>"; };
 		5E7F8C842A6C09A6001D32B1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "groubing/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		732F12A3E54D4413A92B6B44 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.ttf"; path = "../src/assets/fonts/Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
 		787AE98CD0804C17943C1DFB /* NotoSansKR-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Black.otf"; path = "../src/assets/fonts/NotoSansKR-Black.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = groubing/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		94AB35FA3C9D48BDBCE41481 /* libPods-groubing-groubingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-groubing-groubingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		90A34DF798A9B9092F499B48 /* Pods-groubing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing.release.xcconfig"; path = "Target Support Files/Pods-groubing/Pods-groubing.release.xcconfig"; sourceTree = "<group>"; };
+		CAB06B74FC2552724A9D5CCC /* Pods-groubing-groubingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing-groubingTests.release.xcconfig"; path = "Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB8C7D3DAF854E9DAF8A466D /* NotoSansKR-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Light.otf"; path = "../src/assets/fonts/NotoSansKR-Light.otf"; sourceTree = "<group>"; };
 		DB0F6FAC16B44A65B110D4DF /* NotoSansKR-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Medium.otf"; path = "../src/assets/fonts/NotoSansKR-Medium.otf"; sourceTree = "<group>"; };
 		E0B7D8C7E34542D78F4E746A /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../src/assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
-		E4A937241AD1003DE0CCFD57 /* Pods-groubing-groubingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing-groubingTests.debug.xcconfig"; path = "Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F588CCC5D86EB739442C0598 /* libPods-groubing-groubingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-groubing-groubingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F73454C7E9F547BE9068B76B /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Regular.otf"; path = "../src/assets/fonts/NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,7 +76,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA46BE0945EC55D7A53F8D45 /* BuildFile in Frameworks */,
-				516EFFB8D3E8C57F36E26F98 /* libPods-groubing-groubingTests.a in Frameworks */,
+				369565709F974283577CDF8F /* libPods-groubing-groubingTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,7 +87,7 @@
 				5E7F8C832A6C0878001D32B1 /* FirebaseMessaging in Frameworks */,
 				BA90062A2C8A3B7CC17D99F2 /* BuildFile in Frameworks */,
 				5E7F8C812A6C0878001D32B1 /* FirebaseAnalytics in Frameworks */,
-				79CFE1932F23A01254A079F2 /* libPods-groubing.a in Frameworks */,
+				5678ED024A56DB6CB9256229 /* libPods-groubing.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,8 +145,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				040C4C39617A2647B19F1CA6 /* libPods-groubing.a */,
-				94AB35FA3C9D48BDBCE41481 /* libPods-groubing-groubingTests.a */,
+				1254B0260FDD1020688BFF86 /* libPods-groubing.a */,
+				F588CCC5D86EB739442C0598 /* libPods-groubing-groubingTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -194,10 +194,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				08221DF650B5221B3AD4328F /* Pods-groubing.debug.xcconfig */,
-				5221EC9B74BCDFFDCE90D65D /* Pods-groubing.release.xcconfig */,
-				E4A937241AD1003DE0CCFD57 /* Pods-groubing-groubingTests.debug.xcconfig */,
-				54692F9922C4D903EE80AF98 /* Pods-groubing-groubingTests.release.xcconfig */,
+				486A61964EF600DC18CEDAD4 /* Pods-groubing.debug.xcconfig */,
+				90A34DF798A9B9092F499B48 /* Pods-groubing.release.xcconfig */,
+				23EA64EB6FD3F99152FD038D /* Pods-groubing-groubingTests.debug.xcconfig */,
+				CAB06B74FC2552724A9D5CCC /* Pods-groubing-groubingTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -209,12 +209,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "groubingTests" */;
 			buildPhases = (
-				5BE46C568F6803EE4C7325E6 /* [CP] Check Pods Manifest.lock */,
+				15BF5EB700648D243BF56C5D /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				2EA313C170570CDD796C0A0F /* [CP] Embed Pods Frameworks */,
-				78880B5C44C290B9B311A91F /* [CP] Copy Pods Resources */,
+				6D8A95E0D078D95263912A80 /* [CP] Embed Pods Frameworks */,
+				3B2D5C9C58376B8EE23F232C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -230,14 +230,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "groubing" */;
 			buildPhases = (
-				7C130902D2F5B2587CE6F449 /* [CP] Check Pods Manifest.lock */,
+				672AEA4B0BF3763326F5B51B /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				2D1BF321C0E70366FF7950B7 /* [CP] Embed Pods Frameworks */,
-				C9C3F7C6C882A062232DFCF6 /* [CP] Copy Pods Resources */,
+				B810A4B23DF4C1B9A8FFC2ED /* [CP] Embed Pods Frameworks */,
+				DDF0F7FF946248FACFF85BC9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -338,41 +338,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		2D1BF321C0E70366FF7950B7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-groubing/Pods-groubing-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-groubing/Pods-groubing-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-groubing/Pods-groubing-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2EA313C170570CDD796C0A0F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5BE46C568F6803EE4C7325E6 /* [CP] Check Pods Manifest.lock */ = {
+		15BF5EB700648D243BF56C5D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -394,7 +360,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		78880B5C44C290B9B311A91F /* [CP] Copy Pods Resources */ = {
+		3B2D5C9C58376B8EE23F232C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -411,7 +377,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7C130902D2F5B2587CE6F449 /* [CP] Check Pods Manifest.lock */ = {
+		672AEA4B0BF3763326F5B51B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -433,7 +399,41 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C9C3F7C6C882A062232DFCF6 /* [CP] Copy Pods Resources */ = {
+		6D8A95E0D078D95263912A80 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B810A4B23DF4C1B9A8FFC2ED /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-groubing/Pods-groubing-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-groubing/Pods-groubing-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-groubing/Pods-groubing-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DDF0F7FF946248FACFF85BC9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -502,7 +502,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E4A937241AD1003DE0CCFD57 /* Pods-groubing-groubingTests.debug.xcconfig */;
+			baseConfigurationReference = 23EA64EB6FD3F99152FD038D /* Pods-groubing-groubingTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -530,7 +530,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 54692F9922C4D903EE80AF98 /* Pods-groubing-groubingTests.release.xcconfig */;
+			baseConfigurationReference = CAB06B74FC2552724A9D5CCC /* Pods-groubing-groubingTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -555,7 +555,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 08221DF650B5221B3AD4328F /* Pods-groubing.debug.xcconfig */;
+			baseConfigurationReference = 486A61964EF600DC18CEDAD4 /* Pods-groubing.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -586,7 +586,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5221EC9B74BCDFFDCE90D65D /* Pods-groubing.release.xcconfig */;
+			baseConfigurationReference = 90A34DF798A9B9092F499B48 /* Pods-groubing.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
