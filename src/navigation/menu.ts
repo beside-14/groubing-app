@@ -13,4 +13,6 @@ export const MENU = {
   BINGO_EDIT: 'BINGO_EDIT',
   //알림
   NOTIFICATION: 'NOTIFICATION',
+  //목로
+  FRIEND_BINGO_LIST: 'FRIEND_BINGO_LIST',
 }

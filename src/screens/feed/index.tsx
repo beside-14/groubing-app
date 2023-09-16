@@ -1,25 +1,46 @@
 import React, {useRef} from 'react'
-import {StyleSheet, SafeAreaView, Text, Image, TouchableOpacity} from 'react-native'
+import {StyleSheet, SafeAreaView, Text, Image, TouchableOpacity, Alert} from 'react-native'
 import {FeedHeader, FeedTab} from './contents'
 import {View} from 'react-native'
 import {SectionList} from 'react-native'
 import {useFeeds} from './remote/useFeeds'
 import {Images} from 'assets'
 import RBSheet from 'react-native-raw-bottom-sheet'
+import {requestFriends} from './remote/requestFriend'
+import useUserInfo from 'hooks/useUserInfo'
+import {useRoutes} from 'hooks/useRoutes'
+import {MENU} from 'navigation/menu'
 
-const Header = ({name}) => {
+const Header = ({name, id, profile}) => {
   const refRBSheet = useRef()
   const openMoreModal = () => refRBSheet?.current?.open()
+  const {userInfo} = useUserInfo()
+
+  const {navigate} = useRoutes()
+  const me = userInfo.id === id
+
+  const requestFriend = async id => {
+    const res = await requestFriends(id)
+    if (res === true) return Alert.alert('친구요청이 완료되었습니다.')
+
+    return Alert.alert('요청이 원활하지 않습니다.')
+  }
   return (
     <View style={styles.block}>
       <View style={{...styles.row, justifyContent: 'space-between'}}>
         <View style={styles.row}>
-          <View style={styles.profileimg} />
+          <TouchableOpacity onPress={() => navigate(MENU.FRIEND_BINGO_LIST)}>
+            <Image style={{width: 36, height: 36}} source={profile ? profile : Images.icon_profile} />
+          </TouchableOpacity>
+
           <Text style={{fontWeight: '500', fontSize: 16}}>{name}</Text>
         </View>
-        <TouchableOpacity onPress={() => openMoreModal()}>
-          <Image source={Images.icon_more} style={{width: 30, height: 30}} />
-        </TouchableOpacity>
+
+        {me ? null : (
+          <TouchableOpacity onPress={() => openMoreModal()}>
+            <Image source={Images.icon_more} style={{width: 30, height: 30}} />
+          </TouchableOpacity>
+        )}
       </View>
       <RBSheet
         ref={refRBSheet}
@@ -35,7 +56,7 @@ const Header = ({name}) => {
           },
         }}>
         <View style={{width: '1000%', padding: 20}}>
-          <TouchableOpacity style={{paddingVertical: 15}}>
+          <TouchableOpacity onPress={() => requestFriend(id)} style={{paddingVertical: 15}}>
             <Text style={{fontWeight: '700', fontSize: 18}}>{name}님에게 친구신청</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{paddingVertical: 15}}>
@@ -66,12 +87,6 @@ const List = ({title, isLast}) => {
 const Feed = () => {
   const {data: feeds} = useFeeds()
 
-  const DATA = [
-    {title: {nickname: 'dd', id: 2, profile: ''}, data: ['1', '2', '3', '4']},
-    {title: {nickname: 'dd', id: 2, profile: ''}, data: ['1', '2', '3', '4']},
-    {title: {nickname: 'dd', id: 2, profile: ''}, data: ['1', '2', '3', '4']},
-  ]
-
   if (!feeds) return null
   return (
     <SafeAreaView style={styles.container}>
@@ -83,14 +98,14 @@ const Feed = () => {
 
       <SectionList
         style={{}}
-        sections={[...feeds, ...feeds, ...feeds]}
+        sections={feeds}
         keyExtractor={(item, index) => item + index}
         renderItem={({item: {title}, index, section}) => <List title={title} index={index} isLast={section.data.length - 1 === index} />}
         renderSectionHeader={({
           section: {
-            title: {name},
+            title: {name, id, profile},
           },
-        }) => <Header name={name} />}
+        }) => <Header name={name} id={id} profile={profile} />}
       />
     </SafeAreaView>
   )

@@ -1,9 +1,9 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import {View} from 'react-native'
 import {getBingoList} from './remote'
 import {useRoutes} from 'hooks/useRoutes'
-import {useIsFocused, useNavigation} from '@react-navigation/native'
+import {useIsFocused} from '@react-navigation/native'
 
 import {Images} from 'assets'
 import {Image} from 'react-native'
@@ -11,7 +11,6 @@ import {MENU} from 'navigation/menu'
 
 export const MiniBoard = ({bingo, color}) => {
   const bingoarr = bingo.map(e => e?.bingoItems)
-  // console.log('bingoarr?', bingoarr)
 
   return (
     <View>
@@ -171,7 +170,7 @@ export default BingoListScreen
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: 'white'},
-  wrapper: {flex: 1, paddingVertical: 24, paddingHorizontal: 12},
+  wrapper: {flex: 1, paddingTop: 24, paddingHorizontal: 12},
   title: {paddingVertical: 24, paddingHorizontal: 20, fontSize: 24, fontWeight: '700'},
   row: {display: 'flex', flexDirection: 'row'},
   tab: {
