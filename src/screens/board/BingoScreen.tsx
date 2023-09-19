@@ -34,7 +34,7 @@ const BingoScreen = () => {
   const refRBSheet = useRef()
 
   const {params} = useRoute()
-  const {fromCreate, id} = params || {}
+  const {fromCreate, id, isfriend} = params || {}
   const [data, setData] = useState()
 
   const [modalState, setModalState] = useState<ModalState>('none')
@@ -45,6 +45,8 @@ const BingoScreen = () => {
   const [dateGroup, setDateGroup] = useState({since: '', until: ''})
 
   const [otherBingos, setOtherBingos] = useState([])
+
+  const READ_ONLY = isfriend
 
   useEffect(() => {
     if (modalState === 'none') return
@@ -138,18 +140,18 @@ const BingoScreen = () => {
           )}
           {/* 발행하기 버튼 원진님께 9개 다 채웠는지 상태값받기 그걸로 disabled*/}
 
-          {isTemporary ? (
-            <TouchableOpacity onPress={() => setModalState('date')} style={{flexDirection: 'row', alignItems: 'center'}}>
+          {READ_ONLY ? null : isTemporary ? (
+            <TouchableOpacity disabled={READ_ONLY} onPress={() => setModalState('date')} style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image source={Images.icon_check_black} style={{width: 24, height: 24, marginRight: 4}} />
               <Text>발행하기</Text>
             </TouchableOpacity>
           ) : (
             <View style={{display: 'flex', flexDirection: 'row', gap: 8}}>
               {/* 공개  */}
-              <TouchableOpacity onPress={() => setModalState('public')} style={{alignItems: 'center'}}>
+              <TouchableOpacity disabled={READ_ONLY} onPress={() => setModalState('public')} style={{alignItems: 'center'}}>
                 <Image source={Images.ico_lock} style={{width: 24, height: 24, marginRight: 4}} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setModalState('more')} style={{alignItems: 'center'}}>
+              <TouchableOpacity disabled={READ_ONLY} onPress={() => setModalState('more')} style={{alignItems: 'center'}}>
                 <Image source={Images.icon_more} style={{width: 24, height: 24, marginRight: 4}} />
               </TouchableOpacity>
             </View>
@@ -170,9 +172,9 @@ const BingoScreen = () => {
             <ProgressBar progress={bingoCount / data?.goal} style={styles.progressBar} color="#3A8ADB" />
           </View>
 
-          <BingoBoard isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
+          <BingoBoard readonly={READ_ONLY} isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
           {isTemporary && (
-            <TouchableOpacity onPress={() => shuffle()}>
+            <TouchableOpacity disabled={READ_ONLY} onPress={() => shuffle()}>
               <Text style={{textAlign: 'right', padding: 20, paddingBottom: 0, fontWeight: '500', color: '#666666'}}>섞기</Text>
             </TouchableOpacity>
           )}
@@ -209,7 +211,7 @@ const BingoScreen = () => {
               </View>
             </View>
           )}
-          <Memo content={data?.memo} />
+          <Memo content={data?.memo} readonly={READ_ONLY} />
         </ScrollView>
         <RBSheet
           ref={refRBSheet}

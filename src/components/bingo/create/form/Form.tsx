@@ -4,9 +4,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler'
 import {createBingo} from '../remote'
 import {useRoutes} from 'hooks/useRoutes'
 import {useAtom, useAtomValue} from 'jotai'
-import {FORM_BASE_DATA, bingoBaseData, bingo_base_data_atom} from 'screens/board/store'
-import {useResetAtom} from 'jotai/utils'
-import {useRoute} from '@react-navigation/native'
+import {bingoBaseData, bingo_base_data_atom} from 'screens/board/store'
 import {MENU} from 'navigation/menu'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import {format} from 'date-fns'
@@ -25,7 +23,7 @@ const Type = () => {
     <View>
       <Text style={styles.question}>빙고 타입을 선택해주세요.</Text>
       <View style={styles.pContainer}>
-        <View style={{marginRight: 16}}>
+        <View style={{marginRight: 16, display: 'flex'}}>
           <Text style={styles.pTitle}>개인 빙고</Text>
           <Text style={styles.pContent}>나만의 빙고를 만들어요.</Text>
         </View>
@@ -300,8 +298,11 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   gridBtn: {
+    display: 'flex',
     flexDirection: 'row',
-    width: '100%',
+    gap: 6,
+
+    alignItems: 'center',
   },
   unSelectedBtnText: {
     width: '100%',
@@ -311,13 +312,14 @@ const styles = StyleSheet.create({
   },
   unSelectedBtn: {
     backgroundColor: '#F3F3F3',
+    // width: 150,
 
     height: 45,
     borderRadius: 99,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
-    marginRight: 6,
+    // marginTop: 10,
+    // marginRight: 6,
     paddingVertical: 12,
     paddingHorizontal: 18,
   },
@@ -330,12 +332,11 @@ const styles = StyleSheet.create({
   selectedBtn: {
     backgroundColor: '#3A8ADB',
 
-    // height: 45,
+    height: 45,
     borderRadius: 99,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
-    marginRight: 6,
+
     paddingVertical: 12,
     paddingHorizontal: 18,
   },

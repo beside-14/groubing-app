@@ -5,7 +5,7 @@ import {Text, View} from 'react-native'
 import {update_memo_atom} from 'screens/board/store'
 
 //memoupdate!!!
-export const Memo = ({content}: {content: string}) => {
+export const Memo = ({content, readonly}: {content: string; readonly?: boolean}) => {
   const setState = useSetAtom(update_memo_atom)
   const edit = () => {
     setState({mode: true, content: content})
@@ -15,9 +15,11 @@ export const Memo = ({content}: {content: string}) => {
     <View style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.title}>메모</Text>
-        <TouchableOpacity onPress={() => edit()}>
-          <Text style={styles.edit}>{content ? '수정하기' : '작성하기'}</Text>
-        </TouchableOpacity>
+        {readonly ? null : (
+          <TouchableOpacity onPress={() => edit()}>
+            <Text style={styles.edit}>{content ? '수정하기' : '작성하기'}</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       <View style={styles.block}>

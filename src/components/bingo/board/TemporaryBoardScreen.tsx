@@ -80,8 +80,6 @@ const TemporaryBoardScreen = () => {
     setVisibleForm(true)
   }
 
-  console.log('visibleForm', visibleForm)
-
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{...styles.rootContainer}}>
       <SafeAreaView style={styles.safeAreaContainer}>

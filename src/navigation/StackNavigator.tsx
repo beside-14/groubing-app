@@ -131,7 +131,6 @@ const StackNavigator = () => {
     const checkUserInfo = async () => {
       const user = await getUserInfo()
 
-      console.log('user??', user)
       setUserInfo(user)
     }
     checkUserInfo()
