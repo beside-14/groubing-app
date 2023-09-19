@@ -7,10 +7,18 @@ const getFeeds = async () => {
   return res.data.data
 }
 
-export const useFeeds = () => {
-  const {data} = useQuery(['feeds'], () => getFeeds())
+const getFriendsFeed = async () => {
+  const res = await API.get('/api/friend-feeds')
 
-  const res = data?.map(item => {
+  return res.data.data
+}
+
+export const useFeeds = (type: 'friend' | 'all') => {
+  let callback = type === 'all' ? () => getFeeds() : () => getFriendsFeed()
+
+  const {data} = useQuery(['feeds', type], callback, {staleTime: 300000, cacheTime: 300000})
+
+  const res = data?.map((item: {memberId: any; nickname: any; profile: any; feedItems: any}) => {
     return {title: {id: item.memberId, name: item.nickname, profile: item.profile}, data: item.feedItems}
   })
 

@@ -3,7 +3,7 @@ import {View, StyleSheet} from 'react-native'
 
 import BingoItem from './BingoItem'
 
-const BingoBoard = ({board, size, items, isTemporary}) => {
+const BingoBoard = ({board, size, items, isTemporary, readonly}) => {
   const newBoard1 = items.map(e => e.bingoItems)
 
   return (
@@ -11,7 +11,17 @@ const BingoBoard = ({board, size, items, isTemporary}) => {
       {newBoard1.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
           {row.map(({title, color, complete, id}, index) => (
-            <BingoItem isTemporary={isTemporary} boardId={board} key={index} title={title} color={color} complete={complete} size={size} id={id} />
+            <BingoItem
+              readonly={readonly}
+              isTemporary={isTemporary}
+              boardId={board}
+              key={index}
+              title={title}
+              color={color}
+              complete={complete}
+              size={size}
+              id={id}
+            />
           ))}
         </View>
       ))}
