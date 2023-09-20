@@ -11,13 +11,13 @@ import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
 
 import {useAtom} from 'jotai'
-import {bingo_count_atom, retech_atom} from './store'
+import {bingo_count_atom, register_item_atom, retech_atom} from './store'
 import {Images} from 'assets'
 
 import {BingoGoalText} from './contents/BingoGoalText'
 import {TestInput, TestMemoInput} from './contents/Test'
 import RBSheet from 'react-native-raw-bottom-sheet'
-import {DateModal, InviteModal, MoreModal, PublicModal} from './contents/bottom-sheet/modal'
+import {DateModal, InviteModal, ItemInput, MoreModal, PublicModal} from './contents/bottom-sheet/modal'
 
 type BingoGoalText = {
   bingoPercent: number
@@ -25,14 +25,14 @@ type BingoGoalText = {
   maxBingoCount: number
 }
 
-type ModalState = 'more' | 'public' | 'invite' | 'date' | 'none'
+type ModalState = 'more' | 'public' | 'invite' | 'date' | 'register_bingo' | 'none'
 
 const BingoScreen = () => {
   const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
   const {navigate, back} = useRoutes()
   const [refetch, setRetech] = useAtom(retech_atom)
   const refRBSheet = useRef()
-
+  const [addBingo, setAddBingo] = useAtom(register_item_atom)
   const {params} = useRoute()
   const {fromCreate, id, isfriend} = params || {}
   const [data, setData] = useState()
@@ -47,6 +47,10 @@ const BingoScreen = () => {
   const [otherBingos, setOtherBingos] = useState([])
 
   const READ_ONLY = isfriend
+
+  useEffect(() => {
+    setModalState('register_bingo')
+  }, [addBingo])
 
   useEffect(() => {
     if (modalState === 'none') return
@@ -112,6 +116,7 @@ const BingoScreen = () => {
     public: {content: <PublicModal state={data?.open} close={closeModal} />, height: 300},
     invite: {content: <InviteModal close={closeModal} editDate={dateGroup} refetch={() => setRetech(true)} />, height: 400},
     date: {content: <DateModal info={editData} group={IS_GROUP} close={dateCloseModal} refetch={() => setRetech(true)} />, height: 400},
+    register_bingo: {content: <ItemInput />, height: 300},
     none: '',
   }
 
@@ -221,17 +226,18 @@ const BingoScreen = () => {
           height={MODAL[modalState].height}
           customStyles={{
             wrapper: {
-              backgroundColor: 'transparent',
+              backgroundColor: 'rgba(0, 0, 0, 0.65)',
             },
             draggableIcon: {
-              backgroundColor: '#000',
+              backgroundColor: '#D9D9D9',
             },
+            container: {borderTopLeftRadius: 20, borderTopRightRadius: 20},
           }}>
           {MODAL[modalState].content}
         </RBSheet>
       </SafeAreaView>
 
-      <TestInput />
+      {/* <TestInput /> */}
       <TestMemoInput />
     </View>
   )
