@@ -8,7 +8,7 @@ import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
 
 import {useAtom, useSetAtom} from 'jotai'
-import {addMonths, register_item_atom, retech_atom, show_edit_box_atom} from '../../store'
+import {addMonths, register_item_atom, retech_atom, show_edit_box_atom, update_memo_atom} from '../../store'
 import {Images} from 'assets'
 
 import {MENU} from 'navigation/menu'
@@ -16,10 +16,56 @@ import {MENU} from 'navigation/menu'
 import {FlatList} from 'react-native-gesture-handler'
 import {format} from 'date-fns'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
-import {updateBingoInfo} from 'components/bingo/board/remote'
+import {updateBingoInfo, updateMemo} from 'components/bingo/board/remote'
 import {StyleSheet} from 'react-native'
 
-export const ItemInput = () => {
+export const MemoInput = ({close}) => {
+  const {params} = useRoute()
+  const {id} = params || {}
+
+  const [state, setState] = useAtom(update_memo_atom)
+  const [content, setContent] = useState<string>(state.content)
+  const setRetech = useSetAtom(retech_atom)
+
+  const reset = () => {
+    setContent('')
+  }
+
+  const update = async () => {
+    if (!id) return
+
+    const res = await updateMemo(id, content)
+
+    if (res.status !== 200) return Alert.alert('요청이 원활하지 않습니다')
+    reset()
+    setState({mode: false, content: ''})
+    setRetech(true)
+    close()
+  }
+
+  return (
+    <View style={{padding: 20, position: 'relative', height: '100%'}}>
+      <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <TouchableOpacity onPress={() => close()} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+          <Image source={Images.back_btn} style={{width: 30, height: 30}} />
+        </TouchableOpacity>
+        <Text style={{fontWeight: '500', fontSize: 18}}>메모 작성</Text>
+      </View>
+      <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 15}}>
+        <Text style={{fontSize: 15, fontWeight: '500', marginRight: 20}}>내용</Text>
+        <TextInput placeholder="빙고 항목의 타이틀을 작성하세요." onChangeText={t => setContent(t)} value={content} style={styles.itemInput} />
+      </View>
+
+      <View style={{position: 'absolute', bottom: 24, left: 0, right: 0}}>
+        <TouchableOpacity style={{...styles.button}} onPress={() => update()}>
+          <Text style={{color: 'white', fontWeight: '500', fontSize: 18, textAlign: 'center'}}>완료</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  )
+}
+
+export const ItemInput = ({close}) => {
   const {params} = useRoute()
   const {id: boardId} = params || {}
   const [state, setState] = useAtom(register_item_atom)
@@ -39,9 +85,14 @@ export const ItemInput = () => {
 
     const res = await registerItem(content, boardId, state.id as number)
 
-    reset()
-    setState({mode: false, id: null})
-    setRetech(true)
+    if (res.data.code === 'OK') {
+      reset()
+      setState({mode: false, id: null})
+      setRetech(true)
+      close()
+    } else {
+      Alert.alert('요청이 원활하지 않습니다.')
+    }
   }
   if (!state.mode) return null
   return (
@@ -58,15 +109,7 @@ export const ItemInput = () => {
           placeholder="빙고 항목의 타이틀을 작성하세요."
           onChangeText={t => setContent(prev => ({...prev, title: t}))}
           value={content.title}
-          style={{
-            borderBottomColor: '#DDD',
-            borderBottomWidth: 1,
-            fontSize: 16,
-            width: '80%',
-            height: 45,
-            fontFamily: 'NotoSansKR_400Regular',
-            marginBottom: 12,
-          }}
+          style={styles.itemInput}
         />
       </View>
       <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
@@ -75,15 +118,12 @@ export const ItemInput = () => {
           placeholder="자세한 내용을 작성하세요."
           onChangeText={t => setContent(prev => ({...prev, subTitle: t}))}
           value={content.subTitle}
-          style={{borderBottomColor: '#DDD', borderBottomWidth: 1, fontSize: 16, width: '80%', height: 45, fontFamily: 'NotoSansKR_400Regular'}}
+          style={styles.itemInput}
         />
       </View>
 
       <View style={{position: 'absolute', bottom: 24, left: 0, right: 0}}>
-        <TouchableOpacity
-          style={{...styles.button}}
-          // onPress={() => changePublicState()}
-        >
+        <TouchableOpacity style={{...styles.button}} onPress={() => addItem()}>
           <Text style={{color: 'white', fontWeight: '500', fontSize: 18, textAlign: 'center'}}>완료</Text>
         </TouchableOpacity>
       </View>
@@ -347,4 +387,14 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   date: {fontSize: 16},
+
+  itemInput: {
+    borderBottomColor: '#DDD',
+    borderBottomWidth: 1,
+    fontSize: 16,
+    width: '80%',
+    height: 45,
+    fontFamily: 'NotoSansKR_400Regular',
+    marginBottom: 12,
+  },
 })

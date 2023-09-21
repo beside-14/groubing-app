@@ -11,13 +11,13 @@ import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
 
 import {useAtom} from 'jotai'
-import {bingo_count_atom, register_item_atom, retech_atom} from './store'
+import {bingo_count_atom, register_item_atom, retech_atom, update_memo_atom} from './store'
 import {Images} from 'assets'
 
 import {BingoGoalText} from './contents/BingoGoalText'
-import {TestInput, TestMemoInput} from './contents/Test'
+
 import RBSheet from 'react-native-raw-bottom-sheet'
-import {DateModal, InviteModal, ItemInput, MoreModal, PublicModal} from './contents/bottom-sheet/modal'
+import {DateModal, InviteModal, MemoInput, ItemInput, MoreModal, PublicModal} from './contents/bottom-sheet/modal'
 
 type BingoGoalText = {
   bingoPercent: number
@@ -25,7 +25,7 @@ type BingoGoalText = {
   maxBingoCount: number
 }
 
-type ModalState = 'more' | 'public' | 'invite' | 'date' | 'register_bingo' | 'none'
+type ModalState = 'more' | 'public' | 'invite' | 'date' | 'register_bingo' | 'register_memo' | 'none'
 
 const BingoScreen = () => {
   const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
@@ -33,6 +33,8 @@ const BingoScreen = () => {
   const [refetch, setRetech] = useAtom(retech_atom)
   const refRBSheet = useRef()
   const [addBingo, setAddBingo] = useAtom(register_item_atom)
+
+  const [addMemo, setAddMemo] = useAtom(update_memo_atom)
   const {params} = useRoute()
   const {fromCreate, id, isfriend} = params || {}
   const [data, setData] = useState()
@@ -49,8 +51,11 @@ const BingoScreen = () => {
   const READ_ONLY = isfriend
 
   useEffect(() => {
-    setModalState('register_bingo')
-  }, [addBingo])
+    if (addBingo.mode === false && addMemo.mode === false) return
+
+    if (addBingo.mode) return setModalState('register_bingo')
+    if (addMemo.mode) return setModalState('register_memo')
+  }, [addBingo, addMemo])
 
   useEffect(() => {
     if (modalState === 'none') return
@@ -116,7 +121,8 @@ const BingoScreen = () => {
     public: {content: <PublicModal state={data?.open} close={closeModal} />, height: 300},
     invite: {content: <InviteModal close={closeModal} editDate={dateGroup} refetch={() => setRetech(true)} />, height: 400},
     date: {content: <DateModal info={editData} group={IS_GROUP} close={dateCloseModal} refetch={() => setRetech(true)} />, height: 400},
-    register_bingo: {content: <ItemInput />, height: 300},
+    register_bingo: {content: <ItemInput close={closeModal} />, height: 300},
+    register_memo: {content: <MemoInput close={closeModal} />, height: 300},
     none: '',
   }
 
@@ -236,9 +242,6 @@ const BingoScreen = () => {
           {MODAL[modalState].content}
         </RBSheet>
       </SafeAreaView>
-
-      {/* <TestInput /> */}
-      <TestMemoInput />
     </View>
   )
 }
@@ -290,14 +293,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 1,
     borderWidth: 1,
-    borderColor: '#3A8ADB',
+    borderColor: 'rgba(58, 138, 219, 0.30)',
     marginLeft: 8,
     marginBottom: 3,
   },
   remainingDaysText: {
     color: '#3A8ADB',
     fontSize: 13,
-    fontFamily: 'NotoSansKR_400Regular',
+    fontFamily: 'NotoSansKR_600Regular',
+    fontWeight: '600',
   },
 
   progressBar: {
