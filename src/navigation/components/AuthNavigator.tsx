@@ -1,6 +1,6 @@
 import React from 'react'
 import {createStackNavigator} from '@react-navigation/stack'
-import {Login, FindId, FindPw, SignUp} from 'screens'
+import {Login, FindId, FindPw, SignUp, SocialNickname} from 'screens'
 import NavigatorHeader from 'components/common/NavigatorHeader'
 
 const Auth = createStackNavigator()
@@ -36,6 +36,7 @@ const AuthNavigator = () => {
         }}
       />
       <Auth.Screen name="SignUp" component={SignUp} options={{headerLeft: () => <NavigatorHeader title={'회원가입'} />, title: ''}} />
+      <Auth.Screen name="Nickname" component={SocialNickname} options={{headerShown: false, animationEnabled: true}} />
     </Auth.Navigator>
   )
 }

@@ -1,29 +1,58 @@
 import React, {useState} from 'react'
-import {View, Text, Image, StyleSheet, TextInput, TouchableOpacity, Alert} from 'react-native'
+import {View, Text, Image, StyleSheet, TextInput, TouchableOpacity, Alert, Platform} from 'react-native'
 import {launchImageLibrary} from 'react-native-image-picker'
+import ImageResizer from 'react-native-image-resizer'
 
 import {font} from 'shared/styles'
 import {Images} from 'assets'
 import useUserInfo from 'hooks/useUserInfo'
+import {patchNickname, patchProfileImage} from './remote'
+import {useRoutes} from 'hooks/useRoutes'
 
 const MypageProfile = () => {
-  const {userInfo} = useUserInfo()
+  const {userInfo, setUserInfo} = useUserInfo()
   const [selectedImage, setSelectedImage] = useState(null)
   const [nickname, setNickname] = useState(userInfo?.nickname)
-  const disabled = !nickname || nickname?.length < 2
+  const disabled = (!nickname || nickname?.length < 2 || nickname === userInfo?.nickname) && selectedImage === userInfo?.profileUrl
+  const {back} = useRoutes()
 
   const handleProfileImage = () => {
-    launchImageLibrary({mediaType: 'photo'}, (response: any) => {
+    launchImageLibrary({mediaType: 'photo'}, async (response: any) => {
       // console.log(response)
       if (!response.didCancel && !response.errorCode) {
         const {uri} = response.assets[0]
+
+        const resizedImage = await ImageResizer.createResizedImage(uri, 200, 200, 'JPEG', 100)
+        console.log(resizedImage)
+        // setSelectedImage(resizedImage.path)
         setSelectedImage(uri)
       }
     })
   }
 
-  const handleComplete = () => {
-    Alert.alert('수정완료')
+  const handleComplete = async () => {
+    if (nickname !== userInfo?.nickname && selectedImage !== userInfo?.profileUrl) {
+      Promise.all([patchNickname(userInfo?.id, nickname), patchProfileImage(userInfo?.id, selectedImage)]).then(res =>
+        Promise.all(res.map(res => res.json()))
+          .then(data => {
+            console.log('nickname', data[0])
+            console.log('profile', data[1])
+          })
+          .catch(err => {
+            console.log(err)
+          }),
+      )
+    } else if (nickname !== userInfo?.nickname) {
+      const res = await patchNickname(userInfo?.id, nickname)
+      if (res) {
+        setUserInfo({...userInfo, nickname: nickname})
+        back()
+      }
+      // back()
+    } else if (selectedImage !== userInfo?.profileUrl) {
+      const res = await patchProfileImage(userInfo?.id, selectedImage)
+      console.log(res)
+    }
   }
 
   return (

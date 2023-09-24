@@ -20,11 +20,10 @@ import {Images} from 'assets'
 import {useRoutes} from 'hooks/useRoutes'
 import {font} from 'shared/styles'
 import {emailValidate, passwordValidate} from 'utils/validate'
-import LoginInput from './contents/LoginInput'
 import {fetchEmailLogin} from 'hooks/auth'
 import {setToken, setUserInfo} from 'utils/asyncStorage'
-import Kakao from './contents/Kakao'
 import {AxiosError} from 'utils/axios'
+import {Apple, Kakao, LoginInput} from './contents'
 
 const LoginScreen = () => {
   const [id, setId] = useState('')
@@ -49,7 +48,7 @@ const LoginScreen = () => {
     } else {
       try {
         const res = await fetchEmailLogin({email: id, password: pw})
-        console.log(res)
+        // console.log(res)
         setUserInfo(res)
         await setToken(res.token)
         login()
@@ -108,12 +107,10 @@ const LoginScreen = () => {
             <Text style={styles.snsText}>SNS 계정으로 로그인하기</Text>
 
             <View style={styles.snsBtnContainer}>
-              <TouchableOpacity style={styles.snsBtn} onPress={() => Alert.alert('준비 중입니다.')}>
+              {/* <TouchableOpacity style={styles.snsBtn} onPress={() => Alert.alert('준비 중입니다.')}>
                 <Image source={Images.google_icon} />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.snsBtn} onPress={() => Alert.alert('준비 중입니다.')}>
-                <Image source={Images.apple_icon} />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
+              <Apple />
               <Kakao />
             </View>
           </View>
