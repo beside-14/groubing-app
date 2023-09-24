@@ -1,18 +1,20 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import {View} from 'react-native'
 import {getBingoList} from './remote'
 import {useRoutes} from 'hooks/useRoutes'
-import {useIsFocused, useNavigation} from '@react-navigation/native'
+import {useIsFocused} from '@react-navigation/native'
 
 import {Images} from 'assets'
 import {Image} from 'react-native'
 import {MENU} from 'navigation/menu'
+import useUserInfo from 'hooks/useUserInfo'
+import {useQuery} from '@tanstack/react-query'
 
 export const MiniBoard = ({bingo, color}) => {
   const bingoarr = bingo.map(e => e?.bingoItems)
-  // console.log('bingoarr?', bingoarr)
 
+  const FOUR = bingo.length === 4
   return (
     <View>
       {bingoarr.map((e, i) => (
@@ -21,8 +23,8 @@ export const MiniBoard = ({bingo, color}) => {
             <View
               key={i}
               style={{
-                width: 16,
-                height: 16,
+                width: FOUR ? 12 : 16,
+                height: FOUR ? 12 : 16,
                 borderWidth: 1,
                 borderColor: 'white',
                 borderRadius: 4,
@@ -36,9 +38,6 @@ export const MiniBoard = ({bingo, color}) => {
   )
 }
 export const Card = ({item}) => {
-  // const navigation: LooseObject = useNavigation()
-
-  // const {navigate} = useRoutes()
   const {id, title, since, until, goal, groupType, open, bingoLines, totalCompleteCount} = item || {}
   const type = groupType === 'SINGLE' ? '개인' : '그룹'
 
@@ -69,11 +68,13 @@ const BingoListScreen = () => {
   const [list, setList] = useState([])
   const [category, setCategory] = useState<string>('ALL')
   const isFocused = useIsFocused()
-
+  const {userInfo} = useUserInfo()
+  // const {data} = useQuery(['friend-bingo-list', userInfo?.id], () => getBingoList(userInfo?.id))
+  // const list = data?.data.data
   useEffect(() => {
     if (!isFocused) return
     ;(async () => {
-      const res = await getBingoList()
+      const res = await getBingoList(userInfo?.id)
       setList(res.data.data)
     })()
   }, [isFocused])
@@ -171,7 +172,7 @@ export default BingoListScreen
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: 'white'},
-  wrapper: {flex: 1, paddingVertical: 24, paddingHorizontal: 12},
+  wrapper: {flex: 1, paddingTop: 24, paddingHorizontal: 12},
   title: {paddingVertical: 24, paddingHorizontal: 20, fontSize: 24, fontWeight: '700'},
   row: {display: 'flex', flexDirection: 'row'},
   tab: {

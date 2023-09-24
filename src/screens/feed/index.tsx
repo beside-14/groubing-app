@@ -1,42 +1,26 @@
-import React, {useEffect} from 'react'
-import {StyleSheet, SafeAreaView, Text} from 'react-native'
+import React from 'react'
+import {StyleSheet, SafeAreaView} from 'react-native'
 import {FeedHeader, FeedTab} from './contents'
-import {View} from 'react-native'
-import {API} from 'utils/axios'
 
-const Card = () => {
-  return (
-    <View style={styles.block}>
-      <View style={styles.row}>
-        <View style={styles.profileimg} />
-        <Text>kay</Text>
-      </View>
-    </View>
-  )
-}
+import Tabs from './contents/tab/Tab'
+import TabPane from './contents/tab/TabPane'
+import {ListView} from './contents/ListView'
 
-const getFriends = async () => {
-  const res = await API.get('/api/friends')
-
-  return res
-}
 const Feed = () => {
-  useEffect(() => {
-    ;(async () => {
-      const res = await getFriends()
-
-      console.log('결과값!', res)
-    })()
-  }, [])
-
   return (
     <SafeAreaView style={styles.container}>
       {/* 헤더 */}
       <FeedHeader />
       {/* 탭 */}
-      <FeedTab />
-      {/* 피드 리스트 */}
-      <Card />
+      <Tabs>
+        <TabPane title="빙고 둘러보기">
+          <ListView type={'all'} />
+        </TabPane>
+
+        <TabPane title="친구 둘러보기">
+          <ListView type={'friend'} />
+        </TabPane>
+      </Tabs>
     </SafeAreaView>
   )
 }
@@ -51,5 +35,5 @@ const styles = StyleSheet.create({
   row: {display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8},
   profileimg: {width: 36, height: 36, backgroundColor: 'pink', borderRadius: 50},
   username: {fontWeight: '500', fontSize: 16},
-  block: {padding: 20},
+  block: {padding: 20, backgroundColor: 'white'},
 })

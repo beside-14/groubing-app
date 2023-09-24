@@ -816,9 +816,9 @@ SPEC CHECKSUMS:
   ReactCommon: 517b45ed311ba9146aa8b55a8ef6617425f7448e
   RNAppleAuthentication: 0571c08da8c327ae2afc0261b48b4a515b0286a6
   RNCAsyncStorage: c913ede1fa163a71cea118ed4670bbaaa4b511bb
-  RNDateTimePicker: ccd988deb223cbb2e669e157ec576c2c6217128c
-  RNGestureHandler: 38aa38413896620338948fbb5c90579a7b1c3fde
-  RNReanimated: ab2e96c6d5591c3dfbb38a464f54c8d17fb34a87
+  RNDateTimePicker: b722c23030b744763cf51d80fc22f354653f65e0
+  RNGestureHandler: c0d04458598fcb26052494ae23dda8f8f5162b13
+  RNReanimated: 726395a2fa2f04cea340274ba57a4e659bc0d9c1
   RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   Yoga: 1d6727ed193122f6adaf435c3de1a768326ff83b

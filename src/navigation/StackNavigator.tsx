@@ -34,6 +34,14 @@ const defaultOptions: StackNavigationOptions = {
 
 const screens: ScreenItemType[] = [
   {
+    name: MENU.FRIEND_BINGO_LIST,
+    component: FriendBingoList,
+    options: {
+      ...defaultOptions,
+      gestureDirection: 'vertical',
+    },
+  },
+  {
     name: MENU.BINGO_CREATE,
     component: CreateBingoScreen,
     options: {
@@ -96,6 +104,7 @@ const screens: ScreenItemType[] = [
 
 import {EditScreen} from 'screens/board/contents/EditScreen'
 import FriendHeaderRight from './components/FriendHeaderRight'
+import {FriendBingoList} from 'screens/friend-bingo-list'
 
 const Root = createStackNavigator()
 
@@ -121,6 +130,7 @@ const StackNavigator = () => {
     // 로그인 유저 정보 확인
     const checkUserInfo = async () => {
       const user = await getUserInfo()
+
       setUserInfo(user)
     }
     checkUserInfo()

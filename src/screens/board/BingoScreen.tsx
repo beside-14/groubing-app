@@ -11,13 +11,13 @@ import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
 
 import {useAtom} from 'jotai'
-import {bingo_count_atom, retech_atom} from './store'
+import {bingo_count_atom, register_item_atom, retech_atom, update_memo_atom} from './store'
 import {Images} from 'assets'
 
 import {BingoGoalText} from './contents/BingoGoalText'
-import {TestInput, TestMemoInput} from './contents/Test'
+
 import RBSheet from 'react-native-raw-bottom-sheet'
-import {DateModal, InviteModal, MoreModal, PublicModal} from './contents/bottom-sheet/modal'
+import {DateModal, InviteModal, MemoInput, ItemInput, MoreModal, PublicModal} from './contents/bottom-sheet/modal'
 
 type BingoGoalText = {
   bingoPercent: number
@@ -25,16 +25,18 @@ type BingoGoalText = {
   maxBingoCount: number
 }
 
-type ModalState = 'more' | 'public' | 'invite' | 'date' | 'none'
+type ModalState = 'more' | 'public' | 'invite' | 'date' | 'register_bingo' | 'register_memo' | 'none'
 
 const BingoScreen = () => {
   const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
   const {navigate, back} = useRoutes()
   const [refetch, setRetech] = useAtom(retech_atom)
   const refRBSheet = useRef()
+  const [addBingo, setAddBingo] = useAtom(register_item_atom)
 
+  const [addMemo, setAddMemo] = useAtom(update_memo_atom)
   const {params} = useRoute()
-  const {fromCreate, id} = params || {}
+  const {fromCreate, id, isfriend} = params || {}
   const [data, setData] = useState()
 
   const [modalState, setModalState] = useState<ModalState>('none')
@@ -45,6 +47,15 @@ const BingoScreen = () => {
   const [dateGroup, setDateGroup] = useState({since: '', until: ''})
 
   const [otherBingos, setOtherBingos] = useState([])
+
+  const READ_ONLY = isfriend
+
+  useEffect(() => {
+    if (addBingo.mode === false && addMemo.mode === false) return
+
+    if (addBingo.mode) return setModalState('register_bingo')
+    if (addMemo.mode) return setModalState('register_memo')
+  }, [addBingo, addMemo])
 
   useEffect(() => {
     if (modalState === 'none') return
@@ -110,6 +121,8 @@ const BingoScreen = () => {
     public: {content: <PublicModal state={data?.open} close={closeModal} />, height: 300},
     invite: {content: <InviteModal close={closeModal} editDate={dateGroup} refetch={() => setRetech(true)} />, height: 400},
     date: {content: <DateModal info={editData} group={IS_GROUP} close={dateCloseModal} refetch={() => setRetech(true)} />, height: 400},
+    register_bingo: {content: <ItemInput close={closeModal} />, height: 300},
+    register_memo: {content: <MemoInput close={closeModal} />, height: 300},
     none: '',
   }
 
@@ -138,18 +151,18 @@ const BingoScreen = () => {
           )}
           {/* 발행하기 버튼 원진님께 9개 다 채웠는지 상태값받기 그걸로 disabled*/}
 
-          {isTemporary ? (
-            <TouchableOpacity onPress={() => setModalState('date')} style={{flexDirection: 'row', alignItems: 'center'}}>
+          {READ_ONLY ? null : isTemporary ? (
+            <TouchableOpacity disabled={READ_ONLY} onPress={() => setModalState('date')} style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image source={Images.icon_check_black} style={{width: 24, height: 24, marginRight: 4}} />
               <Text>발행하기</Text>
             </TouchableOpacity>
           ) : (
             <View style={{display: 'flex', flexDirection: 'row', gap: 8}}>
               {/* 공개  */}
-              <TouchableOpacity onPress={() => setModalState('public')} style={{alignItems: 'center'}}>
+              <TouchableOpacity disabled={READ_ONLY} onPress={() => setModalState('public')} style={{alignItems: 'center'}}>
                 <Image source={Images.ico_lock} style={{width: 24, height: 24, marginRight: 4}} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setModalState('more')} style={{alignItems: 'center'}}>
+              <TouchableOpacity disabled={READ_ONLY} onPress={() => setModalState('more')} style={{alignItems: 'center'}}>
                 <Image source={Images.icon_more} style={{width: 24, height: 24, marginRight: 4}} />
               </TouchableOpacity>
             </View>
@@ -170,9 +183,9 @@ const BingoScreen = () => {
             <ProgressBar progress={bingoCount / data?.goal} style={styles.progressBar} color="#3A8ADB" />
           </View>
 
-          <BingoBoard isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
+          <BingoBoard readonly={READ_ONLY} isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
           {isTemporary && (
-            <TouchableOpacity onPress={() => shuffle()}>
+            <TouchableOpacity disabled={READ_ONLY} onPress={() => shuffle()}>
               <Text style={{textAlign: 'right', padding: 20, paddingBottom: 0, fontWeight: '500', color: '#666666'}}>섞기</Text>
             </TouchableOpacity>
           )}
@@ -209,7 +222,7 @@ const BingoScreen = () => {
               </View>
             </View>
           )}
-          <Memo content={data?.memo} />
+          <Memo content={data?.memo} readonly={READ_ONLY} />
         </ScrollView>
         <RBSheet
           ref={refRBSheet}
@@ -219,18 +232,16 @@ const BingoScreen = () => {
           height={MODAL[modalState].height}
           customStyles={{
             wrapper: {
-              backgroundColor: 'transparent',
+              backgroundColor: 'rgba(0, 0, 0, 0.65)',
             },
             draggableIcon: {
-              backgroundColor: '#000',
+              backgroundColor: '#D9D9D9',
             },
+            container: {borderTopLeftRadius: 20, borderTopRightRadius: 20},
           }}>
           {MODAL[modalState].content}
         </RBSheet>
       </SafeAreaView>
-
-      <TestInput />
-      <TestMemoInput />
     </View>
   )
 }
@@ -282,14 +293,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 1,
     borderWidth: 1,
-    borderColor: '#3A8ADB',
+    borderColor: 'rgba(58, 138, 219, 0.30)',
     marginLeft: 8,
     marginBottom: 3,
   },
   remainingDaysText: {
     color: '#3A8ADB',
     fontSize: 13,
-    fontFamily: 'NotoSansKR_400Regular',
+    fontFamily: 'NotoSansKR_600Regular',
+    fontWeight: '600',
   },
 
   progressBar: {

@@ -10,7 +10,7 @@ import {font} from 'shared/styles'
 
 const {width} = Dimensions.get('window')
 
-const BingoItem = ({title, size, complete, boardId, id, isTemporary}: any) => {
+const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly}: any) => {
   const itemSize = width / size
   const fontSize = size === 3 ? 13 : 12
 
@@ -34,7 +34,10 @@ const BingoItem = ({title, size, complete, boardId, id, isTemporary}: any) => {
 
   if (title === null) {
     return (
-      <TouchableOpacity onPress={() => registerMode({mode: true, id: id})} style={[styles.registerBtn, {width: itemSize, height: itemSize}]}>
+      <TouchableOpacity
+        disabled={readonly}
+        onPress={() => registerMode({mode: true, id: id})}
+        style={[styles.registerBtn, {width: itemSize, height: itemSize}]}>
         <View style={styles.make_btn_wrapper}>
           <Image source={Images.icon_make} style={styles.make_btn} />
         </View>
@@ -45,6 +48,7 @@ const BingoItem = ({title, size, complete, boardId, id, isTemporary}: any) => {
 
   return (
     <TouchableOpacity
+      disabled={readonly}
       style={[styles.itemContainer, {width: itemSize, height: itemSize}, select ? styles.selected : styles.unselected]}
       onPress={handleToggle}>
       <Text
