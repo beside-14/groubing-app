@@ -1,9 +1,13 @@
-import {post, patch} from 'utils/axios'
+import {get, post, patch, AxiosError} from 'utils/axios'
+import {useQuery} from 'utils/react-query'
+
 const baseUrl = 'http://49.50.175.32:8080/api'
 type LoginProps = {
   email: string
   password: string
 }
+
+type SocialType = 'APPLE' | 'KAKAO'
 
 export const fetchEmailLogin = async (params: LoginProps) => {
   const url = `${baseUrl}/members/login`
@@ -21,4 +25,20 @@ export const fetchChangePassword = async (params: {id: number; password: string}
   const url = `${baseUrl}/members/${params.id}/password`
   const {data} = await patch(url, {password: params.password})
   return data
+}
+
+export const fetchSocialLogin = async (email: string, socialType: SocialType, id: string | number) => {
+  const url = `${baseUrl}/members/social-login`
+  const {data} = await post(url, {email: email, socialType: socialType, id: id})
+  return data
+}
+
+const fetchSocialTypes = async (): Promise<SocialType> => {
+  const url = `${baseUrl}/social-types`
+  const {data} = await get(url)
+  return data
+}
+
+export const useSocialTypes = () => {
+  return useQuery<SocialType, AxiosError>(['social-types'], () => fetchSocialTypes())
 }

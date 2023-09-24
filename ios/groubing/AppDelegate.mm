@@ -2,8 +2,8 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <RNKakaoLogins.h>
- #import <Firebase.h>
-
+//#import <Firebase.h>
+#import "RNSplashScreen.h"
 
 @implementation AppDelegate
 

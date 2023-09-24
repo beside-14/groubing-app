@@ -1,33 +1,47 @@
 import React from 'react'
 import {TouchableOpacity, Image, StyleSheet} from 'react-native'
-import {login, getProfile} from '@react-native-seoul/kakao-login'
+import {login as KakaoLogin, getProfile} from '@react-native-seoul/kakao-login'
 import {Images} from 'assets'
-
-const kakaoLogin = () => {
-  login()
-    .then(result => {
-      console.log(result)
-      fetchKakaoProfile()
-    })
-    .catch(error => {
-      if (error.code === 'E_CANCELLED_OPERATION') {
-        console.log('Login Cancel', error.message)
-      } else {
-        console.log(`Login Fail(code:${error.code})`, error.message)
-      }
-    })
-}
-const fetchKakaoProfile = () => {
-  getProfile()
-    .then(result => {
-      console.log(result)
-    })
-    .catch(error => {
-      console.log(`GetProfile Fail(code:${error.code})`, error.message)
-    })
-}
+import {useSocialTypes, fetchSocialLogin} from 'hooks/auth'
+import {setToken, setUserInfo} from 'utils/asyncStorage'
+import {useIsLogged} from 'hooks/useIsLogged'
+import {useRoutes} from 'hooks/useRoutes'
 
 const Kakao = () => {
+  const {data} = useSocialTypes()
+  const {login} = useIsLogged()
+  const {navigate} = useRoutes()
+
+  const kakaoLogin = () => {
+    KakaoLogin()
+      .then(result => {
+        fetchKakaoProfile()
+      })
+      .catch(error => {
+        if (error.code === 'E_CANCELLED_OPERATION') {
+          console.log('Login Cancel', error.message)
+        } else {
+          console.log(`Login Fail(code:${error.code})`, error.message)
+        }
+      })
+  }
+
+  const fetchKakaoProfile = () => {
+    getProfile()
+      .then(async result => {
+        const {email, id} = result
+        const res = await fetchSocialLogin(email, data[1], id)
+        setUserInfo(res)
+        setToken(res.token)
+        if (!res.hasNickanme) {
+          navigate('Nickname')
+        } else login()
+      })
+      .catch(error => {
+        console.log(`GetProfile Fail(code:${error.code})`, error.message)
+      })
+  }
+
   return (
     <TouchableOpacity style={styles.snsBtn} onPress={kakaoLogin}>
       <Image source={Images.kakao_icon} />
