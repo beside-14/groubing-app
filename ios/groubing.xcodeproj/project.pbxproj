@@ -21,13 +21,11 @@
 		5E7F8C832A6C0878001D32B1 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 5E7F8C822A6C0878001D32B1 /* FirebaseMessaging */; };
 		5E7F8C852A6C09A6001D32B1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5E7F8C842A6C09A6001D32B1 /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		898A9CFEA4EE6533BBEECF7A /* libPods-groubing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82842D47D9DD459BA22A353A /* libPods-groubing.a */; };
 		B7055FBF1E7D4A9D90D094B3 /* NotoSansKR-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CB8C7D3DAF854E9DAF8A466D /* NotoSansKR-Light.otf */; };
 		D90BED5415E240699D6BF324 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3517FE0B0B824AEEBCAE2675 /* Montserrat-Regular.ttf */; };
 		DAA877AC4BF14446A5E89FCF /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0B7D8C7E34542D78F4E746A /* Montserrat-Bold.ttf */; };
 		E0440AD736B24062A91A9A20 /* NotoSansKR-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 787AE98CD0804C17943C1DFB /* NotoSansKR-Black.otf */; };
 		F1B30DF7A08B4601A96FBDED /* NotoSansKR-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 11F4A8C007C444A99375884C /* NotoSansKR-Thin.otf */; };
-		F78C60EEAE0DBBB224359826 /* libPods-groubing-groubingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48518EE34C8FDBBE19F88EFD /* libPods-groubing-groubingTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +42,6 @@
 		00E356EE1AD99517003FC87E /* groubingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = groubingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* groubingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = groubingTests.m; sourceTree = "<group>"; };
-		08221DF650B5221B3AD4328F /* Pods-groubing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing.debug.xcconfig"; path = "Target Support Files/Pods-groubing/Pods-groubing.debug.xcconfig"; sourceTree = "<group>"; };
 		11F4A8C007C444A99375884C /* NotoSansKR-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Thin.otf"; path = "../src/assets/fonts/NotoSansKR-Thin.otf"; sourceTree = "<group>"; };
 		1254B0260FDD1020688BFF86 /* libPods-groubing.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-groubing.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* groubing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = groubing.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,9 +53,6 @@
 		23EA64EB6FD3F99152FD038D /* Pods-groubing-groubingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing-groubingTests.debug.xcconfig"; path = "Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2579E2FD69F241FCBFDB57D1 /* NotoSansKR-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Bold.otf"; path = "../src/assets/fonts/NotoSansKR-Bold.otf"; sourceTree = "<group>"; };
 		3517FE0B0B824AEEBCAE2675 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
-		48518EE34C8FDBBE19F88EFD /* libPods-groubing-groubingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-groubing-groubingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5221EC9B74BCDFFDCE90D65D /* Pods-groubing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing.release.xcconfig"; path = "Target Support Files/Pods-groubing/Pods-groubing.release.xcconfig"; sourceTree = "<group>"; };
-		54692F9922C4D903EE80AF98 /* Pods-groubing-groubingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing-groubingTests.release.xcconfig"; path = "Target Support Files/Pods-groubing-groubingTests/Pods-groubing-groubingTests.release.xcconfig"; sourceTree = "<group>"; };
 		5E5B75722AAD7FC600A4333C /* groubing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = groubing.entitlements; path = groubing/groubing.entitlements; sourceTree = "<group>"; };
 		5E7F8C842A6C09A6001D32B1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "groubing/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		732F12A3E54D4413A92B6B44 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.ttf"; path = "../src/assets/fonts/Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -72,6 +66,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F588CCC5D86EB739442C0598 /* libPods-groubing-groubingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-groubing-groubingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F73454C7E9F547BE9068B76B /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansKR-Regular.otf"; path = "../src/assets/fonts/NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
+		FC75AD5E422B31B24EB8BA2F /* Pods-groubing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-groubing.debug.xcconfig"; path = "Target Support Files/Pods-groubing/Pods-groubing.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +74,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA46BE0945EC55D7A53F8D45 /* BuildFile in Frameworks */,
 				369565709F974283577CDF8F /* libPods-groubing-groubingTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,10 +192,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				486A61964EF600DC18CEDAD4 /* Pods-groubing.debug.xcconfig */,
 				90A34DF798A9B9092F499B48 /* Pods-groubing.release.xcconfig */,
 				23EA64EB6FD3F99152FD038D /* Pods-groubing-groubingTests.debug.xcconfig */,
 				CAB06B74FC2552724A9D5CCC /* Pods-groubing-groubingTests.release.xcconfig */,
+				FC75AD5E422B31B24EB8BA2F /* Pods-groubing.debug.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -559,7 +553,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 486A61964EF600DC18CEDAD4 /* Pods-groubing.debug.xcconfig */;
+			baseConfigurationReference = FC75AD5E422B31B24EB8BA2F /* Pods-groubing.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

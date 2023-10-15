@@ -30,6 +30,7 @@ const CreateBingo = () => {
 const styles = StyleSheet.create({
   safeAreaContainer: {
     backgroundColor: '#FFFFFF',
+    marginBottom: 30,
 
     flex: 1,
   },

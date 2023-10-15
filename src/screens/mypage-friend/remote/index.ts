@@ -4,7 +4,7 @@ import {useQuery} from 'utils/react-query'
 const getFriendList = async () => {
   const res = await API.get('/api/friends')
   // console.log(res)
-  return res?.data
+  return res?.data.data
 }
 
 export const useFriendList = () => {

@@ -33,11 +33,15 @@ const styles = StyleSheet.create({
   },
   tab_container: {
     marginHorizontal: 2,
-    paddingVertical: 10,
+    // paddingVertical: 10,
     paddingHorizontal: 16,
     borderWidth: 1,
     borderColor: '#DDD',
     borderRadius: 99,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 40,
   },
   tab_container_clicked: {
     backgroundColor: '#000',

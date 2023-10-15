@@ -64,4 +64,7 @@ export const Images: Record<string, ImageSource> = {
   icon_edit: require('./images/icon_edit.png'),
   ico_check: require('./images/ico_check.png'),
   ico_uncheck: require('./images/ico_uncheck.png'),
+  icon_trash_black: require('./images/icon_trash_black.png'),
+  icon_bingo: require('./images/icon_bingo.png'),
+  icon_block_red: require('./images/icon_block_red.png'),
 }

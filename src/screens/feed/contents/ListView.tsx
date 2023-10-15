@@ -35,7 +35,7 @@ const Header = ({name, id, profile, isfriend}) => {
   const {navigate} = useRoutes()
   const me = userInfo?.id === id
 
-  const requestFriend = async id => {
+  const requestFriend = async (id: number) => {
     const res = await requestFriends(id)
     if (res === true) return Alert.alert('친구요청이 완료되었습니다.')
 
