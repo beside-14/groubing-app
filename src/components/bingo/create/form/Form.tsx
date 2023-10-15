@@ -1,6 +1,6 @@
-import {StyleSheet, Text, ScrollView, View, TextInput} from 'react-native'
+import {StyleSheet, Text, ScrollView, View, TextInput, TouchableOpacity} from 'react-native'
 import React, {useEffect, useState} from 'react'
-import {TouchableOpacity} from 'react-native-gesture-handler'
+
 import {createBingo} from '../remote'
 import {useRoutes} from 'hooks/useRoutes'
 import {useAtom, useAtomValue} from 'jotai'

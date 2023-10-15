@@ -184,7 +184,7 @@ const BingoScreen = () => {
           </View>
 
           <BingoBoard readonly={READ_ONLY} isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
-          {isTemporary && (
+          {isTemporary && !READ_ONLY && (
             <TouchableOpacity disabled={READ_ONLY} onPress={() => shuffle()}>
               <Text style={{textAlign: 'right', padding: 20, paddingBottom: 0, fontWeight: '500', color: '#666666'}}>섞기</Text>
             </TouchableOpacity>
