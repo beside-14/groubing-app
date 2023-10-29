@@ -26,7 +26,7 @@ const MypageFriend = () => {
         renderItem={friend => (
           <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 15}}>
             <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
-              <View style={styles.profile} />
+              <Image style={{width: 36, height: 36}} source={friend.item.profile ? friend.item.profile : Images.icon_profile} />
               <Text>{friend.item.nickname}</Text>
             </View>
             <TouchableOpacity

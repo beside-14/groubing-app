@@ -156,10 +156,3 @@ const StackNavigator = () => {
 }
 
 export default StackNavigator
-
-const styles = StyleSheet.create({
-  bottom_tab_image: {
-    width: 24,
-    height: 24,
-  },
-})

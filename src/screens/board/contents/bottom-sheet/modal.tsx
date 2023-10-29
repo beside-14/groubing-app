@@ -249,8 +249,6 @@ export const InviteModal = ({editDate, close, refetch}) => {
   }
 
   const sendDateWithMembers = async () => {
-    console.log(members, editDate)
-
     const res = await publishBingo(id, editDate, members)
 
     if (res.data.code === 'OK') {

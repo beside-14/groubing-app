@@ -23,7 +23,7 @@ const Type = () => {
     <View>
       <Text style={styles.question}>빙고 타입을 선택해주세요.</Text>
       <View style={styles.pContainer}>
-        <View style={{marginRight: 16, display: 'flex'}}>
+        <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 15}}>
           <Text style={styles.pTitle}>개인 빙고</Text>
           <Text style={styles.pContent}>나만의 빙고를 만들어요.</Text>
         </View>
@@ -46,7 +46,7 @@ const Type = () => {
       </View>
       <View style={styles.divisionLine} />
       <View style={styles.pContainer}>
-        <View style={{marginRight: 16}}>
+        <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 15}}>
           <Text style={styles.pTitle}>그룹 빙고</Text>
           <Text style={styles.pContent}>친구들과 빙고를 함께 해요.</Text>
         </View>
@@ -272,7 +272,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   question: {
-    // fontFamily: 'NotoSansKR_700Bold',
     width: '100%',
     height: 36,
     fontSize: 24,
@@ -284,18 +283,15 @@ const styles = StyleSheet.create({
   },
   pTitle: {
     fontFamily: 'NotoSansKR_500Medium',
-    width: '100%',
-    height: 26,
+
     fontSize: 16,
     marginVertical: 4,
   },
   pContent: {
     fontFamily: 'NotoSansKR_400Regular',
     fontSize: 13,
-    width: '100%',
-    height: 17,
+
     color: '#666666',
-    marginVertical: 4,
   },
   gridBtn: {
     display: 'flex',
@@ -312,14 +308,13 @@ const styles = StyleSheet.create({
   },
   unSelectedBtn: {
     backgroundColor: '#F3F3F3',
-    // width: 150,
 
+    flex: 1,
     height: 45,
     borderRadius: 99,
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 10,
-    // marginRight: 6,
+
     paddingVertical: 12,
     paddingHorizontal: 18,
   },
@@ -331,7 +326,7 @@ const styles = StyleSheet.create({
   },
   selectedBtn: {
     backgroundColor: '#3A8ADB',
-
+    flex: 1,
     height: 45,
     borderRadius: 99,
     justifyContent: 'center',
