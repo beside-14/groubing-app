@@ -13,6 +13,7 @@ import {MENU} from 'navigation/menu'
 
 import {useFeeds} from '../remote/useFeeds'
 import {requestFriends} from '../remote/requestFriend'
+import {API_URL} from 'api/restful'
 
 const List = ({title, isLast}: {title: string; isLast: boolean}) => {
   return (
@@ -41,12 +42,13 @@ const Header = ({name, id, profile, isfriend}) => {
 
     return Alert.alert('요청이 원활하지 않습니다.')
   }
+
   return (
     <View style={styles.block}>
       <View style={{...styles.row, justifyContent: 'space-between'}}>
         <View style={styles.row}>
           <TouchableOpacity disabled={me} onPress={() => navigate(MENU.FRIEND_BINGO_LIST, {id, name})}>
-            <Image style={{width: 36, height: 36}} source={profile ? profile : Images.icon_profile} />
+            <Image style={{width: 36, height: 36, borderRadius: 50}} source={profile ? {uri: `${API_URL}${profile}`} : Images.icon_profile} />
           </TouchableOpacity>
 
           <Text style={{fontWeight: '500', fontSize: 16}}>{name}</Text>

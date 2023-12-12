@@ -7,7 +7,7 @@ import {Images} from 'assets'
 const Notification = () => {
   const {data} = useNotifications()
 
-  console.log('data?', data.contents.contents)
+  // console.log('data?', data.contents.contents)
 
   // const notificaitons
   return (
@@ -16,7 +16,7 @@ const Notification = () => {
 
       <FlatList
         // style={{padding: 20, marginTop: 20, paddingVertical: 0}}
-        data={data.contents}
+        data={data?.contents}
         renderItem={notificaion => (
           <View
             style={{

@@ -15,6 +15,7 @@ import {
   Alert,
   Dimensions,
   KeyboardAvoidingView,
+  TextInput,
 } from 'react-native'
 import {Images} from 'assets'
 import {useRoutes} from 'hooks/useRoutes'
@@ -24,6 +25,7 @@ import {fetchEmailLogin} from 'hooks/auth'
 import {setToken, setUserInfo} from 'utils/asyncStorage'
 import {AxiosError} from 'utils/axios'
 import {Apple, Kakao, LoginInput} from './contents'
+import {Input} from 'react-native-elements'
 
 const LoginScreen = () => {
   const [id, setId] = useState('')
@@ -83,8 +85,10 @@ const LoginScreen = () => {
           </View>
 
           <View style={styles.formContainer}>
+            {/* <TextInput value="dfdf" style={{borderWidth: 1, width: 300, height: 300}} /> */}
             <LoginInput value={id} setValue={setId} microcopy={microcopyId} placeholder={'아이디(이메일)'} isEmail />
-            <LoginInput value={pw} setValue={setPw} microcopy={microcopyPw} placeholder={'비밀번호'} inputStyle={styles.textInputPw} />
+            <LoginInput value={pw} setValue={setPw} microcopy={microcopyPw} placeholder={'비밀번호'} />
+
             <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
               <Text style={styles.loginBtnTxt}>로그인</Text>
             </TouchableOpacity>
@@ -188,6 +192,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 12,
+    // gap: 5,
   },
   subBtnTxt: {
     justifyContent: 'center',

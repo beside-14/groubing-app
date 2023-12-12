@@ -26,7 +26,7 @@ type BingoGoalText = {
 }
 
 type ModalState = 'more' | 'public' | 'invite' | 'date' | 'register_bingo' | 'register_memo' | 'none'
-
+export const hipslap = {top: 32, bottom: 32, left: 32, right: 32}
 const BingoScreen = () => {
   const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
   const {navigate, back} = useRoutes()
@@ -141,28 +141,32 @@ const BingoScreen = () => {
             paddingHorizontal: 20,
           }}>
           {fromCreate ? (
-            <TouchableOpacity onPress={() => navigate('BingoList')} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+            <TouchableOpacity hitSlop={hipslap} onPress={() => navigate('BingoList')} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
               <Image source={Images.back_btn} style={{width: 30, height: 30}} />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity onPress={() => back()} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+            <TouchableOpacity hitSlop={hipslap} onPress={() => back()} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
               <Image source={Images.back_btn} style={{width: 30, height: 30}} />
             </TouchableOpacity>
           )}
           {/* 발행하기 버튼 원진님께 9개 다 채웠는지 상태값받기 그걸로 disabled*/}
 
           {READ_ONLY ? null : isTemporary ? (
-            <TouchableOpacity disabled={READ_ONLY} onPress={() => setModalState('date')} style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TouchableOpacity
+              hitSlop={hipslap}
+              disabled={READ_ONLY}
+              onPress={() => setModalState('date')}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image source={Images.icon_check_black} style={{width: 24, height: 24, marginRight: 4}} />
               <Text>발행하기</Text>
             </TouchableOpacity>
           ) : (
             <View style={{display: 'flex', flexDirection: 'row', gap: 8}}>
               {/* 공개  */}
-              <TouchableOpacity disabled={READ_ONLY} onPress={() => setModalState('public')} style={{alignItems: 'center'}}>
+              <TouchableOpacity hitSlop={hipslap} disabled={READ_ONLY} onPress={() => setModalState('public')} style={{alignItems: 'center'}}>
                 <Image source={Images.ico_lock} style={{width: 24, height: 24, marginRight: 4}} />
               </TouchableOpacity>
-              <TouchableOpacity disabled={READ_ONLY} onPress={() => setModalState('more')} style={{alignItems: 'center'}}>
+              <TouchableOpacity hitSlop={hipslap} disabled={READ_ONLY} onPress={() => setModalState('more')} style={{alignItems: 'center'}}>
                 <Image source={Images.icon_more} style={{width: 24, height: 24, marginRight: 4}} />
               </TouchableOpacity>
             </View>

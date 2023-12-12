@@ -13,7 +13,7 @@ import {
   View,
 } from 'react-native'
 import {ProgressBar} from 'react-native-paper'
-import {BingoGoalText} from 'screens/board/BingoScreen'
+import {BingoGoalText, hipslap} from 'screens/board/BingoScreen'
 import {RegisterBoard} from './RegisterBoard'
 import BottomSheet, {BottomSheetTextInput} from '@gorhom/bottom-sheet'
 import {registerItem} from './remote'
@@ -38,7 +38,7 @@ export const RegisterSheet = () => {
       <View style={styles.sheetContainer}>
         <View>
           <View style={styles.row}>
-            <TouchableOpacity onPress={backButtonHandler} style={styles.arrowWrapper}>
+            <TouchableOpacity hitSlop={hipslap} onPress={backButtonHandler} style={styles.arrowWrapper}>
               <Image style={styles.arrow} source={Images.back_btn} />
             </TouchableOpacity>
             <Text style={styles.title}>항목 작성</Text>
