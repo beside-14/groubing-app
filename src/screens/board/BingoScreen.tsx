@@ -1,21 +1,15 @@
 import {StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, Image, DeviceEventEmitter} from 'react-native'
-
 import React, {useState, useEffect, useRef} from 'react'
-
 import {ProgressBar} from 'react-native-paper'
 import BingoBoard from 'components/bingo/board/BingoBoard'
 import {Memo} from 'components/bingo/board/Memo'
 import {getBingo, shuffleItems} from './remote/bingo'
-
 import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
-
 import {useAtom} from 'jotai'
 import {bingo_count_atom, register_item_atom, retech_atom, update_memo_atom} from './store'
 import {Images} from 'assets'
-
 import {BingoGoalText} from './contents/BingoGoalText'
-
 import RBSheet from 'react-native-raw-bottom-sheet'
 import {DateModal, InviteModal, MemoInput, ItemInput, MoreModal, PublicModal} from './contents/bottom-sheet/modal'
 
@@ -26,6 +20,7 @@ type BingoGoalText = {
 }
 
 type ModalState = 'more' | 'public' | 'invite' | 'date' | 'register_bingo' | 'register_memo' | 'none'
+
 export const hipslap = {top: 32, bottom: 32, left: 32, right: 32}
 const BingoScreen = () => {
   const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
@@ -177,15 +172,19 @@ const BingoScreen = () => {
             <Text style={styles.bingoType}>{data?.groupType === 'SINGLE' ? '개인' : '그룹'}</Text>
             <View style={styles.bingoTitleContainer}>
               <Text style={styles.bingoTitle}>{data?.title}</Text>
-              <View style={styles.remainingDaysContainer}>
-                <Text style={styles.remainingDaysText}>{data?.dday}</Text>
-              </View>
+              {!isTemporary && (
+                <View style={styles.remainingDaysContainer}>
+                  <Text style={styles.remainingDaysText}>{data?.dday === 0 ? '기간 만료' : `D-${data?.dday}`}</Text>
+                </View>
+              )}
             </View>
-            <BingoGoalText bingoPercent={(bingoCount / data?.goal) * 100} bingoCount={bingoCount} maxBingoCount={data?.goal} />
+            {!isTemporary && <BingoGoalText bingoPercent={(bingoCount / data?.goal) * 100} bingoCount={bingoCount} maxBingoCount={data?.goal} />}
           </View>
-          <View style={{marginHorizontal: 10}}>
-            <ProgressBar progress={bingoCount / data?.goal} style={styles.progressBar} color="#3A8ADB" />
-          </View>
+          {!isTemporary && (
+            <View style={{marginHorizontal: 10}}>
+              <ProgressBar progress={bingoCount / data?.goal} style={styles.progressBar} color="#3A8ADB" />
+            </View>
+          )}
 
           <BingoBoard readonly={READ_ONLY} isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
           {isTemporary && !READ_ONLY && (

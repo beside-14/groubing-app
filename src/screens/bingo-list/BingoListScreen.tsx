@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react'
-import {FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native'
+import {Alert, FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import {View} from 'react-native'
 import {getBingoList} from './remote'
 import {useRoutes} from 'hooks/useRoutes'
@@ -10,6 +10,7 @@ import {Image} from 'react-native'
 import {MENU} from 'navigation/menu'
 import useUserInfo from 'hooks/useUserInfo'
 import {useQuery} from '@tanstack/react-query'
+import {deleteBingo} from 'screens/board/remote/bingo'
 
 export const MiniBoard = ({bingo, color}) => {
   const bingoarr = bingo.map(e => e?.bingoItems)
@@ -92,6 +93,14 @@ const BingoListScreen = () => {
 
   const goToBoard = (id: number) => navigate(MENU.BINGO_BOARD, {id: id})
 
+  const deleteBoard = async (id: number) => {
+    const res = await deleteBingo(id)
+
+    if (res.status === 200) {
+      return Alert.alert('삭제가 완료되었습니다.')
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>빙고 목록</Text>
@@ -141,7 +150,22 @@ const BingoListScreen = () => {
                       <MiniBoard bingo={bingoLines} color={bingoColorValue} />
                     </TouchableOpacity>
                   ) : (
-                    <TouchableOpacity onPress={() => goToBoard(id)} style={styles.temporaryBlock}>
+                    <TouchableOpacity
+                      onLongPress={() =>
+                        Alert.alert('빙고판을 삭제하시겠습니까?', '삭제된 빙고판은 복구할 수 없습니다.', [
+                          {
+                            text: '삭제하기',
+                            onPress: () => deleteBoard(id),
+                          },
+                          {
+                            text: '취소하기',
+                            onPress: () => {},
+                            style: 'cancel',
+                          },
+                        ])
+                      }
+                      onPress={() => goToBoard(id)}
+                      style={styles.temporaryBlock}>
                       <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%'}}>
                         <Text style={{fontSize: 13, color: '#3A8ADB', fontWeight: '500'}}>빙고 생성을 완료해주세요!</Text>
                         <View style={{...styles.row, marginTop: 6, gap: 4}}>

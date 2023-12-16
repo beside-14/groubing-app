@@ -1,4 +1,4 @@
-import {StyleSheet, Text, ScrollView, View, TextInput, TouchableOpacity} from 'react-native'
+import {StyleSheet, Text, ScrollView, View, TextInput, TouchableOpacity, Alert} from 'react-native'
 import React, {useEffect, useState} from 'react'
 
 import {createBingo} from '../remote'
@@ -8,6 +8,7 @@ import {bingoBaseData, bingo_base_data_atom} from 'screens/board/store'
 import {MENU} from 'navigation/menu'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import {format} from 'date-fns'
+import {font} from 'shared/styles'
 
 const Type = () => {
   const [data, setData] = useAtom(bingo_base_data_atom)
@@ -99,12 +100,12 @@ const Title = () => {
   return (
     <View>
       <Text style={styles.question}>빙고 제목을 입력해주세요.</Text>
-      <View>
+      <View style={{marginBottom: 40}}>
         <TextInput
           placeholder="제목을 입력해주세요"
           onChangeText={t => setData(prev => ({...prev, title: t}))}
           value={data.title}
-          style={{borderBottomWidth: 1, fontSize: 16, width: '100%', height: 45, fontFamily: 'NotoSansKR_400Regular'}}
+          style={{borderBottomWidth: 1, fontSize: 16, width: '100%', height: 45, ...font.NotoSansKR_Regular}}
         />
       </View>
     </View>
@@ -114,12 +115,15 @@ const Title = () => {
 const Goal = () => {
   const [data, setData] = useAtom(bingo_base_data_atom)
   const onIncrease = () => {
+    if (data.bingoSize === 3 && data.goal === 8) return Alert.alert('최대 빙고갯수는 8개 입니다.')
+    if (data.bingoSize === 4 && data.goal === 10) return Alert.alert('최대 빙고갯수는 10개 입니다.')
     setData(prev => ({...prev, goal: prev.goal + 1}))
   }
   const onDecrease = () => {
     if (data.goal === 1) return
     setData(prev => ({...prev, goal: prev.goal - 1}))
   }
+
   return (
     <View>
       <Text style={styles.question}>목표 빙고 개수를 입력해주세요.</Text>
@@ -282,13 +286,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   pTitle: {
-    fontFamily: 'NotoSansKR_500Medium',
+    ...font.NotoSansKR_Medium,
 
-    fontSize: 16,
+    fontSize: 18,
     marginVertical: 4,
   },
   pContent: {
-    fontFamily: 'NotoSansKR_400Regular',
+    ...font.NotoSansKR_Regular,
     fontSize: 13,
 
     color: '#666666',
@@ -297,20 +301,21 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     gap: 6,
-
     alignItems: 'center',
+    marginBottom: 40,
   },
   unSelectedBtnText: {
     width: '100%',
 
     fontSize: 15,
     color: '#666666',
+    ...font.NotoSansKR_Medium,
   },
   unSelectedBtn: {
     backgroundColor: '#F3F3F3',
 
     flex: 1,
-    height: 45,
+    // height: 45,
     borderRadius: 99,
     justifyContent: 'center',
     alignItems: 'center',
@@ -320,14 +325,14 @@ const styles = StyleSheet.create({
   },
   selectedBtnText: {
     width: '100%',
-
+    ...font.NotoSansKR_Medium,
     fontSize: 15,
     color: '#FFFFFF',
   },
   selectedBtn: {
     backgroundColor: '#3A8ADB',
     flex: 1,
-    height: 45,
+    // height: 45,
     borderRadius: 99,
     justifyContent: 'center',
     alignItems: 'center',
@@ -375,7 +380,7 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   tempBtnText: {
-    fontFamily: 'NotoSansKR_500Medium',
+    ...font.NotoSansKR_Medium,
     width: '100%',
     fontSize: 14,
     color: '#000000',
@@ -383,7 +388,7 @@ const styles = StyleSheet.create({
   },
   nextBtnTxt: {
     fontSize: 14,
-    fontFamily: 'NotoSansKR_500Medium',
+    ...font.NotoSansKR_Medium,
     color: '#FFFFFF',
   },
   summaryContainer: {
@@ -397,6 +402,7 @@ const styles = StyleSheet.create({
   counterContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 40,
   },
   counterBtn: {
     backgroundColor: '#E7F0FA',
@@ -411,7 +417,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   countText: {
-    fontFamily: 'NotoSansKR_500Medium',
+    ...font.NotoSansKR_Medium,
     fontSize: 16,
     marginHorizontal: 12,
     alignItems: 'center',

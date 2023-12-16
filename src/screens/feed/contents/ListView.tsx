@@ -64,7 +64,7 @@ const Header = ({name, id, profile, isfriend}) => {
         ref={refRBSheet}
         closeOnDragDown={true}
         closeOnPressMask={true}
-        height={250}
+        height={200}
         customStyles={{
           wrapper: {
             backgroundColor: 'transparent',
@@ -77,9 +77,7 @@ const Header = ({name, id, profile, isfriend}) => {
           <TouchableOpacity onPress={() => requestFriend(id)} style={{paddingVertical: 15}}>
             <Text style={{fontWeight: '700', fontSize: 18}}>{name}님에게 친구신청</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{paddingVertical: 15}}>
-            <Text style={{fontWeight: '700', fontSize: 18, color: '#ED3241'}}>신고하기</Text>
-          </TouchableOpacity>
+
           <TouchableOpacity style={{paddingVertical: 15}} onPress={() => refRBSheet?.current?.close()}>
             <Text style={{fontWeight: '700', fontSize: 18}}>취소</Text>
           </TouchableOpacity>

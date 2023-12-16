@@ -1,11 +1,12 @@
 import React from 'react'
 import {StyleSheet, Text, View} from 'react-native'
+import {font} from 'shared/styles'
 
 export const BingoGoalText = ({bingoPercent, bingoCount, maxBingoCount}: BingoGoalText) => {
   if (bingoPercent >= 100) {
     return (
       <View style={styles.bingoGoal}>
-        <Text style={styles.bingoGoalText}>목표를 달성했어요!</Text>
+        <Text style={styles.bingoGoalText}>목표를 달성했어요🥳</Text>
         <Text style={styles.bingoCountText}>
           <Text style={styles.bingoCountTextColor}>{bingoCount}</Text>/<Text style={styles.bingoCountTextPadding}>{maxBingoCount}</Text>빙고
         </Text>
@@ -15,7 +16,7 @@ export const BingoGoalText = ({bingoPercent, bingoCount, maxBingoCount}: BingoGo
     return (
       <View style={styles.bingoGoal}>
         <Text style={styles.bingoGoalText}>
-          목표까지 <Text style={styles.bingoPercent}>{bingoPercent.toFixed(0)}%</Text> 남았어요!
+          목표까지 <Text style={styles.bingoPercent}>{bingoPercent.toFixed(0)}%</Text> 남았어요.
         </Text>
         <Text style={styles.bingoCountText}>
           <Text style={styles.bingoCountTextColor}>{bingoCount}</Text>/<Text style={styles.bingoCountTextPadding}>{maxBingoCount}</Text>빙고
@@ -42,10 +43,10 @@ const styles = StyleSheet.create({
   },
   bingoGoalText: {
     flex: 1,
-    fontFamily: 'NotoSansKR_700Bold',
+    ...font.NotoSansKR_Bold,
     alignItems: 'flex-start',
 
-    fontSize: 13,
+    fontSize: 16,
     color: '#000000',
   },
   bingoCountText: {
