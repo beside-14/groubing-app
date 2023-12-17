@@ -113,7 +113,7 @@ const BingoScreen = () => {
 
   const MODAL = {
     more: {content: <MoreModal info={editData} close={closeModal} />, height: 200},
-    public: {content: <PublicModal state={data?.open} close={closeModal} />, height: 300},
+    public: {content: <PublicModal state={data?.open} close={closeModal} />, height: 250},
     invite: {content: <InviteModal close={closeModal} editDate={dateGroup} refetch={() => setRetech(true)} />, height: 400},
     date: {content: <DateModal info={editData} group={IS_GROUP} close={dateCloseModal} refetch={() => setRetech(true)} />, height: 400},
     register_bingo: {content: <ItemInput close={closeModal} />, height: 300},
@@ -135,33 +135,27 @@ const BingoScreen = () => {
             alignItems: 'center',
             paddingHorizontal: 20,
           }}>
-          {fromCreate ? (
-            <TouchableOpacity hitSlop={hipslap} onPress={() => navigate('BingoList')} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-              <Image source={Images.back_btn} style={{width: 30, height: 30}} />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity hitSlop={hipslap} onPress={() => back()} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-              <Image source={Images.back_btn} style={{width: 30, height: 30}} />
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            hitSlop={hipslap}
+            onPress={() => (fromCreate ? navigate('BingoList') : back())}
+            style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+            <Image source={Images.back_btn} style={{width: 30, height: 30}} />
+          </TouchableOpacity>
+
           {/* 발행하기 버튼 원진님께 9개 다 채웠는지 상태값받기 그걸로 disabled*/}
 
           {READ_ONLY ? null : isTemporary ? (
-            <TouchableOpacity
-              hitSlop={hipslap}
-              disabled={READ_ONLY}
-              onPress={() => setModalState('date')}
-              style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TouchableOpacity hitSlop={hipslap} onPress={() => setModalState('date')} style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image source={Images.icon_check_black} style={{width: 24, height: 24, marginRight: 4}} />
               <Text>발행하기</Text>
             </TouchableOpacity>
           ) : (
             <View style={{display: 'flex', flexDirection: 'row', gap: 8}}>
               {/* 공개  */}
-              <TouchableOpacity hitSlop={hipslap} disabled={READ_ONLY} onPress={() => setModalState('public')} style={{alignItems: 'center'}}>
+              <TouchableOpacity onPress={() => setModalState('public')} style={{alignItems: 'center'}}>
                 <Image source={Images.ico_lock} style={{width: 24, height: 24, marginRight: 4}} />
               </TouchableOpacity>
-              <TouchableOpacity hitSlop={hipslap} disabled={READ_ONLY} onPress={() => setModalState('more')} style={{alignItems: 'center'}}>
+              <TouchableOpacity onPress={() => setModalState('more')} style={{alignItems: 'center'}}>
                 <Image source={Images.icon_more} style={{width: 24, height: 24, marginRight: 4}} />
               </TouchableOpacity>
             </View>
