@@ -26,6 +26,7 @@ import {setToken, setUserInfo} from 'utils/asyncStorage'
 import {AxiosError} from 'utils/axios'
 import {Apple, Kakao, LoginInput} from './contents'
 import {Input} from 'react-native-elements'
+import messaging from '@react-native-firebase/messaging'
 
 const LoginScreen = () => {
   const [id, setId] = useState('')
@@ -35,6 +36,9 @@ const LoginScreen = () => {
   const {navigate} = useRoutes()
   const {login} = useIsLogged()
 
+  const getFcmToken = async () => {
+    const fcmToken = await messaging().getToken()
+  }
   async function handleLogin() {
     setMicrocopyId('')
     setMicrocopyPw('')
@@ -49,8 +53,8 @@ const LoginScreen = () => {
       setMicrocopyPw('8~20자 이내 영문 대소문자, 숫자, 특수문자')
     } else {
       try {
-        const res = await fetchEmailLogin({email: id, password: pw})
-        // console.log(res)
+        const res = await fetchEmailLogin({email: id, password: pw, fcmToken: getFcmToken()})
+
         setUserInfo(res)
         await setToken(res.token)
         login()

@@ -57,6 +57,7 @@ const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly}: 
         style={[styles.itemLabel, select ? styles.selectedFont : styles.unselectedFont, {fontSize: fontSize}]}>
         {title}
       </Text>
+      {/* <Image style={{position: 'absolute', bottom: 0, right: 0, width: 80, height: 80}} /> */}
     </TouchableOpacity>
   )
 }
@@ -73,6 +74,7 @@ const styles = StyleSheet.create({
   },
   unselected: {
     backgroundColor: '#F3F3F3',
+    position: 'relative',
   },
   selectedFont: {
     color: '#FFFFFF',

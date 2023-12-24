@@ -12,6 +12,7 @@ import {Images} from 'assets'
 import {BingoGoalText} from './contents/BingoGoalText'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import {DateModal, InviteModal, MemoInput, ItemInput, MoreModal, PublicModal} from './contents/bottom-sheet/modal'
+import {font} from 'shared/styles'
 
 type BingoGoalText = {
   bingoPercent: number
@@ -45,9 +46,10 @@ const BingoScreen = () => {
 
   const READ_ONLY = isfriend
 
+  // 전역state 한번 reset 처리!!!!
+
   useEffect(() => {
     if (addBingo.mode === false && addMemo.mode === false) return
-
     if (addBingo.mode) return setModalState('register_bingo')
     if (addMemo.mode) return setModalState('register_memo')
   }, [addBingo, addMemo])
@@ -179,11 +181,12 @@ const BingoScreen = () => {
               <ProgressBar progress={bingoCount / data?.goal} style={styles.progressBar} color="#3A8ADB" />
             </View>
           )}
-
+          {/* 빙고판!!!!*/}
           <BingoBoard readonly={READ_ONLY} isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
+
           {isTemporary && !READ_ONLY && (
             <TouchableOpacity disabled={READ_ONLY} onPress={() => shuffle()}>
-              <Text style={{textAlign: 'right', padding: 20, paddingBottom: 0, fontWeight: '500', color: '#666666'}}>섞기</Text>
+              <Text style={{textAlign: 'right', padding: 20, paddingBottom: 0, color: '#666666', ...font.NotoSansKR_Regular}}>섞기</Text>
             </TouchableOpacity>
           )}
           {IS_GROUP && !isTemporary && (

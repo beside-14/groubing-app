@@ -39,6 +39,7 @@ const screens: ScreenItemType[] = [
     options: {
       ...defaultOptions,
       gestureDirection: 'vertical',
+      headerLeft: () => <NavigatorHeader title={''} />,
     },
   },
   {

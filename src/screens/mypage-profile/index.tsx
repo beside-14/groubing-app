@@ -17,15 +17,15 @@ const MypageProfile = () => {
   const {back} = useRoutes()
 
   const handleProfileImage = () => {
-    launchImageLibrary({mediaType: 'photo'}, async (response: any) => {
+    launchImageLibrary({noData: true}, async (response: any) => {
       // console.log(response)
       if (!response.didCancel && !response.errorCode) {
         const {uri} = response.assets[0]
-
+        console.log('uriuri', uri)
         const resizedImage = await ImageResizer.createResizedImage(uri, 200, 200, 'JPEG', 100)
-        console.log(resizedImage)
+        // console.log(resizedImage)
         // setSelectedImage(resizedImage.path)
-        setSelectedImage(uri)
+        setSelectedImage(response)
       }
     })
   }
@@ -55,6 +55,7 @@ const MypageProfile = () => {
     }
   }
 
+  console.log('userInfo?', userInfo)
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.image_container} onPress={handleProfileImage}>

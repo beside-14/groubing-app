@@ -13,19 +13,19 @@ import {
   View,
 } from 'react-native'
 import {ProgressBar} from 'react-native-paper'
-import {BingoGoalText, hipslap} from 'screens/board/BingoScreen'
+import {hipslap} from 'screens/board/BingoScreen'
 import {RegisterBoard} from './RegisterBoard'
 import BottomSheet, {BottomSheetTextInput} from '@gorhom/bottom-sheet'
 import {registerItem} from './remote'
 import {Images} from 'assets'
 import {ForceTouchGesture} from 'react-native-gesture-handler/lib/typescript/handlers/gestures/forceTouchGesture'
+import {font} from 'shared/styles'
+import {BingoGoalText} from 'screens/board/contents/BingoGoalText'
 
 export const RegisterSheet = () => {
   const bottomSheetRef = useRef<BottomSheet>(null)
   const snapPoints = useMemo(() => ['25%', '50%'], [])
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index)
-  }, [])
+  const handleSheetChanges = useCallback((index: number) => {}, [])
 
   const close = () => bottomSheetRef.current?.close()
   const backButtonHandler = () => {
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: '#666666',
     fontSize: 13,
-    fontFamily: 'NotoSansKR_400Regular',
+    ...font.NotoSansKR_Regular,
     marginBottom: 5,
   },
   bingoTitleContainer: {
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   bingoTitle: {
     color: '#000000',
     fontSize: 24,
-    fontFamily: 'NotoSansKR_700Bold',
+    ...font.NotoSansKR_Bold,
   },
   remainingDaysContainer: {
     alignItems: 'center',
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   remainingDaysText: {
     color: '#3A8ADB',
     fontSize: 13,
-    fontFamily: 'NotoSansKR_400Regular',
+    ...font.NotoSansKR_Regular,
   },
   bingoGoal: {
     flex: 1,
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   },
   bingoPercent: {
     flex: 1,
-    fontFamily: 'NotoSansKR_700Bold',
+    ...font.NotoSansKR_Bold,
     alignItems: 'flex-start',
     paddingLeft: 4,
     paddingRight: 4,
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
   },
   bingoGoalText: {
     flex: 1,
-    fontFamily: 'NotoSansKR_700Bold',
+    ...font.NotoSansKR_Bold,
     alignItems: 'flex-start',
     paddingLeft: 10,
     fontSize: 13,
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     textAlign: 'right',
     paddingRight: 10,
-    fontFamily: 'NotoSansKR_700Bold',
+    ...font.NotoSansKR_Bold,
     fontSize: 13,
     color: '#666666',
     marginRight: 1,

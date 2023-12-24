@@ -7,6 +7,13 @@ const getNotifications = async () => {
   return res?.data.data
 }
 
-export const useNotifications = () => {
-  return useQuery(['notifications'], () => getNotifications())
+export const useNotifications = active => {
+  const callback = active === '활동 알림' ? () => getNotifications() : () => getFriendRequests()
+  return useQuery(['notifications', active], callback)
+}
+
+const getFriendRequests = async () => {
+  const res = await API.get('/api/friends/requests')
+
+  return res?.data.data
 }

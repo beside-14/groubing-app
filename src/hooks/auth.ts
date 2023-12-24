@@ -5,6 +5,7 @@ const baseUrl = 'http://49.50.175.32:8080/api'
 type LoginProps = {
   email: string
   password: string
+  fcmToken: string
 }
 
 type SocialType = 'APPLE' | 'KAKAO'
