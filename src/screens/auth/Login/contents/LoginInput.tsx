@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   textInput: {
     paddingHorizontal: 8,
     backgroundColor: 'red',
+
     // ...font.NotoSansKR_Regular,
     fontSize: 16,
     justifyContent: 'center',

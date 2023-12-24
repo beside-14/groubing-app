@@ -12,6 +12,7 @@ type SocialType = 'APPLE' | 'KAKAO'
 
 export const fetchEmailLogin = async (params: LoginProps) => {
   const url = `${baseUrl}/members/login`
+
   const {data} = await post(url, params)
   return data
 }
