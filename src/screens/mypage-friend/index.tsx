@@ -1,6 +1,5 @@
 import React, {useRef, useState} from 'react'
 import {View, Text, Image, StyleSheet, TextInput, FlatList, TouchableOpacity} from 'react-native'
-import {font} from 'shared/styles'
 import {Images} from 'assets'
 import {useFriendList} from './remote'
 import RBSheet from 'react-native-raw-bottom-sheet'

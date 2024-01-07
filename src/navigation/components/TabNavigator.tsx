@@ -48,8 +48,6 @@ const TabNavigator = () => {
           tabPress: e => {
             // Prevent default action
             e.preventDefault()
-
-            // Do something with the `navigation` object
             navigation.navigate(MENU.BINGO_CREATE)
           },
         })}

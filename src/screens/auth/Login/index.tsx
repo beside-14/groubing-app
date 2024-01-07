@@ -1,12 +1,12 @@
 // import { login } from "../../utils/AuthUtil";
 import {useIsLogged} from 'hooks/useIsLogged'
-import React, {useMemo, useState} from 'react'
+import React, {useState} from 'react'
 import {View, StatusBar, StyleSheet, Platform, Text, SafeAreaView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Alert} from 'react-native'
-import {Images} from 'assets'
+
 import {useRoutes} from 'hooks/useRoutes'
 import {font} from 'shared/styles'
 import {emailValidate, passwordValidate} from 'utils/validate'
-import {fetchEmailLogin} from 'hooks/auth'
+import {fetchEmailLogin, getDeviceToken} from 'hooks/auth'
 import {setToken, setUserInfo} from 'utils/asyncStorage'
 import {AxiosError} from 'utils/axios'
 import {Apple, Kakao, LoginInput} from './contents'
@@ -19,12 +19,6 @@ const LoginScreen = () => {
   const [microcopyPw, setMicrocopyPw] = useState('')
   const {navigate} = useRoutes()
   const {login} = useIsLogged()
-
-  const getDeviceToken = async () => {
-    const token = await messaging().getToken()
-
-    return token
-  }
 
   async function handleLogin() {
     setMicrocopyId('')

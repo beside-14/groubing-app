@@ -7,7 +7,6 @@ export const patchNickname = async (id: number, nickname: string) => {
 }
 
 export const patchProfileImage = async (id: number, image: string) => {
-  const formData = new FormData()
   // const fileUri = Platform.OS === 'ios' ? `file://${image}` : image
   // console.log(fileUri)
   // formData.append('file', {
@@ -15,19 +14,24 @@ export const patchProfileImage = async (id: number, image: string) => {
   //   // name: image,
   //   // type: Platform.OS === 'ios' ? 'image/jpeg' : 'image/jpg',
   // })
+  const formData = new FormData()
 
-  console.log('이거', image.assets[0])
   formData.append('profile', {
     name: image.assets[0].fileName,
     type: image.assets[0].type,
     uri: Platform.OS === 'ios' ? image.assets[0].uri.replace('file://', '') : image.uri,
   })
 
-  console.log(formData)
+  // console.log('보내고 있는 값', {
+  //   name: image.assets[0].fileName,
+  //   type: image.assets[0].type,
+  //   uri: Platform.OS === 'ios' ? image.assets[0].uri.replace('file://', '') : image.uri,
+  // })
+
   // return
-  const res = await API.patch(`/api/members/${id}/profile`, formData, {
-    headers: {'content-type': 'multipart/form-data'},
+  const res = await API.post(`/api/members/${id}/profile`, formData, {
+    headers: {'Content-Type': 'multipart/form-data', Accept: 'multipart/form-data'},
   })
-  console.log(formData)
+
   return res
 }

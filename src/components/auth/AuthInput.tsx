@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 
     // backgroundColor: 'orange',
     lineHeight: 24,
-    padding: 30,
+    padding: 20,
     margin: 0,
     // paddingTop:
     // paddingBottom: 12,

@@ -38,7 +38,7 @@ const screens: ScreenItemType[] = [
     component: FriendBingoList,
     options: {
       ...defaultOptions,
-      gestureDirection: 'vertical',
+
       headerLeft: () => <NavigatorHeader title={''} />,
     },
   },
@@ -47,7 +47,8 @@ const screens: ScreenItemType[] = [
     component: CreateBingoScreen,
     options: {
       ...defaultOptions,
-      gestureDirection: 'vertical',
+
+      headerLeft: () => <NavigatorHeader title={'빙고 만들기'} />,
     },
   },
   {
@@ -56,7 +57,6 @@ const screens: ScreenItemType[] = [
     options: {
       ...defaultOptions,
       headerShown: false,
-      gestureDirection: 'vertical',
     },
   },
   {

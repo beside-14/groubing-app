@@ -67,11 +67,12 @@ const Header = ({name, id, profile, isfriend}) => {
         height={200}
         customStyles={{
           wrapper: {
-            backgroundColor: 'transparent',
+            backgroundColor: 'rgba(0, 0, 0, 0.65)',
           },
           draggableIcon: {
             backgroundColor: '#000',
           },
+          container: {borderTopLeftRadius: 20, borderTopRightRadius: 20},
         }}>
         <View style={{width: '1000%', padding: 20}}>
           <TouchableOpacity onPress={() => requestFriend(id)} style={{paddingVertical: 15}}>

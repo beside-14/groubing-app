@@ -229,6 +229,7 @@ const BingoScreen = () => {
           onClose={() => setModalState('none')}
           closeOnDragDown={true}
           closeOnPressMask={true}
+          dragFromTopOnly={true}
           height={MODAL[modalState].height}
           customStyles={{
             wrapper: {

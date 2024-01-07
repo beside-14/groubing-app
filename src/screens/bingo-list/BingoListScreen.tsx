@@ -49,6 +49,8 @@ const BingoListScreen = () => {
           </View>
         ) : (
           <FlatList
+            refreshing={isLoading}
+            onRefresh={() => refetch()}
             style={{marginTop: 16}}
             data={data[category]}
             keyExtractor={item => item?.id}

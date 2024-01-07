@@ -227,11 +227,11 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
 
   return (
     <>
-      <ScrollView style={styles.headerContainer}>
+      <View style={styles.headerContainer}>
         <View style={styles.bodyContainer}>
           <Input step={steptext} />
         </View>
-      </ScrollView>
+      </View>
       <TouchableOpacity
         style={styles.nextBtn}
         onPress={async () => {
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     height: '15%',
     marginHorizontal: 20,
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   bodyContainer: {
     flex: 1,
@@ -357,6 +357,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 4,
     marginHorizontal: 20,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   nextBtn2: {
     height: 48,

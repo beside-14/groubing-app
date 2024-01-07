@@ -1,22 +1,24 @@
 import {Images} from 'assets'
+import {useAtom} from 'jotai'
 import React from 'react'
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native'
+import {set_now_step} from 'screens/board/store'
 
 type StepBarProps = {
-  now: number
   step: number
-  goback: (i: number) => void
 }
 
-export default function StepBar({now, step, goback}: StepBarProps) {
+export default function StepBar({step}: StepBarProps) {
+  const [nowStep, setNowStep] = useAtom(set_now_step)
+
   const stepCont = []
 
   for (let i = 1; i <= step; i++) {
-    const isCurrentStep = i === now
-    const isFinishedStep = i < now
+    const isCurrentStep = i === nowStep
+    const isFinishedStep = i < nowStep
 
     stepCont.push(
-      <TouchableOpacity key={i} onPress={() => goback(i)}>
+      <TouchableOpacity key={i} onPress={() => setNowStep(i)}>
         <Image
           source={isCurrentStep ? Images.step_icon_now : isFinishedStep ? Images.step_icon_end : Images.step_icon_default}
           style={isCurrentStep ? styles.stepNow : styles.step}

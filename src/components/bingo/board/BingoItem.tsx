@@ -19,9 +19,7 @@ const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly}: 
 
   const setBingoCount = useSetAtom(bingo_count_atom)
 
-  const handleToggle = async () => {
-    if (isTemporary) return
-    const updateType = select === true ? 'cancel' : 'complete'
+  const updateBingoElement = async (updateType: 'cancel' | 'complete') => {
     const res = await updateItemState(updateType, boardId, id)
 
     if (res.status === 200) {
@@ -30,6 +28,21 @@ const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly}: 
     } else {
       return Alert.alert('요청이 원활하지 않습니다.')
     }
+  }
+
+  const handleToggle = async () => {
+    if (isTemporary) return
+    const updateType = select === true ? 'cancel' : 'complete'
+
+    if (updateType === 'complete') return updateBingoElement(updateType)
+
+    Alert.alert('빙고 항목을 취소하시겠습니까?', '', [
+      {
+        text: '아니요',
+        onPress: () => null,
+      },
+      {text: '네', onPress: () => updateBingoElement(updateType)},
+    ])
   }
 
   if (title === null) {

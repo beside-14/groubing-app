@@ -567,7 +567,7 @@
 				CODE_SIGN_ENTITLEMENTS = groubing/groubing.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = XQ24HP64B3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = groubing/Info.plist;
@@ -599,7 +599,7 @@
 				CODE_SIGN_ENTITLEMENTS = groubing/groubing.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = XQ24HP64B3;
 				INFOPLIST_FILE = groubing/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
