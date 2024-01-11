@@ -22,14 +22,7 @@ export const patchProfileImage = async (id: number, image: string) => {
     uri: Platform.OS === 'ios' ? image.assets[0].uri.replace('file://', '') : image.uri,
   })
 
-  // console.log('보내고 있는 값', {
-  //   name: image.assets[0].fileName,
-  //   type: image.assets[0].type,
-  //   uri: Platform.OS === 'ios' ? image.assets[0].uri.replace('file://', '') : image.uri,
-  // })
-
-  // return
-  const res = await API.post(`/api/members/${id}/profile`, formData, {
+  const res = await API.patch(`/api/members/${id}/profile`, formData, {
     headers: {'Content-Type': 'multipart/form-data', Accept: 'multipart/form-data'},
   })
 

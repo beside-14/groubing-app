@@ -30,6 +30,7 @@ const MypageFriend = () => {
             </View>
             <TouchableOpacity
               onPress={() => {
+                // console.log('friend.item.id?', friend.item.id)
                 setClickedInfo({id: friend.item.id, name: friend.item.nickname})
                 openMoreModal()
               }}>
