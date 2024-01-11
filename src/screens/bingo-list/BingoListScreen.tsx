@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react'
+import React, {useMemo, useState} from 'react'
 import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import {View} from 'react-native'
 import {useBingoList} from './remote'
@@ -39,7 +39,7 @@ const BingoListScreen = () => {
             </TouchableOpacity>
           ))}
         </View>
-        {isLoading ? null : !list?.length ? (
+        {isLoading ? null : !data[category]?.length ? (
           <View style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <View style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
               <Image source={Images.emoji_01} style={{width: 75, height: 75}} />

@@ -113,6 +113,15 @@ const BingoScreen = () => {
     until: data?.until,
   }
 
+  const isAblePublish = () => {
+    return data?.bingoMap?.bingoLines.every(e => {
+      e.bingoItems.map(a => {
+        if (a.title === null) return false
+        return true
+      })
+    })
+  }
+  console.log('빙고라이늣', isAblePublish())
   const MODAL = {
     more: {content: <MoreModal info={editData} close={closeModal} />, height: 200},
     public: {content: <PublicModal state={data?.open} close={closeModal} />, height: 250},
