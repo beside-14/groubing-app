@@ -31,7 +31,7 @@ const MypageFriend = () => {
             <TouchableOpacity
               onPress={() => {
                 // console.log('friend.item.id?', friend.item.id)
-                setClickedInfo({id: friend.item.id, name: friend.item.nickname})
+                setClickedInfo({id: friend.item.memberId, name: friend.item.nickname})
                 openMoreModal()
               }}>
               <Image source={Images.icon_more} style={{width: 25, height: 25}} />

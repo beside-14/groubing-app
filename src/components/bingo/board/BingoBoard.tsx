@@ -10,7 +10,7 @@ const BingoBoard = ({board, size, items, isTemporary, readonly}) => {
     <View style={styles.container}>
       {newBoard1.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
-          {row.map(({title, color, complete, id}, index) => (
+          {row.map(({title, color, complete, id, imageUrl}, index) => (
             <BingoItem
               readonly={readonly}
               isTemporary={isTemporary}
@@ -21,6 +21,7 @@ const BingoBoard = ({board, size, items, isTemporary, readonly}) => {
               complete={complete}
               size={size}
               id={id}
+              img={imageUrl}
             />
           ))}
         </View>

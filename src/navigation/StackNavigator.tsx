@@ -131,8 +131,8 @@ const StackNavigator = () => {
     // 로그인 유저 정보 확인
     const checkUserInfo = async () => {
       const user = await getUserInfo()
-
-      setUserInfo(user)
+      const token = await getToken()
+      setUserInfo({...user, token: `Bearer ${token}`})
     }
     checkUserInfo()
   }, [isLogged])

@@ -1,5 +1,6 @@
+import {API_URL} from 'api/restful'
 import {Images} from 'assets'
-import {useSetAtom} from 'jotai'
+import {useAtomValue, useSetAtom} from 'jotai'
 import React, {useState} from 'react'
 import {Alert} from 'react-native'
 import {Image, View} from 'react-native'
@@ -7,10 +8,11 @@ import {TouchableOpacity, StyleSheet, Text, Dimensions} from 'react-native'
 import {updateItemState} from 'screens/board/remote/bingo'
 import {bingo_count_atom, register_item_atom} from 'screens/board/store'
 import {font} from 'shared/styles'
+import {userInfoAtom} from 'store'
 
 const {width} = Dimensions.get('window')
 
-const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly}: any) => {
+const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly, img}: any) => {
   const itemSize = width / size
   const fontSize = size === 3 ? 13 : 12
 
@@ -18,7 +20,7 @@ const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly}: 
   const registerMode = useSetAtom(register_item_atom)
 
   const setBingoCount = useSetAtom(bingo_count_atom)
-
+  const userinfo = useAtomValue(userInfoAtom)
   const updateBingoElement = async (updateType: 'cancel' | 'complete') => {
     const res = await updateItemState(updateType, boardId, id)
 
@@ -70,7 +72,16 @@ const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly}: 
         style={[styles.itemLabel, select ? styles.selectedFont : styles.unselectedFont, {fontSize: fontSize}]}>
         {title}
       </Text>
-      {/* <Image style={{position: 'absolute', bottom: 0, right: 0, width: 80, height: 80}} /> */}
+
+      <Image
+        source={{
+          uri: `${API_URL}/api/files/bingo-item-image/${select ? `${img[0]}_complete.png` : img}`,
+          headers: {
+            Authorization: userinfo.token,
+          },
+        }}
+        style={{position: 'absolute', bottom: 0, right: 0, width: 80, height: 80}}
+      />
     </TouchableOpacity>
   )
 }

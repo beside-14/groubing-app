@@ -461,6 +461,8 @@ PODS:
   - React-jsinspector (0.72.0)
   - React-logger (0.72.0):
     - glog
+  - react-native-blob-util (0.19.6):
+    - React-Core
   - react-native-image-picker (5.7.0):
     - React-Core
   - react-native-image-resizer (1.4.5):
@@ -593,6 +595,8 @@ PODS:
     - FirebaseCoreExtension (= 10.19.0)
     - React-Core
     - RNFBApp
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (2.14.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -657,6 +661,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-blob-util (from `../node_modules/react-native-blob-util`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -683,6 +688,7 @@ DEPENDENCIES:
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -765,6 +771,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-blob-util:
+    :path: "../node_modules/react-native-blob-util"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-image-resizer:
@@ -817,6 +825,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
     :path: "../node_modules/@react-native-firebase/messaging"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -875,6 +885,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 990287d74aedc4fdd08ebd80736b1a5c71b54da2
   React-jsinspector: 8d754fc957255a29d93e52fc67a895045cdc8703
   React-logger: 454ffb01980778a43b0153ee98721d0275b56616
+  react-native-blob-util: d8fa1a7f726867907a8e43163fdd8b441d4489ea
   react-native-image-picker: 3269f75c251cdcd61ab51b911dd30d6fff8c6169
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-safe-area-context: cd1169d797a2ef722a00bfc5af10748d5b6c94f9
@@ -901,6 +912,7 @@ SPEC CHECKSUMS:
   RNDateTimePicker: fc2e4f2795877d45e84d85659bebe627eba5c931
   RNFBApp: c21258de1485419a845efbba9c09ec946c89891d
   RNFBMessaging: e52a76a97ec5ff75e186c150e2bfab86c9e655d1
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 32a01c29ecc9bb0b5bf7bc0a33547f61b4dc2741
   RNReanimated: fdbaa9c964bbab7fac50c90862b6cc5f041679b9
   RNScreens: 3c5b9f4a9dcde752466854b6109b79c0e205dad3

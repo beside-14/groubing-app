@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import {View, Text, Image, StyleSheet, TextInput, TouchableOpacity, Alert, Platform} from 'react-native'
 import {launchImageLibrary} from 'react-native-image-picker'
-import ImageResizer from 'react-native-image-resizer'
 
 import {font} from 'shared/styles'
 import {Images} from 'assets'
@@ -9,7 +8,7 @@ import useUserInfo from 'hooks/useUserInfo'
 import {patchNickname, patchProfileImage} from './remote'
 import {useRoutes} from 'hooks/useRoutes'
 import {API_URL} from 'api/restful'
-
+// import { launchImageLibrary } from 'react-native-image-picker';
 const MypageProfile = () => {
   const {userInfo, setUserInfo} = useUserInfo()
   const [selectedImage, setSelectedImage] = useState(null)
