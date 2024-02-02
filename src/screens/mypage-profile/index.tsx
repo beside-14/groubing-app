@@ -16,6 +16,8 @@ const MypageProfile = () => {
   const disabled = (!nickname || nickname?.length < 2 || nickname === userInfo?.nickname) && selectedImage === userInfo?.profileUrl
   const {back} = useRoutes()
 
+  const [header, setHeader] = useState({'Content-Type': 'multipart/form-data', Accept: 'application/json'})
+
   const handleProfileImage = () => {
     launchImageLibrary(
       {
@@ -55,7 +57,7 @@ const MypageProfile = () => {
       }
       // back()
     } else if (selectedImage !== userInfo?.profileUrl) {
-      const res = await patchProfileImage(userInfo?.id, selectedImage)
+      const res = await patchProfileImage(userInfo?.id, selectedImage, header)
     }
   }
 
@@ -80,6 +82,15 @@ const MypageProfile = () => {
       </View>
       <TouchableOpacity disabled={disabled} style={disabled ? styles.button : [styles.button, styles.button_active]} onPress={handleComplete}>
         <Text style={styles.button_text}>수정완료</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          setHeader(prev => ({
+            'Content-Type': prev['Content-Type'] === 'multipart/form-data' ? 'application/json' : 'multipart/form-data',
+            Accept: prev['Accept'] === 'multipart/form-data' ? 'application/json' : 'multipart/form-data',
+          }))
+        }>
+        <Text>{JSON.stringify(header)}</Text>
       </TouchableOpacity>
     </View>
   )

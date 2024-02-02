@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: '#666666',
     fontSize: 13,
-    fontFamily: 'NotoSansKR_400Regular',
+    ...font.NotoSansKR_Regular,
     marginBottom: 5,
   },
   bingoTitleContainer: {
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
   bingoTitle: {
     color: '#000000',
     fontSize: 24,
-    fontFamily: 'NotoSansKR_700Bold',
+    ...font.NotoSansKR_Bold,
     fontWeight: '700',
   },
   remainingDaysContainer: {
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   remainingDaysText: {
     color: '#3A8ADB',
     fontSize: 13,
-    fontFamily: 'NotoSansKR_600Regular',
+    ...font.NotoSansKR_Regular,
     fontWeight: '600',
   },
 

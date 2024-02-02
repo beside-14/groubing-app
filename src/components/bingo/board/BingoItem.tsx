@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
   make_btn_wrapper: {padding: 9, backgroundColor: '#E1E1E1', borderRadius: 50},
   make_btn: {width: 12, height: 12},
   text: {color: '#666666', marginTop: 6, fontSize: 13},
+  icon: {},
 })
 
 export default BingoItem

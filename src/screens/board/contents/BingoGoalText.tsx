@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   bingoPercent: {
     flex: 1,
-    fontFamily: 'NotoSansKR_700Bold',
+    ...font.NotoSansKR_Bold,
     alignItems: 'flex-start',
     paddingLeft: 4,
     paddingRight: 4,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     textAlign: 'right',
 
-    fontFamily: 'NotoSansKR_700Bold',
+    ...font.NotoSansKR_Bold,
     fontSize: 13,
     color: '#666666',
     marginRight: 1,
