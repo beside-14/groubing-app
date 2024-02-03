@@ -23,27 +23,26 @@ type BingoGoalText = {
 type ModalState = 'more' | 'public' | 'invite' | 'date' | 'register_bingo' | 'register_memo' | 'none'
 
 export const hipslap = {top: 32, bottom: 32, left: 32, right: 32}
-const BingoScreen = () => {
-  const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
-  const {navigate, back} = useRoutes()
-  const [refetch, setRetech] = useAtom(retech_atom)
-  const refRBSheet = useRef()
-  const [addBingo, setAddBingo] = useAtom(register_item_atom)
 
-  const [addMemo, setAddMemo] = useAtom(update_memo_atom)
+const BingoScreen = () => {
+  const {navigate, back} = useRoutes()
   const {params} = useRoute()
   const {fromCreate, id, isfriend} = params || {}
-  const [data, setData] = useState()
 
+  const refRBSheet = useRef()
+
+  const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
+  const [refetch, setRetech] = useAtom(retech_atom)
+  const [addBingo, setAddBingo] = useAtom(register_item_atom)
+  const [addMemo, setAddMemo] = useAtom(update_memo_atom)
+
+  const [dateGroup, setDateGroup] = useState({since: '', until: ''})
+  const [otherBingos, setOtherBingos] = useState([])
   const [modalState, setModalState] = useState<ModalState>('none')
+  const [data, setData] = useState()
 
   const isTemporary = !data?.completed
   let IS_GROUP = data?.groupType === 'GROUP'
-
-  const [dateGroup, setDateGroup] = useState({since: '', until: ''})
-
-  const [otherBingos, setOtherBingos] = useState([])
-
   const READ_ONLY = isfriend
 
   // 전역state 한번 reset 처리!!!!
@@ -121,7 +120,7 @@ const BingoScreen = () => {
       })
     })
   }
-  console.log('빙고라이늣', isAblePublish())
+
   const MODAL = {
     more: {content: <MoreModal info={editData} close={closeModal} />, height: 200},
     public: {content: <PublicModal state={data?.open} close={closeModal} />, height: 250},
@@ -137,6 +136,7 @@ const BingoScreen = () => {
   return (
     <View style={{flex: 1, backgroundColor: 'green'}}>
       <SafeAreaView style={styles.safeAreaContainer}>
+        {/* 헤더 */}
         <View
           style={{
             height: 60,
@@ -172,6 +172,7 @@ const BingoScreen = () => {
             </View>
           )}
         </View>
+
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.bingoTypeContainer}>
             <Text style={styles.bingoType}>{data?.groupType === 'SINGLE' ? '개인' : '그룹'}</Text>
@@ -333,13 +334,11 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#000000',
-    // width: '100%',
+
     padding: 15,
     margin: 20,
     marginTop: 45,
     borderRadius: 4,
-    // position: 'absolute',
-    // bottom: 0,
   },
 
   profile: {
