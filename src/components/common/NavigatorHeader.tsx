@@ -2,6 +2,7 @@ import React from 'react'
 import {TouchableOpacity, Image, StyleSheet, Text} from 'react-native'
 import {useRoutes} from 'hooks/useRoutes'
 import {Images} from 'assets'
+import {hipslap} from 'screens/board/BingoScreen'
 
 type NavigatorHeaderProps = {
   title?: string
@@ -11,7 +12,7 @@ const NavigatorHeader: React.FC<NavigatorHeaderProps> = ({title}) => {
   const {back} = useRoutes()
 
   return (
-    <TouchableOpacity onPress={back} style={styles.wrapper}>
+    <TouchableOpacity hitSlop={hipslap} onPress={back} style={styles.wrapper}>
       <Image source={Images.back_btn} style={styles.headerBtn} />
       <Text style={styles.title}>{title}</Text>
     </TouchableOpacity>

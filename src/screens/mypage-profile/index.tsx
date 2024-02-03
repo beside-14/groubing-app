@@ -1,14 +1,14 @@
 import React, {useState} from 'react'
 import {View, Text, Image, StyleSheet, TextInput, TouchableOpacity, Alert, Platform} from 'react-native'
 import {launchImageLibrary} from 'react-native-image-picker'
-import ImageResizer from 'react-native-image-resizer'
 
 import {font} from 'shared/styles'
 import {Images} from 'assets'
 import useUserInfo from 'hooks/useUserInfo'
 import {patchNickname, patchProfileImage} from './remote'
 import {useRoutes} from 'hooks/useRoutes'
-
+import {API_URL} from 'api/restful'
+// import { launchImageLibrary } from 'react-native-image-picker';
 const MypageProfile = () => {
   const {userInfo, setUserInfo} = useUserInfo()
   const [selectedImage, setSelectedImage] = useState(null)
@@ -16,28 +16,35 @@ const MypageProfile = () => {
   const disabled = (!nickname || nickname?.length < 2 || nickname === userInfo?.nickname) && selectedImage === userInfo?.profileUrl
   const {back} = useRoutes()
 
-  const handleProfileImage = () => {
-    launchImageLibrary({mediaType: 'photo'}, async (response: any) => {
-      // console.log(response)
-      if (!response.didCancel && !response.errorCode) {
-        const {uri} = response.assets[0]
+  const [header, setHeader] = useState({'Content-Type': 'multipart/form-data', Accept: 'application/json'})
 
-        const resizedImage = await ImageResizer.createResizedImage(uri, 200, 200, 'JPEG', 100)
-        console.log(resizedImage)
-        // setSelectedImage(resizedImage.path)
-        setSelectedImage(uri)
-      }
-    })
+  const handleProfileImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        maxHeight: 1024,
+        maxWidth: 1024,
+        quality: 0.5,
+        includeBase64: false,
+      },
+      async (response: any) => {
+        // console.log(response)
+        if (!response.didCancel && !response.errorCode) {
+          const {uri} = response.assets[0]
+
+          // console.log(resizedImage)
+          // setSelectedImage(resizedImage.path)
+          setSelectedImage(response)
+        }
+      },
+    )
   }
 
   const handleComplete = async () => {
     if (nickname !== userInfo?.nickname && selectedImage !== userInfo?.profileUrl) {
       Promise.all([patchNickname(userInfo?.id, nickname), patchProfileImage(userInfo?.id, selectedImage)]).then(res =>
         Promise.all(res.map(res => res.json()))
-          .then(data => {
-            console.log('nickname', data[0])
-            console.log('profile', data[1])
-          })
+          .then(data => {})
           .catch(err => {
             console.log(err)
           }),
@@ -50,8 +57,7 @@ const MypageProfile = () => {
       }
       // back()
     } else if (selectedImage !== userInfo?.profileUrl) {
-      const res = await patchProfileImage(userInfo?.id, selectedImage)
-      console.log(res)
+      const res = await patchProfileImage(userInfo?.id, selectedImage, header)
     }
   }
 
@@ -60,7 +66,7 @@ const MypageProfile = () => {
       <TouchableOpacity style={styles.image_container} onPress={handleProfileImage}>
         <Image
           style={styles.profile_image}
-          source={selectedImage ? {uri: selectedImage} : userInfo?.profileUrl ? userInfo?.profileUrl : Images.profile}
+          source={selectedImage ? {uri: selectedImage} : userInfo?.profileUrl ? {uri: `${API_URL}${userInfo?.profileUrl}`} : Images.profile}
           resizeMode="cover"
           resizeMethod="auto"
         />
@@ -76,6 +82,15 @@ const MypageProfile = () => {
       </View>
       <TouchableOpacity disabled={disabled} style={disabled ? styles.button : [styles.button, styles.button_active]} onPress={handleComplete}>
         <Text style={styles.button_text}>수정완료</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          setHeader(prev => ({
+            'Content-Type': prev['Content-Type'] === 'multipart/form-data' ? 'application/json' : 'multipart/form-data',
+            Accept: prev['Accept'] === 'multipart/form-data' ? 'application/json' : 'multipart/form-data',
+          }))
+        }>
+        <Text>{JSON.stringify(header)}</Text>
       </TouchableOpacity>
     </View>
   )

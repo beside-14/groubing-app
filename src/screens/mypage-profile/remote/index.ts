@@ -1,4 +1,5 @@
 import {Platform} from 'react-native'
+
 import {API} from 'utils/axios'
 
 export const patchNickname = async (id: number, nickname: string) => {
@@ -6,21 +7,18 @@ export const patchNickname = async (id: number, nickname: string) => {
   return res
 }
 
-export const patchProfileImage = async (id: number, image: string) => {
+export const patchProfileImage = async (id: number, image: string, header: any) => {
   const formData = new FormData()
-  // const fileUri = Platform.OS === 'ios' ? `file://${image}` : image
-  // console.log(fileUri)
-  formData.append('file', {
-    uri: Platform.OS === 'ios' ? `file://${image}` : image,
-    name: image,
-    type: Platform.OS === 'ios' ? 'image/jpeg' : 'image/jpg',
-  })
 
-  console.log(formData)
-  // return
+  const photo = {
+    name: image.assets[0].fileName,
+    type: image.assets[0].type,
+    uri: Platform.OS === 'ios' ? image.assets[0].uri.replace('file://', '') : image.uri,
+  }
+  formData.append('profile', photo)
+
   const res = await API.patch(`/api/members/${id}/profile`, formData, {
-    headers: {'content-type': 'multipart/form-data'},
+    headers: header,
   })
-  console.log(formData)
   return res
 }

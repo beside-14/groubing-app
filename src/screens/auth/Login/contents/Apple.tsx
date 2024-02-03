@@ -1,9 +1,9 @@
 import React from 'react'
 import {View, Text, Image, StyleSheet, TouchableOpacity, Alert} from 'react-native'
-import {font} from 'shared/styles'
+
 import {Images} from 'assets'
 import appleAuth from '@invertase/react-native-apple-authentication'
-import {useSocialTypes, fetchSocialLogin} from 'hooks/auth'
+import {useSocialTypes, fetchSocialLogin, getDeviceToken} from 'hooks/auth'
 import {setToken, setUserInfo} from 'utils/asyncStorage'
 import {useIsLogged} from 'hooks/useIsLogged'
 import {useRoutes} from 'hooks/useRoutes'
@@ -13,19 +13,25 @@ const Apple = () => {
   const {login} = useIsLogged()
   const {navigate} = useRoutes()
 
+  async function handleLogin(profile) {
+    const {email, id} = profile
+    getDeviceToken().then(async token => {
+      const res = await fetchSocialLogin(email, data[1], id, token)
+      setUserInfo(res)
+      setToken(res.token)
+      if (!res.hasNickanme) {
+        navigate('Nickname')
+      } else login()
+    })
+  }
+
   const appleLogin = async () => {
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
       requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
     })
-    // console.log(appleAuthRequestResponse)
-    const {email, user} = appleAuthRequestResponse
-    const res = await fetchSocialLogin(email, data[0], user)
-    setUserInfo(res)
-    setToken(res.token)
-    if (!res.hasNickname) {
-      navigate('Nickname')
-    } else login()
+
+    handleLogin(appleAuthRequestResponse)
   }
 
   return (

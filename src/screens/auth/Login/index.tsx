@@ -1,29 +1,16 @@
 // import { login } from "../../utils/AuthUtil";
 import {useIsLogged} from 'hooks/useIsLogged'
 import React, {useState} from 'react'
-import {
-  View,
-  StatusBar,
-  StyleSheet,
-  Platform,
-  Text,
-  Image,
-  SafeAreaView,
-  TouchableOpacity,
-  Keyboard,
-  TouchableWithoutFeedback,
-  Alert,
-  Dimensions,
-  KeyboardAvoidingView,
-} from 'react-native'
-import {Images} from 'assets'
+import {View, StatusBar, StyleSheet, Platform, Text, SafeAreaView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Alert} from 'react-native'
+
 import {useRoutes} from 'hooks/useRoutes'
 import {font} from 'shared/styles'
 import {emailValidate, passwordValidate} from 'utils/validate'
-import {fetchEmailLogin} from 'hooks/auth'
+import {fetchEmailLogin, getDeviceToken} from 'hooks/auth'
 import {setToken, setUserInfo} from 'utils/asyncStorage'
 import {AxiosError} from 'utils/axios'
 import {Apple, Kakao, LoginInput} from './contents'
+import messaging from '@react-native-firebase/messaging'
 
 const LoginScreen = () => {
   const [id, setId] = useState('')
@@ -47,11 +34,14 @@ const LoginScreen = () => {
       setMicrocopyPw('8~20자 이내 영문 대소문자, 숫자, 특수문자')
     } else {
       try {
-        const res = await fetchEmailLogin({email: id, password: pw})
-        // console.log(res)
-        setUserInfo(res)
-        await setToken(res.token)
-        login()
+        getDeviceToken().then(async token => {
+          const res = await fetchEmailLogin({email: id, password: pw, fcmToken: token})
+
+          setUserInfo(res)
+          await setToken(res.token)
+          login()
+          messaging().requestPermission()
+        })
       } catch (error: unknown) {
         if (error instanceof AxiosError) {
           console.log(error?.response?.data?.message)
@@ -84,7 +74,8 @@ const LoginScreen = () => {
 
           <View style={styles.formContainer}>
             <LoginInput value={id} setValue={setId} microcopy={microcopyId} placeholder={'아이디(이메일)'} isEmail />
-            <LoginInput value={pw} setValue={setPw} microcopy={microcopyPw} placeholder={'비밀번호'} inputStyle={styles.textInputPw} />
+            <LoginInput value={pw} setValue={setPw} microcopy={microcopyPw} placeholder={'비밀번호'} />
+
             <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
               <Text style={styles.loginBtnTxt}>로그인</Text>
             </TouchableOpacity>
@@ -188,6 +179,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 12,
+    // gap: 5,
   },
   subBtnTxt: {
     justifyContent: 'center',

@@ -1,13 +1,19 @@
 import {Images} from 'assets'
+import {useRoutes} from 'hooks/useRoutes'
+import {MENU} from 'navigation/menu'
 import React from 'react'
-import {View, Image, StyleSheet, Text} from 'react-native'
+import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import {font} from 'shared/styles'
 
 const FeedHeader = () => {
+  const {navigate} = useRoutes()
+
   return (
     <View style={styles.header}>
       <Text style={styles.header_text}>피드</Text>
-      <Image style={styles.header_image} source={Images.icon_search} />
+      <TouchableOpacity onPress={() => navigate(MENU.SEARCH_FRIEND)}>
+        <Image style={styles.header_image} source={Images.icon_search} />
+      </TouchableOpacity>
     </View>
   )
 }

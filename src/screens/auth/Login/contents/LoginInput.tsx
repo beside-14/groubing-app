@@ -25,6 +25,7 @@ const LoginInput = ({value, setValue, placeholder, microcopy, inputStyle, isEmai
         secureTextEntry={!isEmail}
         autoCapitalize="none"
       />
+
       <Microcopy microcopy={microcopy} />
     </>
   )
@@ -35,7 +36,9 @@ export default LoginInput
 const styles = StyleSheet.create({
   textInput: {
     paddingHorizontal: 8,
-    ...font.NotoSansKR_Regular,
+    backgroundColor: 'red',
+
+    // ...font.NotoSansKR_Regular,
     fontSize: 16,
     justifyContent: 'center',
     ...Platform.select({

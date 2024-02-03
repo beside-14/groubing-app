@@ -5,6 +5,7 @@ import {Images} from 'assets'
 import {MENU} from 'navigation/menu'
 import {useRoutes} from 'hooks/useRoutes'
 import useUserInfo from 'hooks/useUserInfo'
+import {API_URL} from 'api/restful'
 
 type ButtonType = {name: string; icon: ImageSource; route?: string}
 const BUTTONS: ButtonType[] = [
@@ -37,7 +38,11 @@ const Mypage = () => {
       <Text style={styles.header}>마이페이지</Text>
       <View style={styles.profile}>
         <View style={styles.profile_info}>
-          <Image style={styles.profile_image} source={userInfo?.profileUrl ? userInfo?.profileUrl : Images.profile} resizeMode="cover" />
+          <Image
+            style={styles.profile_image}
+            source={userInfo?.profileUrl ? {uri: `${API_URL}${userInfo?.profileUrl}`} : Images.profile}
+            resizeMode="cover"
+          />
           <Text style={styles.profile_text}>{userInfo?.nickname ? userInfo?.nickname : '닉네임'}</Text>
         </View>
         <TouchableOpacity style={styles.profile_edit} onPress={handleProfile}>

@@ -1,23 +1,24 @@
+import React from 'react'
+
 import {useRoute} from '@react-navigation/native'
 import {useQuery} from '@tanstack/react-query'
 import {useRoutes} from 'hooks/useRoutes'
-import React from 'react'
 import {FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import {Images} from 'assets'
-import {fonts} from 'react-native-elements/dist/config'
-import {MiniBoard} from 'screens/bingo-list/BingoListScreen'
+
 import {getBingoList} from 'screens/bingo-list/remote'
 import {MENU} from 'navigation/menu'
+import {MiniBoard} from 'screens/bingo-list/components'
 
 export const FriendBingoList = () => {
   const {navigate} = useRoutes()
   const {params} = useRoute()
 
   const {id, name} = params
-  const {data} = useQuery(['friend-bingo-list', id], () => getBingoList(id))
+  const {data: bingos} = useQuery(['friend-bingo-list', id], () => getBingoList(id))
 
-  const bingos = data?.data.data
   const goToBoard = (id: number) => navigate(MENU.BINGO_BOARD, {id: id, isfriend: true})
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>{name}님의 빙고목록</Text>

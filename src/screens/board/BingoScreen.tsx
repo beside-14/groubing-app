@@ -1,23 +1,18 @@
 import {StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, Image, DeviceEventEmitter} from 'react-native'
-
 import React, {useState, useEffect, useRef} from 'react'
-
 import {ProgressBar} from 'react-native-paper'
 import BingoBoard from 'components/bingo/board/BingoBoard'
 import {Memo} from 'components/bingo/board/Memo'
 import {getBingo, shuffleItems} from './remote/bingo'
-
 import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
-
 import {useAtom} from 'jotai'
 import {bingo_count_atom, register_item_atom, retech_atom, update_memo_atom} from './store'
 import {Images} from 'assets'
-
 import {BingoGoalText} from './contents/BingoGoalText'
-
 import RBSheet from 'react-native-raw-bottom-sheet'
 import {DateModal, InviteModal, MemoInput, ItemInput, MoreModal, PublicModal} from './contents/bottom-sheet/modal'
+import {font} from 'shared/styles'
 
 type BingoGoalText = {
   bingoPercent: number
@@ -27,32 +22,33 @@ type BingoGoalText = {
 
 type ModalState = 'more' | 'public' | 'invite' | 'date' | 'register_bingo' | 'register_memo' | 'none'
 
-const BingoScreen = () => {
-  const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
-  const {navigate, back} = useRoutes()
-  const [refetch, setRetech] = useAtom(retech_atom)
-  const refRBSheet = useRef()
-  const [addBingo, setAddBingo] = useAtom(register_item_atom)
+export const hipslap = {top: 32, bottom: 32, left: 32, right: 32}
 
-  const [addMemo, setAddMemo] = useAtom(update_memo_atom)
+const BingoScreen = () => {
+  const {navigate, back} = useRoutes()
   const {params} = useRoute()
   const {fromCreate, id, isfriend} = params || {}
-  const [data, setData] = useState()
 
+  const refRBSheet = useRef()
+
+  const [bingoCount, setBingoCount] = useAtom(bingo_count_atom)
+  const [refetch, setRetech] = useAtom(retech_atom)
+  const [addBingo, setAddBingo] = useAtom(register_item_atom)
+  const [addMemo, setAddMemo] = useAtom(update_memo_atom)
+
+  const [dateGroup, setDateGroup] = useState({since: '', until: ''})
+  const [otherBingos, setOtherBingos] = useState([])
   const [modalState, setModalState] = useState<ModalState>('none')
+  const [data, setData] = useState()
 
   const isTemporary = !data?.completed
   let IS_GROUP = data?.groupType === 'GROUP'
-
-  const [dateGroup, setDateGroup] = useState({since: '', until: ''})
-
-  const [otherBingos, setOtherBingos] = useState([])
-
   const READ_ONLY = isfriend
+
+  // 전역state 한번 reset 처리!!!!
 
   useEffect(() => {
     if (addBingo.mode === false && addMemo.mode === false) return
-
     if (addBingo.mode) return setModalState('register_bingo')
     if (addMemo.mode) return setModalState('register_memo')
   }, [addBingo, addMemo])
@@ -116,9 +112,18 @@ const BingoScreen = () => {
     until: data?.until,
   }
 
+  const isAblePublish = () => {
+    return data?.bingoMap?.bingoLines.every(e => {
+      e.bingoItems.map(a => {
+        if (a.title === null) return false
+        return true
+      })
+    })
+  }
+
   const MODAL = {
     more: {content: <MoreModal info={editData} close={closeModal} />, height: 200},
-    public: {content: <PublicModal state={data?.open} close={closeModal} />, height: 300},
+    public: {content: <PublicModal state={data?.open} close={closeModal} />, height: 250},
     invite: {content: <InviteModal close={closeModal} editDate={dateGroup} refetch={() => setRetech(true)} />, height: 400},
     date: {content: <DateModal info={editData} group={IS_GROUP} close={dateCloseModal} refetch={() => setRetech(true)} />, height: 400},
     register_bingo: {content: <ItemInput close={closeModal} />, height: 300},
@@ -131,6 +136,7 @@ const BingoScreen = () => {
   return (
     <View style={{flex: 1, backgroundColor: 'green'}}>
       <SafeAreaView style={styles.safeAreaContainer}>
+        {/* 헤더 */}
         <View
           style={{
             height: 60,
@@ -140,53 +146,57 @@ const BingoScreen = () => {
             alignItems: 'center',
             paddingHorizontal: 20,
           }}>
-          {fromCreate ? (
-            <TouchableOpacity onPress={() => navigate('BingoList')} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-              <Image source={Images.back_btn} style={{width: 30, height: 30}} />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={() => back()} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-              <Image source={Images.back_btn} style={{width: 30, height: 30}} />
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            hitSlop={hipslap}
+            onPress={() => (fromCreate ? navigate('BingoList') : back())}
+            style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+            <Image source={Images.back_btn} style={{width: 30, height: 30}} />
+          </TouchableOpacity>
+
           {/* 발행하기 버튼 원진님께 9개 다 채웠는지 상태값받기 그걸로 disabled*/}
 
           {READ_ONLY ? null : isTemporary ? (
-            <TouchableOpacity disabled={READ_ONLY} onPress={() => setModalState('date')} style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TouchableOpacity hitSlop={hipslap} onPress={() => setModalState('date')} style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image source={Images.icon_check_black} style={{width: 24, height: 24, marginRight: 4}} />
               <Text>발행하기</Text>
             </TouchableOpacity>
           ) : (
             <View style={{display: 'flex', flexDirection: 'row', gap: 8}}>
               {/* 공개  */}
-              <TouchableOpacity disabled={READ_ONLY} onPress={() => setModalState('public')} style={{alignItems: 'center'}}>
+              <TouchableOpacity onPress={() => setModalState('public')} style={{alignItems: 'center'}}>
                 <Image source={Images.ico_lock} style={{width: 24, height: 24, marginRight: 4}} />
               </TouchableOpacity>
-              <TouchableOpacity disabled={READ_ONLY} onPress={() => setModalState('more')} style={{alignItems: 'center'}}>
+              <TouchableOpacity onPress={() => setModalState('more')} style={{alignItems: 'center'}}>
                 <Image source={Images.icon_more} style={{width: 24, height: 24, marginRight: 4}} />
               </TouchableOpacity>
             </View>
           )}
         </View>
+
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.bingoTypeContainer}>
             <Text style={styles.bingoType}>{data?.groupType === 'SINGLE' ? '개인' : '그룹'}</Text>
             <View style={styles.bingoTitleContainer}>
               <Text style={styles.bingoTitle}>{data?.title}</Text>
-              <View style={styles.remainingDaysContainer}>
-                <Text style={styles.remainingDaysText}>{data?.dday}</Text>
-              </View>
+              {!isTemporary && (
+                <View style={styles.remainingDaysContainer}>
+                  <Text style={styles.remainingDaysText}>{data?.dday === 0 ? '기간 만료' : `D-${data?.dday}`}</Text>
+                </View>
+              )}
             </View>
-            <BingoGoalText bingoPercent={(bingoCount / data?.goal) * 100} bingoCount={bingoCount} maxBingoCount={data?.goal} />
+            {!isTemporary && <BingoGoalText bingoPercent={(bingoCount / data?.goal) * 100} bingoCount={bingoCount} maxBingoCount={data?.goal} />}
           </View>
-          <View style={{marginHorizontal: 10}}>
-            <ProgressBar progress={bingoCount / data?.goal} style={styles.progressBar} color="#3A8ADB" />
-          </View>
-
+          {!isTemporary && (
+            <View style={{marginHorizontal: 10}}>
+              <ProgressBar progress={bingoCount / data?.goal} style={styles.progressBar} color="#3A8ADB" />
+            </View>
+          )}
+          {/* 빙고판!!!!*/}
           <BingoBoard readonly={READ_ONLY} isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
+
           {isTemporary && !READ_ONLY && (
             <TouchableOpacity disabled={READ_ONLY} onPress={() => shuffle()}>
-              <Text style={{textAlign: 'right', padding: 20, paddingBottom: 0, fontWeight: '500', color: '#666666'}}>섞기</Text>
+              <Text style={{textAlign: 'right', padding: 20, paddingBottom: 0, color: '#666666', ...font.NotoSansKR_Regular}}>섞기</Text>
             </TouchableOpacity>
           )}
           {IS_GROUP && !isTemporary && (
@@ -229,6 +239,7 @@ const BingoScreen = () => {
           onClose={() => setModalState('none')}
           closeOnDragDown={true}
           closeOnPressMask={true}
+          dragFromTopOnly={true}
           height={MODAL[modalState].height}
           customStyles={{
             wrapper: {
@@ -271,7 +282,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: '#666666',
     fontSize: 13,
-    fontFamily: 'NotoSansKR_400Regular',
+    ...font.NotoSansKR_Regular,
     marginBottom: 5,
   },
   bingoTitleContainer: {
@@ -283,7 +294,7 @@ const styles = StyleSheet.create({
   bingoTitle: {
     color: '#000000',
     fontSize: 24,
-    fontFamily: 'NotoSansKR_700Bold',
+    ...font.NotoSansKR_Bold,
     fontWeight: '700',
   },
   remainingDaysContainer: {
@@ -300,7 +311,7 @@ const styles = StyleSheet.create({
   remainingDaysText: {
     color: '#3A8ADB',
     fontSize: 13,
-    fontFamily: 'NotoSansKR_600Regular',
+    ...font.NotoSansKR_Regular,
     fontWeight: '600',
   },
 
@@ -323,13 +334,11 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#000000',
-    // width: '100%',
+
     padding: 15,
     margin: 20,
     marginTop: 45,
     borderRadius: 4,
-    // position: 'absolute',
-    // bottom: 0,
   },
 
   profile: {

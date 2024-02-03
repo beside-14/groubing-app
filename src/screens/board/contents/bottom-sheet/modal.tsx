@@ -18,6 +18,7 @@ import {format} from 'date-fns'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import {updateBingoInfo, updateMemo} from 'components/bingo/board/remote'
 import {StyleSheet} from 'react-native'
+import {API_URL} from 'api/restful'
 
 export const MemoInput = ({close}) => {
   const {params} = useRoute()
@@ -249,8 +250,6 @@ export const InviteModal = ({editDate, close, refetch}) => {
   }
 
   const sendDateWithMembers = async () => {
-    console.log(members, editDate)
-
     const res = await publishBingo(id, editDate, members)
 
     if (res.data.code === 'OK') {
@@ -268,21 +267,26 @@ export const InviteModal = ({editDate, close, refetch}) => {
         </TouchableOpacity>
         <Text style={{fontWeight: '500', fontSize: 18}}>그룹원 초대</Text>
       </View>
-      <FlatList
-        style={{paddingHorizontal: 5, marginTop: 20}}
-        data={friends}
-        renderItem={friend => (
-          <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 15}}>
-            <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
-              <View style={styles.profile} />
-              <Text>{friend.item.nickname}</Text>
+      <View>
+        <FlatList
+          style={{paddingHorizontal: 5, marginTop: 20, marginBottom: 40, height: 200, flexGrow: 0}}
+          data={friends}
+          renderItem={friend => (
+            <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 15}}>
+              <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
+                <Image
+                  style={styles.card_profile}
+                  source={friend.item.profileUrl ? {uri: `${API_URL}${friend.item.profileUrl}`} : Images.icon_profile}
+                />
+                <Text>{friend.item.nickname}</Text>
+              </View>
+              <TouchableOpacity onPress={() => setMember(friend.item.memberId)}>
+                <Image source={Images[ischecked(friend.item.memberId) ? 'ico_check' : 'ico_uncheck']} style={{width: 30, height: 30}} />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => setMember(friend.item.memberId)}>
-              <Image source={Images[ischecked(friend.item.memberId) ? 'ico_check' : 'ico_uncheck']} style={{width: 30, height: 30}} />
-            </TouchableOpacity>
-          </View>
-        )}
-      />
+          )}
+        />
+      </View>
       <View style={styles.btnWrapper}>
         <TouchableOpacity onPress={() => sendDateWithMembers()} style={styles.button}>
           <Text style={{color: 'white', fontWeight: '500', fontSize: 18, textAlign: 'center'}}>발행하기</Text>
@@ -369,7 +373,8 @@ const styles = StyleSheet.create({
 
     padding: 15,
     margin: 20,
-    marginTop: 45,
+    marginTop: 0,
+    // marginTop: 45,
     borderRadius: 4,
   },
 
@@ -397,4 +402,5 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSansKR_400Regular',
     marginBottom: 12,
   },
+  card_profile: {width: 36, height: 36, borderRadius: 50},
 })

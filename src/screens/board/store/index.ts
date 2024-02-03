@@ -38,3 +38,4 @@ export const update_memo_atom = atom<{mode: boolean; content: string}>({mode: fa
 export const bingo_count_atom = atom<number>(0)
 export const retech_atom = atom<boolean>(false)
 export const show_edit_box_atom = atom<boolean>(false)
+export const set_now_step = atom<number>(1)

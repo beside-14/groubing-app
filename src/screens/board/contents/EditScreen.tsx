@@ -6,6 +6,7 @@ import React, {useState} from 'react'
 import {Alert, Text, View, DeviceEventEmitter} from 'react-native'
 import {StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
+import {font} from 'shared/styles'
 
 function addMonths(date, months) {
   date.setMonth(date.getMonth() + months)
@@ -25,6 +26,8 @@ export const EditScreen = () => {
   const [date, setDate] = useState({since: today, until: inituntil})
 
   const onIncrease = () => {
+    // if (data.bingoSize === 3 && data.goal === 8) return Alert.alert('최대 빙고갯수는 8개 입니다.')
+    // if (data.bingoSize === 4 && data.goal === 10) return Alert.alert('최대 빙고갯수는 10개 입니다.')
     setData(prev => ({...prev, goal: prev.goal + 1}))
   }
   const onDecrease = () => {
@@ -155,7 +158,8 @@ const styles = StyleSheet.create({
   },
   nextBtnTxt: {
     fontSize: 14,
-    fontFamily: 'NotoSansKR_500Medium',
+
     color: '#FFFFFF',
+    ...font.NotoSansKR_Medium,
   },
 })

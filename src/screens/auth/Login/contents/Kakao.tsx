@@ -2,7 +2,7 @@ import React from 'react'
 import {TouchableOpacity, Image, StyleSheet} from 'react-native'
 import {login as KakaoLogin, getProfile} from '@react-native-seoul/kakao-login'
 import {Images} from 'assets'
-import {useSocialTypes, fetchSocialLogin} from 'hooks/auth'
+import {useSocialTypes, fetchSocialLogin, getDeviceToken} from 'hooks/auth'
 import {setToken, setUserInfo} from 'utils/asyncStorage'
 import {useIsLogged} from 'hooks/useIsLogged'
 import {useRoutes} from 'hooks/useRoutes'
@@ -26,16 +26,23 @@ const Kakao = () => {
       })
   }
 
+  async function handleLogin(profile) {
+    const {email, id} = profile
+    getDeviceToken().then(async token => {
+      const res = await fetchSocialLogin(email, data[1], id, token)
+
+      setUserInfo(res)
+      setToken(res.token)
+      if (!res.hasNickname) {
+        navigate('Nickname')
+      } else login()
+    })
+  }
+
   const fetchKakaoProfile = () => {
     getProfile()
       .then(async result => {
-        const {email, id} = result
-        const res = await fetchSocialLogin(email, data[1], id)
-        setUserInfo(res)
-        setToken(res.token)
-        if (!res.hasNickanme) {
-          navigate('Nickname')
-        } else login()
+        handleLogin(result)
       })
       .catch(error => {
         console.log(`GetProfile Fail(code:${error.code})`, error.message)

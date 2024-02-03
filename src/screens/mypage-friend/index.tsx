@@ -1,6 +1,5 @@
 import React, {useRef, useState} from 'react'
 import {View, Text, Image, StyleSheet, TextInput, FlatList, TouchableOpacity} from 'react-native'
-import {font} from 'shared/styles'
 import {Images} from 'assets'
 import {useFriendList} from './remote'
 import RBSheet from 'react-native-raw-bottom-sheet'
@@ -26,12 +25,13 @@ const MypageFriend = () => {
         renderItem={friend => (
           <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 15}}>
             <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
-              <View style={styles.profile} />
+              <Image style={{width: 36, height: 36}} source={friend.item.profile ? friend.item.profile : Images.icon_profile} />
               <Text>{friend.item.nickname}</Text>
             </View>
             <TouchableOpacity
               onPress={() => {
-                setClickedInfo({id: friend.item.id, name: friend.item.nickname})
+                // console.log('friend.item.id?', friend.item.id)
+                setClickedInfo({id: friend.item.memberId, name: friend.item.nickname})
                 openMoreModal()
               }}>
               <Image source={Images.icon_more} style={{width: 25, height: 25}} />
