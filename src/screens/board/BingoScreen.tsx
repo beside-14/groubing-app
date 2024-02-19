@@ -79,10 +79,12 @@ const BingoScreen = () => {
   }, [refetch])
 
   useEffect(() => {
-    let subscription = DeviceEventEmitter.addListener('EDIT_COMPLETE', () => {
-      setRetech(true)
-    })
+    let subscription = DeviceEventEmitter.addListener('EDIT_COMPLETE', () => setRetech(true))
     return () => subscription.remove()
+  }, [])
+
+  useEffect(() => {
+    return () => DeviceEventEmitter.emit('REFRESH')
   }, [])
 
   const shuffle = async () => {

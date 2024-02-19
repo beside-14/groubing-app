@@ -10,7 +10,7 @@ const PasswordChange = () => {
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [newPasswordConfirm, setNewPasswordConfirm] = useState('')
-  const {userInfo} = useUserInfo()
+  const {user} = useUserInfo()
   const {back} = useRoutes()
 
   const disabled = newPassword !== newPasswordConfirm || newPassword === '' || currentPassword === ''
@@ -19,7 +19,7 @@ const PasswordChange = () => {
   const onChangeNewPasswordConfirm = (value: string) => setNewPasswordConfirm(value)
   const onPress = async () => {
     try {
-      const res = await patchPassword(userInfo?.id, currentPassword, newPassword)
+      const res = await patchPassword(user?.id, currentPassword, newPassword)
       back()
     } catch (err) {
       Alert.alert('비밀번호 변경에 실패하였습니다.')

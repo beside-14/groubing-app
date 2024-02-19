@@ -6,6 +6,7 @@ import {MENU} from 'navigation/menu'
 import {useRoutes} from 'hooks/useRoutes'
 import useUserInfo from 'hooks/useUserInfo'
 import {API_URL} from 'api/restful'
+import {getUserInfo} from 'utils/asyncStorage'
 
 type ButtonType = {name: string; icon: ImageSource; route?: string}
 const BUTTONS: ButtonType[] = [
@@ -19,7 +20,7 @@ const BUTTONS: ButtonType[] = [
 
 const Mypage = () => {
   const {navigate} = useRoutes()
-  const {userInfo} = useUserInfo()
+  const {user} = useUserInfo()
 
   const handleItemClick = async (item: ButtonType) => {
     if (item.name === '서비스 문의') {
@@ -32,7 +33,8 @@ const Mypage = () => {
   const handleProfile = () => {
     navigate(MENU.MYPAGE_PROFILE)
   }
-
+  console.log('프로필 url 에', user?.profileUrl)
+  // console.log('###', userInfo?.profileUrl ? {uri: `${API_URL}${userInfo?.profileUrl}`} : Images.profile)
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>마이페이지</Text>
@@ -40,10 +42,10 @@ const Mypage = () => {
         <View style={styles.profile_info}>
           <Image
             style={styles.profile_image}
-            source={userInfo?.profileUrl ? {uri: `${API_URL}${userInfo?.profileUrl}`} : Images.profile}
+            source={user?.profileUrl ? {uri: `${API_URL}${user?.profileUrl}`} : Images.profile}
             resizeMode="cover"
           />
-          <Text style={styles.profile_text}>{userInfo?.nickname ? userInfo?.nickname : '닉네임'}</Text>
+          <Text style={styles.profile_text}>{user?.nickname ? user?.nickname : '닉네임'}</Text>
         </View>
         <TouchableOpacity style={styles.profile_edit} onPress={handleProfile}>
           <Text style={styles.profile_edit_text}>프로필 관리</Text>

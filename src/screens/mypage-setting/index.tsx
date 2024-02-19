@@ -6,6 +6,7 @@ import CustomModal from 'components/common/CustomModal'
 import {useIsLogged} from 'hooks/useIsLogged'
 import {useRoutes} from 'hooks/useRoutes'
 import {MENU} from 'navigation/menu'
+import useUserInfo from 'hooks/useUserInfo'
 
 type ListItemName = '비밀번호 변경' | '로그아웃' | '회원탈퇴'
 type ListItemType = {
@@ -24,6 +25,7 @@ const MypageSetting = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const {logout} = useIsLogged()
   const {back, navigate} = useRoutes()
+  const {clearUserInfo} = useUserInfo()
 
   const handleItemClick = (name: ListItemName) => {
     if (name === '비밀번호 변경') {
@@ -31,6 +33,8 @@ const MypageSetting = () => {
     } else if (name === '로그아웃') {
       setModalVisible(true)
     } else if (name === '회원탈퇴') {
+    } else {
+      navigate(MENU.ALARM_SETTING)
     }
   }
 
@@ -40,6 +44,7 @@ const MypageSetting = () => {
 
   const handleModalCompletePress = () => {
     try {
+      clearUserInfo()
       logout()
       back()
       // TODO: 로그아웃 완료 toast

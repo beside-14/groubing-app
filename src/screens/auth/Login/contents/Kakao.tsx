@@ -6,11 +6,13 @@ import {useSocialTypes, fetchSocialLogin, getDeviceToken} from 'hooks/auth'
 import {setToken, setUserInfo} from 'utils/asyncStorage'
 import {useIsLogged} from 'hooks/useIsLogged'
 import {useRoutes} from 'hooks/useRoutes'
+import useUserInfo from 'hooks/useUserInfo'
 
 const Kakao = () => {
   const {data} = useSocialTypes()
   const {login} = useIsLogged()
   const {navigate} = useRoutes()
+  const {updateUserData} = useUserInfo()
 
   const kakaoLogin = () => {
     KakaoLogin()
@@ -31,7 +33,7 @@ const Kakao = () => {
     getDeviceToken().then(async token => {
       const res = await fetchSocialLogin(email, data[1], id, token)
 
-      setUserInfo(res)
+      updateUserData({...res, id: id, email: email})
       setToken(res.token)
       if (!res.hasNickname) {
         navigate('Nickname')

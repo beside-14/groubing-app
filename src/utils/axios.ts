@@ -38,4 +38,21 @@ const patch = async (url: string, params: Record<string, unknown>): Promise<any>
   return data
 }
 
-export {axios, AxiosError, get, post, patch}
+const patchImage = async (url: string, params: Record<string, unknown>): Promise<any> => {
+  const {data} = await axios.patch(url, params, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Accept: 'application/json',
+    },
+  })
+  return data
+}
+
+// const res = await API.patch(`/api/members/${id}/profile`, formData, {
+//   headers: {
+//     'Content-Type': 'multipart/form-data',
+//     Accept: 'application/json',
+//   },
+// })
+
+export {axios, AxiosError, get, post, patch, patchImage}

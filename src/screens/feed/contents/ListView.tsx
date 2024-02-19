@@ -31,10 +31,10 @@ const List = ({title, isLast}: {title: string; isLast: boolean}) => {
 const Header = ({name, id, profile, isfriend}) => {
   const refRBSheet = useRef()
   const openMoreModal = () => refRBSheet?.current?.open()
-  const {userInfo} = useUserInfo()
+  const {user} = useUserInfo()
 
   const {navigate} = useRoutes()
-  const me = userInfo?.id === id
+  const me = user?.id === id
 
   const requestFriend = async (id: number) => {
     const res = await requestFriends(id)
@@ -46,13 +46,11 @@ const Header = ({name, id, profile, isfriend}) => {
   return (
     <View style={styles.block}>
       <View style={{...styles.row, justifyContent: 'space-between'}}>
-        <View style={styles.row}>
-          <TouchableOpacity disabled={me} onPress={() => navigate(MENU.FRIEND_BINGO_LIST, {id, name})}>
-            <Image style={{width: 36, height: 36, borderRadius: 50}} source={profile ? {uri: `${API_URL}${profile}`} : Images.icon_profile} />
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.row} disabled={me} onPress={() => navigate(MENU.FRIEND_BINGO_LIST, {id, name})}>
+          <Image style={{width: 36, height: 36, borderRadius: 50}} source={profile ? {uri: `${API_URL}${profile}`} : Images.icon_profile} />
 
           <Text style={{fontWeight: '500', fontSize: 16}}>{name}</Text>
-        </View>
+        </TouchableOpacity>
 
         {me || isfriend ? null : (
           <TouchableOpacity onPress={() => openMoreModal()}>

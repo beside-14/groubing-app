@@ -9,7 +9,7 @@ import Notification from 'screens/notification'
 const Tab = createBottomTabNavigator()
 // const bottomAnimation = {animation: 'slide_from_bottom'}
 
-const TabNavigator = () => {
+export const TabNavigator = () => {
   return (
     <Tab.Navigator initialRouteName="Home">
       <Tab.Screen
@@ -77,8 +77,6 @@ const TabNavigator = () => {
     </Tab.Navigator>
   )
 }
-
-export default TabNavigator
 
 const styles = StyleSheet.create({
   bottom_tab_image: {

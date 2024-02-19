@@ -33,6 +33,7 @@ export const fetchChangePassword = async (params: {id: number; password: string}
 export const fetchSocialLogin = async (email: string, socialType: SocialType | undefined, id: string | number, fcmToken: string) => {
   const url = `${baseUrl}/members/social-login`
   const {data} = await post(url, {email: email, socialType: socialType, id: id, fcmToken: fcmToken})
+
   return data
 }
 

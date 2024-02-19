@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import {View} from 'react-native'
 import {useBingoList} from './remote'
@@ -8,13 +8,14 @@ import {Image} from 'react-native'
 import useUserInfo from 'hooks/useUserInfo'
 import {Card, TemporaryCard} from './components'
 import {font} from 'shared/styles'
+import {DeviceEventEmitter} from 'react-native'
 
 type Category = 'ALL' | '개인' | '그룹'
 
 const BingoListScreen = () => {
   const [category, setCategory] = useState<Category>('ALL')
-  const {userInfo} = useUserInfo()
-  const {data: list, refetch, isLoading} = useBingoList(userInfo.id)
+  const {user} = useUserInfo()
+  const {data: list, refetch, isLoading} = useBingoList(user?.id)
 
   const CATEGORY: Category[] = ['ALL', '개인', '그룹']
 
@@ -26,6 +27,11 @@ const BingoListScreen = () => {
     그룹: groupList,
     ALL: list,
   }
+
+  useEffect(() => {
+    let subscription = DeviceEventEmitter.addListener('REFRESH', () => refetch())
+    return () => subscription.remove()
+  }, [])
 
   return (
     <SafeAreaView style={styles.container}>

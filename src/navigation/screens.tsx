@@ -3,14 +3,13 @@ import React, {ComponentType} from 'react'
 import {StackNavigationOptions} from '@react-navigation/stack'
 
 import {BingoScreen, CreateBingoScreen, MypageSetting, MypageProfile, PasswordChange, MypageFriend} from 'screens'
-
 import {MENU} from './menu'
 import NavigatorHeader from 'components/common/NavigatorHeader'
-
 import {EditScreen} from 'screens/board/contents/EditScreen'
-import FriendHeaderRight from './components/FriendHeaderRight'
 import {FriendBingoList} from 'screens/friend-bingo-list'
 import SearchFriend from 'screens/search-friend'
+import {FriendHeaderRight} from './components'
+import {AlarmSetting} from 'screens/mypage-setting/\balarm'
 
 const defaultOptions: StackNavigationOptions = {
   headerShown: true,
@@ -69,7 +68,6 @@ export const screens: ScreenItemType[] = [
     component: EditScreen,
     options: {
       ...defaultOptions,
-      // headerLeft: () => <NavigatorHeader title={'설정'} />,
     },
   },
   {
@@ -103,7 +101,14 @@ export const screens: ScreenItemType[] = [
     options: {
       ...defaultOptions,
       headerLeft: () => <NavigatorHeader title={'친구 관리'} />,
-      headerRight: () => <FriendHeaderRight />,
+    },
+  },
+  {
+    name: MENU.MYPAGE_ALARM,
+    component: AlarmSetting,
+    options: {
+      ...defaultOptions,
+      headerLeft: () => <NavigatorHeader title={'알림 설정'} />,
     },
   },
   // 여기에 추가 스크린 정보를 추가합니다.

@@ -6,11 +6,13 @@ import {font} from 'shared/styles'
 import {useIsLogged} from 'hooks/useIsLogged'
 import {getUserInfo, setUserInfo} from 'utils/asyncStorage'
 import {API} from 'utils/axios'
+import useUserInfo from 'hooks/useUserInfo'
 
 const SocialNickname = () => {
   const [nickname, setNickname] = useState('')
   const {login} = useIsLogged()
   const disabled = nickname.length < 2
+  const {updateUserData, user} = useUserInfo()
 
   const patchNickname = async (id: number, nickname: string) => {
     const res = await API.patch(`/api/members/${id}/nickname`, {nickname: nickname})
@@ -18,11 +20,11 @@ const SocialNickname = () => {
   }
 
   const handleSignUp = async () => {
-    const userInfo = await getUserInfo()
+    // const userInfo = await getUserInfo()
 
-    const res = await patchNickname(userInfo?.id, nickname)
+    const res = await patchNickname(user?.id, nickname)
     if (res) {
-      setUserInfo({...userInfo, nickname: nickname})
+      updateUserData({...user, nickname: nickname})
     }
     login()
   }

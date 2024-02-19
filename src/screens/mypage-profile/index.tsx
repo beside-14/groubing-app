@@ -8,15 +8,14 @@ import useUserInfo from 'hooks/useUserInfo'
 import {patchNickname, patchProfileImage} from './remote'
 import {useRoutes} from 'hooks/useRoutes'
 import {API_URL} from 'api/restful'
-// import { launchImageLibrary } from 'react-native-image-picker';
+
 const MypageProfile = () => {
-  const {userInfo, setUserInfo} = useUserInfo()
+  const {user, updateUserData} = useUserInfo()
   const [selectedImage, setSelectedImage] = useState(null)
-  const [nickname, setNickname] = useState(userInfo?.nickname)
-  const disabled = (!nickname || nickname?.length < 2 || nickname === userInfo?.nickname) && selectedImage === userInfo?.profileUrl
+  const [nickname, setNickname] = useState(user?.nickname)
   const {back} = useRoutes()
 
-  const [header, setHeader] = useState({'Content-Type': 'multipart/form-data', Accept: 'application/json'})
+  const disabled = nickname.length < 2 || !(nickname !== user?.nickname || (selectedImage !== null && selectedImage !== user?.profileUrl))
 
   const handleProfileImage = () => {
     launchImageLibrary(
@@ -28,12 +27,7 @@ const MypageProfile = () => {
         includeBase64: false,
       },
       async (response: any) => {
-        // console.log(response)
         if (!response.didCancel && !response.errorCode) {
-          const {uri} = response.assets[0]
-
-          // console.log(resizedImage)
-          // setSelectedImage(resizedImage.path)
           setSelectedImage(response)
         }
       },
@@ -41,23 +35,28 @@ const MypageProfile = () => {
   }
 
   const handleComplete = async () => {
-    if (nickname !== userInfo?.nickname && selectedImage !== userInfo?.profileUrl) {
-      Promise.all([patchNickname(userInfo?.id, nickname), patchProfileImage(userInfo?.id, selectedImage)]).then(res =>
-        Promise.all(res.map(res => res.json()))
-          .then(data => {})
-          .catch(err => {
-            console.log(err)
-          }),
-      )
-    } else if (nickname !== userInfo?.nickname) {
-      const res = await patchNickname(userInfo?.id, nickname)
+    if (nickname !== user?.nickname && selectedImage !== null) {
+      const imageRes = await patchProfileImage(user?.id as number, selectedImage!)
+
+      if (imageRes) {
+        const nameRes = await patchNickname(user?.id, nickname)
+        if (nameRes) {
+          updateUserData(prev => ({...prev, profileUrl: imageRes, nickname: nickname}))
+          back()
+        }
+      }
+    } else if (nickname !== user?.nickname) {
+      const res = await patchNickname(user?.id, nickname)
+
       if (res) {
-        setUserInfo({...userInfo, nickname: nickname})
+        updateUserData({...user, nickname: nickname})
         back()
       }
-      // back()
-    } else if (selectedImage !== userInfo?.profileUrl) {
-      const res = await patchProfileImage(userInfo?.id, selectedImage, header)
+    } else if (selectedImage !== user?.profileUrl) {
+      const res = await patchProfileImage(user?.id, selectedImage!)
+
+      updateUserData({profileUrl: res})
+      back()
     }
   }
 
@@ -66,7 +65,7 @@ const MypageProfile = () => {
       <TouchableOpacity style={styles.image_container} onPress={handleProfileImage}>
         <Image
           style={styles.profile_image}
-          source={selectedImage ? {uri: selectedImage} : userInfo?.profileUrl ? {uri: `${API_URL}${userInfo?.profileUrl}`} : Images.profile}
+          source={selectedImage ? {uri: selectedImage?.assets[0]?.uri} : user?.profileUrl ? {uri: `${API_URL}${user?.profileUrl}`} : Images.profile}
           resizeMode="cover"
           resizeMethod="auto"
         />
@@ -74,7 +73,7 @@ const MypageProfile = () => {
           <Image style={styles.pencil} source={Images.ico_pencil} />
         </View>
       </TouchableOpacity>
-      <Text style={styles.nickname}>닉네임</Text>
+      <Text style={styles.nickname}>{user?.nickname}</Text>
       <TextInput style={styles.nickname_input} value={nickname} onChangeText={text => setNickname(text)} maxLength={7} />
       <View style={styles.nickname_info}>
         <Image style={styles.nickname_info_img} source={Images.caution_icon_gray} />
@@ -82,15 +81,6 @@ const MypageProfile = () => {
       </View>
       <TouchableOpacity disabled={disabled} style={disabled ? styles.button : [styles.button, styles.button_active]} onPress={handleComplete}>
         <Text style={styles.button_text}>수정완료</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() =>
-          setHeader(prev => ({
-            'Content-Type': prev['Content-Type'] === 'multipart/form-data' ? 'application/json' : 'multipart/form-data',
-            Accept: prev['Accept'] === 'multipart/form-data' ? 'application/json' : 'multipart/form-data',
-          }))
-        }>
-        <Text>{JSON.stringify(header)}</Text>
       </TouchableOpacity>
     </View>
   )

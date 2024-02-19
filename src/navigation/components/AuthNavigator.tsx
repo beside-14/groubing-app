@@ -5,7 +5,7 @@ import NavigatorHeader from 'components/common/NavigatorHeader'
 
 const Auth = createStackNavigator()
 
-const AuthNavigator = () => {
+export const AuthNavigator = () => {
   return (
     <Auth.Navigator initialRouteName="Login">
       <Auth.Screen name="Login" component={Login} options={{headerShown: false}} />
@@ -40,5 +40,3 @@ const AuthNavigator = () => {
     </Auth.Navigator>
   )
 }
-
-export default AuthNavigator

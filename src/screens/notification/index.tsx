@@ -9,12 +9,15 @@ import {acceptFriend, refuseFriend} from './remote'
 import {useRoutes} from 'hooks/useRoutes'
 import {MENU} from 'navigation/menu'
 
-const Notification = () => {
-  const CATEGORY: string[] = ['활동 알림', '친구 요청']
+export type ALARM_CATEGORY = '활동 알림' | '친구 요청'
 
-  const [active, setActive] = useState('활동 알림')
+const Notification = () => {
+  const CATEGORY: ALARM_CATEGORY[] = ['활동 알림', '친구 요청']
+
+  const [active, setActive] = useState<ALARM_CATEGORY>('활동 알림')
   const {data, refetch, isLoading} = useNotifications(active)
   const {navigate} = useRoutes()
+
   const handleRefuseBtn = async (id: number) => {
     await refuseFriend(id)
     refetch()

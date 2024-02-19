@@ -11,6 +11,7 @@ import {setToken, setUserInfo} from 'utils/asyncStorage'
 import {AxiosError} from 'utils/axios'
 import {Apple, Kakao, LoginInput} from './contents'
 import messaging from '@react-native-firebase/messaging'
+import useUserInfo from 'hooks/useUserInfo'
 
 const LoginScreen = () => {
   const [id, setId] = useState('')
@@ -19,6 +20,8 @@ const LoginScreen = () => {
   const [microcopyPw, setMicrocopyPw] = useState('')
   const {navigate} = useRoutes()
   const {login} = useIsLogged()
+
+  const {updateUserData, user} = useUserInfo()
 
   async function handleLogin() {
     setMicrocopyId('')
@@ -36,8 +39,8 @@ const LoginScreen = () => {
       try {
         getDeviceToken().then(async token => {
           const res = await fetchEmailLogin({email: id, password: pw, fcmToken: token})
-
-          setUserInfo(res)
+          updateUserData(res)
+          // setUserInfo(res)
           await setToken(res.token)
           login()
           messaging().requestPermission()

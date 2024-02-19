@@ -4,10 +4,11 @@ import {API} from 'utils/axios'
 
 export const patchNickname = async (id: number, nickname: string) => {
   const res = await API.patch(`/api/members/${id}/nickname`, {nickname: nickname})
+
   return res
 }
 
-export const patchProfileImage = async (id: number, image: string, header: any) => {
+export const patchProfileImage = async (id: number, image: string) => {
   const formData = new FormData()
 
   const photo = {
@@ -15,10 +16,15 @@ export const patchProfileImage = async (id: number, image: string, header: any) 
     type: image.assets[0].type,
     uri: Platform.OS === 'ios' ? image.assets[0].uri.replace('file://', '') : image.uri,
   }
+
   formData.append('profile', photo)
 
   const res = await API.patch(`/api/members/${id}/profile`, formData, {
-    headers: header,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Accept: 'application/json',
+    },
   })
-  return res
+
+  return res.data.data.profileUrl
 }
