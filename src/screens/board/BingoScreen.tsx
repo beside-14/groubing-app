@@ -205,11 +205,11 @@ const BingoScreen = () => {
             <View style={styles.miniboardContainer}>
               <Text style={styles.title}>함께하는 그루버</Text>
               <View style={{display: 'flex', flexDirection: 'row', gap: 20}}>
-                {otherBingos?.map(bingo => {
+                {otherBingos?.map((bingo, i) => {
                   const bingoarr = bingo?.bingoLines?.map(e => e?.bingoItems)
 
                   return (
-                    <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <View key={i} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                       {bingoarr?.map((e, i) => (
                         <View key={i} style={{flexDirection: 'row'}}>
                           {e?.map(({complete}, i) => (

@@ -5,22 +5,33 @@ import {useFriendList} from './remote'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import {useRoutes} from 'hooks/useRoutes'
 import {MENU} from 'navigation/menu'
+import {font} from 'shared/styles'
 
 const MypageFriend = () => {
   const refRBSheet = useRef()
   const {navigate} = useRoutes()
+  const [category, setCategory] = useState<any>('친구')
   const {data: friends} = useFriendList()
   const openMoreModal = () => refRBSheet?.current?.open()
   const [clickedInfo, setClickedInfo] = useState<{id: number; name: string} | null>(null)
   const resetInfo = () => setClickedInfo(null)
+  const CATEGORY = ['친구', '요청']
+
   return (
     <View style={styles.container}>
-      <View style={styles.search}>
+      {/* <View style={styles.search}>
         <TextInput placeholder="닉네임으로 검색" placeholderTextColor={'#666'} />
         <Image source={Images.ico_search} style={styles.search_icon} />
+      </View> */}
+      <View style={styles.row}>
+        {CATEGORY.map(name => (
+          <TouchableOpacity key={name} onPress={() => setCategory(name)} style={styles[category === name ? 'activetab' : 'tab']}>
+            <Text style={{color: category === name ? 'white' : 'black', ...font.NotoSansKR_Medium}}>{name}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
       <FlatList
-        style={{padding: 20, marginTop: 20, paddingVertical: 0}}
+        style={{marginTop: 20}}
         data={friends}
         renderItem={friend => (
           <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 15}}>
@@ -30,7 +41,6 @@ const MypageFriend = () => {
             </View>
             <TouchableOpacity
               onPress={() => {
-                // console.log('friend.item.id?', friend.item.id)
                 setClickedInfo({id: friend.item.memberId, name: friend.item.nickname})
                 openMoreModal()
               }}>
@@ -80,7 +90,7 @@ const MypageFriend = () => {
 export default MypageFriend
 
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: '#fff'},
+  container: {flex: 1, backgroundColor: '#fff', padding: 17},
   search: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -101,5 +111,24 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
   },
 
-  row: {display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10},
+  row: {display: 'flex', flexDirection: 'row', alignItems: 'center'},
+
+  tab: {
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginRight: 4,
+    borderRadius: 99,
+    borderWidth: 1,
+    borderColor: '#DDDDDD',
+    backgroundColor: 'white',
+  },
+  activetab: {
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginRight: 4,
+    borderRadius: 99,
+    borderWidth: 1,
+    borderColor: '#DDDDDD',
+    backgroundColor: 'black',
+  },
 })

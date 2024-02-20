@@ -1,8 +1,6 @@
-import {UserInfo} from './../store/index'
 import {useAtom} from 'utils/jotai'
 import {userData} from 'store'
 import {clearAllAsyncStorage, getUserInfo, setUserInfo} from 'utils/asyncStorage'
-import {useEffect} from 'react'
 
 export const init = {
   id: 0,
@@ -32,9 +30,6 @@ const useUserInfo = () => {
     setUser(info)
   }
 
-  useEffect(() => {
-    console.log('user', user)
-  }, [user])
   return {user, setUserInfo, updateUserData, initUserInfo, clearUserInfo}
 }
 

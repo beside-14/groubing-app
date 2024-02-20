@@ -7,7 +7,7 @@ import 'react-native-devsettings'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import PushNotification from 'react-native-push-notification'
 const queryClient = new QueryClient()
-// import {SheetProvider} from 'react-native-actions-sheet'
+
 import 'components/common/sheets'
 import {getToken} from 'utils/asyncStorage'
 import useUserInfo from 'hooks/useUserInfo'
@@ -18,7 +18,7 @@ import {Text} from 'react-native'
 const App = () => {
   const [loading, setLoading] = useState(true)
   const [isLogged, setIsLogged] = useAtom(isLoggedAtom)
-  const {updateUserData, user, initUserInfo} = useUserInfo()
+  const {initUserInfo} = useUserInfo()
 
   useEffect(() => {
     // 로그인 여부 확인

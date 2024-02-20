@@ -33,7 +33,7 @@ const Kakao = () => {
     getDeviceToken().then(async token => {
       const res = await fetchSocialLogin(email, data[1], id, token)
 
-      updateUserData({...res, id: id, email: email})
+      updateUserData({...res, id: res.id, email: res.email})
       setToken(res.token)
       if (!res.hasNickname) {
         navigate('Nickname')

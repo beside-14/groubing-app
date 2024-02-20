@@ -1,45 +1,18 @@
-import React, {useRef, useState, useEffect} from 'react'
+import React, {useRef} from 'react'
 import {StatusBar} from 'react-native'
 import {createStackNavigator} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native'
-
-import {getToken, getUserInfo} from 'utils/asyncStorage'
 import {isLoggedAtom} from 'store'
-import {useAtom} from 'utils/jotai'
+import {useAtomValue} from 'utils/jotai'
 
 import {screens} from './screens'
 import {AuthNavigator, SplashScreen, TabNavigator} from './components'
-import useUserInfo from 'hooks/useUserInfo'
 
 const Root = createStackNavigator()
 
 const StackNavigator = () => {
   const navigationRef = useRef<undefined | any>()
-  const [loading, setLoading] = useState(true)
-  const [isLogged, setIsLogged] = useAtom(isLoggedAtom)
-
-  // useEffect(() => {
-  //   // 로그인 여부 확인
-  //   const checkToken = async () => {
-  //     const token = await getToken()
-  //     if (token) {
-  //       initUserInfo()
-  //       setIsLogged(true)
-  //     }
-  //     setLoading(false)
-  //   }
-  //   checkToken()
-  // }, [])
-
-  // useEffect(() => {
-  //   // 로그인 유저 정보 확인
-  //   // console.log('???', isLogged)
-  //   // checkUserInfo()
-
-  //   if (isLogged) {
-  //     initUserInfo()
-  //   }
-  // }, [isLogged])
+  const isLogged = useAtomValue(isLoggedAtom)
 
   return (
     <NavigationContainer ref={navigationRef}>

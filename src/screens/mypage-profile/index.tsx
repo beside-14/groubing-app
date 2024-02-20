@@ -42,7 +42,9 @@ const MypageProfile = () => {
         const nameRes = await patchNickname(user?.id, nickname)
         if (nameRes) {
           updateUserData(prev => ({...prev, profileUrl: imageRes, nickname: nickname}))
+          Alert.alert('변경이 완료되었습니다.')
           back()
+          Alert.alert('변경이 완료되었습니다.')
         }
       }
     } else if (nickname !== user?.nickname) {
@@ -50,12 +52,14 @@ const MypageProfile = () => {
 
       if (res) {
         updateUserData({...user, nickname: nickname})
+        Alert.alert('변경이 완료되었습니다.')
         back()
       }
     } else if (selectedImage !== user?.profileUrl) {
       const res = await patchProfileImage(user?.id, selectedImage!)
 
       updateUserData({profileUrl: res})
+      Alert.alert('변경이 완료되었습니다.')
       back()
     }
   }
@@ -73,7 +77,7 @@ const MypageProfile = () => {
           <Image style={styles.pencil} source={Images.ico_pencil} />
         </View>
       </TouchableOpacity>
-      <Text style={styles.nickname}>{user?.nickname}</Text>
+      <Text style={styles.nickname}>닉네임</Text>
       <TextInput style={styles.nickname_input} value={nickname} onChangeText={text => setNickname(text)} maxLength={7} />
       <View style={styles.nickname_info}>
         <Image style={styles.nickname_info_img} source={Images.caution_icon_gray} />

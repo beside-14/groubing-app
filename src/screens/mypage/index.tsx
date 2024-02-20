@@ -33,7 +33,7 @@ const Mypage = () => {
   const handleProfile = () => {
     navigate(MENU.MYPAGE_PROFILE)
   }
-  console.log('프로필 url 에', user?.profileUrl)
+
   // console.log('###', userInfo?.profileUrl ? {uri: `${API_URL}${userInfo?.profileUrl}`} : Images.profile)
   return (
     <SafeAreaView style={styles.container}>
