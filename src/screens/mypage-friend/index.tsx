@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react'
-import {View, Text, Image, StyleSheet, TextInput, FlatList, TouchableOpacity} from 'react-native'
+import {View, Text, Image, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
 import {Images} from 'assets'
 import {useFriendList} from './remote'
 import RBSheet from 'react-native-raw-bottom-sheet'
@@ -8,10 +8,10 @@ import {MENU} from 'navigation/menu'
 import {font} from 'shared/styles'
 
 const MypageFriend = () => {
-  const refRBSheet = useRef()
+  const refRBSheet: any = useRef()
   const {navigate} = useRoutes()
   const [category, setCategory] = useState<any>('친구')
-  const {data: friends} = useFriendList()
+  const {data: friends} = useFriendList(category)
   const openMoreModal = () => refRBSheet?.current?.open()
   const [clickedInfo, setClickedInfo] = useState<{id: number; name: string} | null>(null)
   const resetInfo = () => setClickedInfo(null)
@@ -33,21 +33,41 @@ const MypageFriend = () => {
       <FlatList
         style={{marginTop: 20}}
         data={friends}
-        renderItem={friend => (
-          <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 15}}>
-            <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
-              <Image style={{width: 36, height: 36}} source={friend.item.profile ? friend.item.profile : Images.icon_profile} />
-              <Text>{friend.item.nickname}</Text>
+        renderItem={friend => {
+          if (category === '요청')
+            return (
+              <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: 15, gap: 16}}>
+                <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
+                  <Image style={{width: 36, height: 36}} source={friend.item.profile ? friend.item.profile : Images.icon_profile} />
+                  {/* <Text>{friend.item.nickname}</Text> */}
+                </View>
+
+                <Text style={{...font.NotoSansKR_Medium}}>{friend.item.nickname}님과 친구가 되었어요 :)</Text>
+                {/* <TouchableOpacity
+                  onPress={() => {
+                    setClickedInfo({id: friend.item.memberId, name: friend.item.nickname})
+                    openMoreModal()
+                  }}>
+                  <Image source={Images.icon_more} style={{width: 25, height: 25}} />
+                </TouchableOpacity> */}
+              </View>
+            )
+          return (
+            <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 15}}>
+              <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
+                <Image style={{width: 36, height: 36}} source={friend.item.profile ? friend.item.profile : Images.icon_profile} />
+                <Text>{friend.item.nickname}</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  setClickedInfo({id: friend.item.memberId, name: friend.item.nickname})
+                  openMoreModal()
+                }}>
+                <Image source={Images.icon_more} style={{width: 25, height: 25}} />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              onPress={() => {
-                setClickedInfo({id: friend.item.memberId, name: friend.item.nickname})
-                openMoreModal()
-              }}>
-              <Image source={Images.icon_more} style={{width: 25, height: 25}} />
-            </TouchableOpacity>
-          </View>
-        )}
+          )
+        }}
       />
       <RBSheet
         ref={refRBSheet}
@@ -102,7 +122,7 @@ const styles = StyleSheet.create({
     borderRadius: 99,
     height: 40,
   },
-  // search_text: {flex: 0.9, ...font.NotoSansKR_Regular, fontSize: 14},
+
   search_icon: {width: 20, height: 20, marginRight: 10},
   profile: {
     width: 36,

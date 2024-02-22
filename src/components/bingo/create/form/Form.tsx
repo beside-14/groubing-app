@@ -140,49 +140,6 @@ const Goal = () => {
   )
 }
 
-const Period = () => {
-  const [data, setData] = useAtom(bingo_base_data_atom)
-  const [datePicker, setDatePicker] = useState('false')
-  const [visible, setVisible] = useState<boolean>(false)
-  const openCalendar = () => {
-    // setVisible(true)
-  }
-  const onConfirm = (type, selectedDate) => {
-    let formatdate = format(selectedDate, 'yyyy-MM-dd')
-    setData(prev => {
-      return {...prev, [type]: formatdate}
-    })
-  }
-
-  const onCancel = () => {
-    // setVisible(false)
-  }
-
-  return (
-    <View>
-      <Text style={styles.question}>빙고 진행 기간을 입력해주세요.</Text>
-      <View style={styles.counterContainer}>
-        <TouchableOpacity onPress={() => setDatePicker('since')}>
-          <Text style={styles.date}>{data.since}</Text>
-        </TouchableOpacity>
-        <Text style={{marginHorizontal: 20}}>~</Text>
-        <TouchableOpacity onPress={() => setDatePicker('until')}>
-          <Text style={styles.date}>{data.until}</Text>
-        </TouchableOpacity>
-      </View>
-      <DateTimePickerModal
-        isVisible={datePicker !== 'false'}
-        mode="date"
-        onConfirm={date => {
-          onConfirm(datePicker, date)
-          setDatePicker('false')
-        }}
-        onCancel={() => setDatePicker('false')}
-      />
-    </View>
-  )
-}
-
 const STEP: any = {
   '빙고 타입': <Type />,
   '빙고 공개 여부': <Public />,

@@ -4,9 +4,8 @@ import {createStackNavigator} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native'
 import {isLoggedAtom} from 'store'
 import {useAtomValue} from 'utils/jotai'
-
 import {screens} from './screens'
-import {AuthNavigator, SplashScreen, TabNavigator} from './components'
+import {AuthNavigator, TabNavigator} from './components'
 
 const Root = createStackNavigator()
 

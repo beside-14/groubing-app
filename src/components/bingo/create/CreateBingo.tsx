@@ -1,6 +1,5 @@
 import {StyleSheet, SafeAreaView, View, KeyboardAvoidingView, Platform} from 'react-native'
 import React, {useState} from 'react'
-
 import StepBar from './StepBar'
 import {Form} from './form/Form'
 import {isIphoneX} from 'react-native-iphone-x-helper'

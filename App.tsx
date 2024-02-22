@@ -68,7 +68,7 @@ const App = () => {
       <GestureHandlerRootView style={{flex: 1}}>
         {/* <SheetProvider> */}
 
-        {loading ? <Text>스플래시</Text> : <StackNavigator />}
+        {loading ? <Text></Text> : <StackNavigator />}
 
         {/* </SheetProvider> */}
       </GestureHandlerRootView>
