@@ -1,10 +1,5 @@
-import React from 'react'
-import {getAsyncStorage, setAsyncStorage, setToken, setUserInfo} from 'utils/asyncStorage'
-import {fetchSocialLogin, getDeviceToken} from './auth'
 import {login as KakaoLogin, getProfile} from '@react-native-seoul/kakao-login'
 import appleAuth from '@invertase/react-native-apple-authentication'
-import {useRoutes} from './useRoutes'
-import {useIsLogged} from './useIsLogged'
 
 export const getAppleInfo = async () => {
   const appleAuthRequestResponse = await appleAuth.performRequest({

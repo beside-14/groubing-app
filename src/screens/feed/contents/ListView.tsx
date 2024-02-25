@@ -1,6 +1,6 @@
 import {SectionList} from 'react-native'
 import React, {useRef} from 'react'
-import {StyleSheet, SafeAreaView, Text, Image, TouchableOpacity, Alert} from 'react-native'
+import {StyleSheet, Text, Image, TouchableOpacity, Alert} from 'react-native'
 
 import {View} from 'react-native'
 

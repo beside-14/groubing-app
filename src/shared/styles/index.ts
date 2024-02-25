@@ -1,3 +1,5 @@
+import {StyleSheet} from 'react-native'
+
 type FontType = {
   fontFamily: string
   fontWeight: 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900'
@@ -46,3 +48,19 @@ export const font: Record<FontFamilyType, FontType> = {
     fontWeight: '100',
   },
 }
+
+export const flex_css = StyleSheet.create({
+  flex_row: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  flex_column: {display: 'flex', flexDirection: 'column'},
+  flex_wrap: {
+    flexWrap: 'wrap',
+  },
+  flex_center: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})

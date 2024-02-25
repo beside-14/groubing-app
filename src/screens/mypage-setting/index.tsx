@@ -7,6 +7,7 @@ import {useIsLogged} from 'hooks/useIsLogged'
 import {useRoutes} from 'hooks/useRoutes'
 import {MENU} from 'navigation/menu'
 import useUserInfo from 'hooks/useUserInfo'
+import {useQueryClient} from '@tanstack/react-query'
 
 type ListItemName = '비밀번호 변경' | '로그아웃' | '회원탈퇴'
 type ListItemType = {
@@ -26,7 +27,7 @@ const MypageSetting = () => {
   const {logout} = useIsLogged()
   const {back, navigate} = useRoutes()
   const {clearUserInfo} = useUserInfo()
-
+  const queryClient = useQueryClient()
   const handleItemClick = (name: ListItemName) => {
     if (name === '비밀번호 변경') {
       navigate(MENU.PASSWORD_CHANGE)
@@ -45,6 +46,9 @@ const MypageSetting = () => {
   const handleModalCompletePress = () => {
     try {
       clearUserInfo()
+
+      // 전체 쿼리 캐시를 삭제
+      queryClient.clear()
       logout()
       back()
       // TODO: 로그아웃 완료 toast

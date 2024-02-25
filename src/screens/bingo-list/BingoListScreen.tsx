@@ -7,7 +7,7 @@ import {Images} from 'assets'
 import {Image} from 'react-native'
 import useUserInfo from 'hooks/useUserInfo'
 import {Card, TemporaryCard} from './components'
-import {font} from 'shared/styles'
+import {flex_css, font} from 'shared/styles'
 import {DeviceEventEmitter} from 'react-native'
 
 type Category = 'ALL' | '개인' | '그룹'
