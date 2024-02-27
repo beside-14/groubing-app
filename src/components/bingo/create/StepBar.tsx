@@ -5,28 +5,31 @@ import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native'
 import {set_now_step} from 'screens/board/store'
 
 type StepBarProps = {
-  step: number
+  now: number
+  setNowStep: (index: number) => void
 }
+const TOTAL_STEP = 4
 
-export default function StepBar({step}: StepBarProps) {
-  const [nowStep, setNowStep] = useAtom(set_now_step)
-
+export default function StepBar({setNowStep, now}: StepBarProps) {
   const stepCont = []
 
-  for (let i = 1; i <= step; i++) {
-    const isCurrentStep = i === nowStep
-    const isFinishedStep = i < nowStep
+  for (let i = 1; i <= TOTAL_STEP; i++) {
+    const isCurrentStep = i === now
+    const isFinishedStep = i < now
 
     stepCont.push(
       <TouchableOpacity key={i} onPress={() => setNowStep(i)}>
-        <Image
-          source={isCurrentStep ? Images.step_icon_now : isFinishedStep ? Images.step_icon_end : Images.step_icon_default}
-          style={isCurrentStep ? styles.stepNow : styles.step}
-        />
+        {isCurrentStep ? (
+          <Image source={Images.step_icon_now} style={styles.stepNow} />
+        ) : isFinishedStep ? (
+          <View style={styles.default_step} />
+        ) : (
+          <View style={styles.gray_step} />
+        )}
       </TouchableOpacity>,
     )
 
-    if (i < step) {
+    if (i < TOTAL_STEP) {
       stepCont.push(<View key={`line_${i}`} style={isFinishedStep ? styles.lineNow : styles.line} />)
     }
   }
@@ -43,9 +46,10 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   step: {
-    width: 12,
-    height: 12,
+    width: 14,
+    height: 14,
     marginHorizontal: 0,
+    backgroundColor: 'orange',
   },
   stepNow: {
     width: 24,
@@ -64,4 +68,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#3A8ADB',
     marginHorizontal: 0,
   },
+
+  default_step: {
+    width: 14,
+    height: 14,
+    backgroundColor: '#3A8ADB',
+    borderRadius: 14,
+    zIndex: 6,
+  },
+  gray_step: {
+    width: 14,
+    height: 14,
+    backgroundColor: '#DDDDDD',
+    borderRadius: 14,
+  },
+  now_step_wrapper: {padding: 6.5, backgroundColor: 'rgba(58, 138, 219, 0.1)', opacity: 0.1, zIndex: 4},
 })

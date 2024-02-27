@@ -3,6 +3,7 @@ import {TouchableOpacity, Image, StyleSheet, Text} from 'react-native'
 import {useRoutes} from 'hooks/useRoutes'
 import {Images} from 'assets'
 import {hipslap} from 'screens/board/BingoScreen'
+import {font} from 'shared/styles'
 
 type NavigatorHeaderProps = {
   title?: string
@@ -34,8 +35,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#000000',
-    fontFamily: 'NotoSansKR_500Medium',
     fontSize: 18,
-    fontWeight: '500',
+    ...font.NotoSansKR_Medium,
   },
 })

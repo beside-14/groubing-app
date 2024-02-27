@@ -36,15 +36,14 @@ const MypageProfile = () => {
 
   const handleComplete = async () => {
     if (nickname !== user?.nickname && selectedImage !== null) {
-      const imageRes = await patchProfileImage(user?.id as number, selectedImage!)
+      const nameRes = await patchNickname(user?.id, nickname)
 
-      if (imageRes) {
-        const nameRes = await patchNickname(user?.id, nickname)
-        if (nameRes) {
-          updateUserData(prev => ({...prev, profileUrl: imageRes, nickname: nickname}))
+      if (nameRes) {
+        const imageRes = await patchProfileImage(user?.id as number, selectedImage!)
+        if (imageRes) {
+          updateUserData({profileUrl: imageRes, nickname: nickname})
           Alert.alert('변경이 완료되었습니다.')
           back()
-          Alert.alert('변경이 완료되었습니다.')
         }
       }
     } else if (nickname !== user?.nickname) {

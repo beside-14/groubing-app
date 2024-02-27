@@ -135,14 +135,14 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   countText: {
-    fontFamily: 'NotoSansKR_500Medium',
+    ...font.NotoSansKR_Medium,
     fontSize: 16,
     marginHorizontal: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },
   title: {fontWeight: '500', fontSize: 15},
-  input: {borderBottomWidth: 1, fontSize: 16, height: 45, width: '70%', fontFamily: 'NotoSansKR_400Regular'},
+  input: {borderBottomWidth: 1, fontSize: 16, height: 45, width: '70%', ...font.NotoSansKR_Regular},
   date: {fontSize: 16},
   nextBtn: {
     position: 'absolute',

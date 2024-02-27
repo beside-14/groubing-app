@@ -1,5 +1,5 @@
 import {StyleSheet, SafeAreaView, View, KeyboardAvoidingView, Platform} from 'react-native'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import StepBar from './StepBar'
 import {Form} from './form/Form'
 import {isIphoneX} from 'react-native-iphone-x-helper'
@@ -17,7 +17,7 @@ const CreateBingo = () => {
       <SafeAreaView style={styles.safeAreaContainer}>
         {/* 스텝바 */}
         <View style={styles.stepBarContainer}>
-          <StepBar step={4} now={nowStep} goback={setNowStep} />
+          <StepBar now={nowStep} setNowStep={setNowStep} />
         </View>
         {/* 바디 콘테이너 */}
         <Form steptext={STEP[nowStep - 1]} stepnum={nowStep} setNowStep={setNowStep} />
