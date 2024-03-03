@@ -1,9 +1,10 @@
 import {API} from 'utils/axios'
 
-export const getBingo = async id => {
-  const res = await API.get(`/api/bingo-boards/${id}`)
+export const getBingo = async (bingoid: number, memberId: number) => {
+  const res = await API.get(`/api/bingo-boards/${bingoid}?memberId=${memberId}`)
   return res
 }
+
 export const deleteBingo = async id => {
   const res = await API.delete(`/api/bingo-boards/${id}`)
   return res

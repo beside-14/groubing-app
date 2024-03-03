@@ -7,13 +7,17 @@ import {MiniBoard} from './MiniBoard'
 import {Alert} from 'react-native'
 import {deleteBingo} from 'screens/board/remote/bingo'
 import {Images} from 'assets'
+import {useRoute} from '@react-navigation/native'
+import useUserInfo from 'hooks/useUserInfo'
 
 //일반빙고카드
 export const Card = ({item}) => {
   const {id, title, since, until, goal, groupType, open, bingoLines, totalBingoCount, completed, bingoColorValue} = item || {}
   const type = groupType === 'SINGLE' ? '개인' : '그룹'
+  const {user} = useUserInfo()
+
   const {navigate} = useRoutes()
-  const goToBoard = (id: number) => navigate(MENU.BINGO_BOARD, {id: id})
+  const goToBoard = (id: number) => navigate(MENU.BINGO_BOARD, {memberId: user.id, boardId: id})
 
   return (
     <TouchableOpacity onPress={() => goToBoard(id)} style={styles.block}>
@@ -40,8 +44,9 @@ export const TemporaryCard = ({item, refetch}) => {
   const {id, title, groupType} = item || {}
   const type = groupType === 'SINGLE' ? '개인' : '그룹'
   const {navigate} = useRoutes()
+  const {user} = useUserInfo()
 
-  const goToBoard = (id: number) => navigate(MENU.BINGO_BOARD, {id: id})
+  const goToBoard = (id: number) => navigate(MENU.BINGO_BOARD, {memberId: user.id, boardId: id})
   const deleteBoard = async (id: number) => {
     const res = await deleteBingo(id)
 

@@ -27,7 +27,7 @@ export const hipslap = {top: 32, bottom: 32, left: 32, right: 32}
 const BingoScreen = () => {
   const {navigate, back} = useRoutes()
   const {params} = useRoute()
-  const {fromCreate, id, isfriend} = params || {}
+  const {fromCreate, memberId, boardId, isfriend} = params || {}
 
   const refRBSheet = useRef()
 
@@ -60,7 +60,7 @@ const BingoScreen = () => {
 
   useEffect(() => {
     ;(async () => {
-      const res = await getBingo(id)
+      const res = await getBingo(boardId, memberId)
       setBingoCount(res.data.data.bingoMap.totalBingoCount)
       setData(res.data.data)
       setOtherBingos(res.data.data.otherBingoMaps)
@@ -70,7 +70,7 @@ const BingoScreen = () => {
   useEffect(() => {
     if (!refetch) return
     ;(async () => {
-      const res = await getBingo(id)
+      const res = await getBingo(boardId, memberId)
       setBingoCount(res.data.data.bingoMap.totalBingoCount)
       setData(res.data.data)
       setOtherBingos(res.data.data.otherBingoMaps)

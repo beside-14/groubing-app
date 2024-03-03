@@ -100,7 +100,7 @@ export const screens: ScreenItemType[] = [
     component: SearchFriend,
     options: {
       ...defaultOptions,
-      headerLeft: () => <NavigatorHeader title={'친구 관리'} />,
+      headerLeft: () => <NavigatorHeader title={'친구 추가'} />,
     },
   },
   {

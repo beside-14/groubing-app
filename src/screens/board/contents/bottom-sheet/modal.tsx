@@ -68,7 +68,7 @@ export const MemoInput = ({close}) => {
 
 export const ItemInput = ({close}) => {
   const {params} = useRoute()
-  const {id: boardId} = params || {}
+  const {boardId} = params || {}
   const [state, setState] = useAtom(register_item_atom)
   const [content, setContent] = useState<{title: string; subTitle: string}>({
     title: '',
@@ -298,7 +298,7 @@ export const InviteModal = ({editDate, close, refetch}) => {
 
 export const DateModal = ({info, group, close, refetch}) => {
   const {params} = useRoute()
-  const {id} = params || {}
+  const {boardId} = params || {}
   const dateobject = new Date()
   const today = format(dateobject, 'yyyy-MM-dd')
   const inituntil = format(addMonths(dateobject, 1), 'yyyy-MM-dd')
@@ -315,7 +315,7 @@ export const DateModal = ({info, group, close, refetch}) => {
   const update = async () => {
     if (group) return close(date)
 
-    const res = await updateBingoInfo(id, {...info, ...date})
+    const res = await updateBingoInfo(boardId, {...info, ...date})
 
     if (res.data.code === 'OK') {
       refetch()

@@ -14,10 +14,11 @@ export const FriendBingoList = () => {
   const {navigate} = useRoutes()
   const {params} = useRoute()
 
-  const {id, name} = params
-  const {data: bingos} = useQuery(['friend-bingo-list', id], () => getBingoList(id))
+  const {id: memberId, name} = params
 
-  const goToBoard = (id: number) => navigate(MENU.BINGO_BOARD, {id: id, isfriend: true})
+  const {data: bingos} = useQuery(['friend-bingo-list', memberId], () => getBingoList(memberId))
+
+  const goToBoard = (id: number) => navigate(MENU.BINGO_BOARD, {memberId: memberId, boardId: id, isfriend: true})
 
   return (
     <SafeAreaView style={styles.container}>

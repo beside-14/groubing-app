@@ -30,7 +30,7 @@ export const ItemRegisterSheet = ({boardId}: {boardId: number | undefined}) => {
     if (!boardId) return
 
     const res = await registerItem(content, boardId, state.id as number)
-    console.log('additem 결과값:', res)
+
     reset()
     bottomSheetRef?.current?.close()
     setState({mode: false, id: null})

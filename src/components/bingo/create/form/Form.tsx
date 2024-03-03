@@ -1,14 +1,14 @@
 import {StyleSheet, Text, ScrollView, View, TextInput, TouchableOpacity, Alert} from 'react-native'
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 
 import {createBingo} from '../remote'
 import {useRoutes} from 'hooks/useRoutes'
 import {useAtom, useAtomValue} from 'jotai'
 import {bingoBaseData, bingo_base_data_atom} from 'screens/board/store'
 import {MENU} from 'navigation/menu'
-import DateTimePickerModal from 'react-native-modal-datetime-picker'
-import {format} from 'date-fns'
+
 import {font} from 'shared/styles'
+import useUserInfo from 'hooks/useUserInfo'
 
 const Type = () => {
   const [data, setData] = useAtom(bingo_base_data_atom)
@@ -181,7 +181,7 @@ const Input = ({step}: {step: string}) => {
 export const Form = ({steptext, stepnum, setNowStep}) => {
   const {navigate} = useRoutes()
   const [data, setData] = useAtom(bingo_base_data_atom)
-
+  const {user} = useUserInfo()
   return (
     <>
       <View style={styles.headerContainer}>
@@ -197,7 +197,7 @@ export const Form = ({steptext, stepnum, setNowStep}) => {
 
             if (res.code === 'OK') {
               setData(bingoBaseData)
-              return navigate(MENU.BINGO_BOARD, {id: res.data.id, fromCreate: true})
+              return navigate(MENU.BINGO_BOARD, {memberId: user.id, boardId: res.data.id, fromCreate: true})
             } else {
               return console.log('생성실패 토큰확인')
             }
