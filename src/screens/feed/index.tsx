@@ -1,17 +1,25 @@
 import React from 'react'
-import {StyleSheet, SafeAreaView} from 'react-native'
+import {StyleSheet, SafeAreaView, Text} from 'react-native'
 import {FeedHeader, FeedTab} from './contents'
 
 import Tabs from './contents/tab/Tab'
 import TabPane from './contents/tab/TabPane'
 import {ListView} from './contents/ListView'
+import {useModal} from 'hooks/useModal'
+import {Modals} from 'components/common/Modals'
+import {TouchableOpacity} from 'react-native-gesture-handler'
 
 const Feed = () => {
+  const {isOpen, onClose, onOpen} = useModal('feed_more')
+
   return (
     <SafeAreaView style={styles.container}>
       {/* 헤더 */}
       <FeedHeader />
       {/* 탭 */}
+      {/* <TouchableOpacity style={{backgroundColor: 'orange', width: 100, height: 100}} onPress={() => (isOpen ? onClose() : onOpen())}>
+        <Text>1</Text>
+      </TouchableOpacity> */}
       <Tabs>
         <TabPane title="빙고 둘러보기">
           <ListView type={'all'} />
@@ -21,6 +29,7 @@ const Feed = () => {
           <ListView type={'friend'} />
         </TabPane>
       </Tabs>
+      <Modals />
     </SafeAreaView>
   )
 }

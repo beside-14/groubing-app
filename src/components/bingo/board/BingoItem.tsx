@@ -77,10 +77,10 @@ const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly, i
         source={{
           uri: `${API_URL}/api/files/bingo-item-image/${select ? `${img[0]}_complete.png` : img}`,
           headers: {
-            Authorization: user.token,
+            Authorization: `Bearer ${user.token}`,
           },
         }}
-        style={{position: 'absolute', bottom: 0, right: 0, width: size === 4 ? 60 : 80, height: size === 4 ? 60 : 80, backgroundColor: 'orange'}}
+        style={{position: 'absolute', bottom: 0, right: 0, width: size === 4 ? 60 : 80, height: size === 4 ? 60 : 80}}
       />
     </TouchableOpacity>
   )

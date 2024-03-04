@@ -1,18 +1,12 @@
 import {View, Text, TouchableOpacity, Image, Alert, Switch, TextInput} from 'react-native'
-
 import React, {useState, useEffect} from 'react'
-
 import {deleteBingo, getFriends, publicBoard, publishBingo, registerItem} from '../../remote/bingo'
-
 import {useRoutes} from 'hooks/useRoutes'
 import {useRoute} from '@react-navigation/native'
-
 import {useAtom, useSetAtom} from 'jotai'
 import {addMonths, register_item_atom, retech_atom, show_edit_box_atom, update_memo_atom} from '../../store'
 import {Images} from 'assets'
-
 import {MENU} from 'navigation/menu'
-
 import {FlatList} from 'react-native-gesture-handler'
 import {format} from 'date-fns'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'

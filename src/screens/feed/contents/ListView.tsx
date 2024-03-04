@@ -1,12 +1,8 @@
 import {SectionList} from 'react-native'
 import React, {useRef} from 'react'
 import {StyleSheet, Text, Image, TouchableOpacity, Alert} from 'react-native'
-
 import {View} from 'react-native'
-
 import {Images} from 'assets'
-import RBSheet from 'react-native-raw-bottom-sheet'
-
 import useUserInfo from 'hooks/useUserInfo'
 import {useRoutes} from 'hooks/useRoutes'
 import {MENU} from 'navigation/menu'
@@ -14,6 +10,8 @@ import {MENU} from 'navigation/menu'
 import {useFeeds} from '../remote/useFeeds'
 import {requestFriends} from '../remote/requestFriend'
 import {API_URL} from 'api/restful'
+import {BottomSheetContainer} from 'components/common/Modals'
+import {useModal} from 'hooks/useModal'
 
 const List = ({title, isLast}: {title: string; isLast: boolean}) => {
   return (
@@ -30,6 +28,7 @@ const List = ({title, isLast}: {title: string; isLast: boolean}) => {
 
 const Header = ({name, id, profile, isfriend}) => {
   const refRBSheet = useRef()
+  const {onOpen} = useModal('feed_more')
   const openMoreModal = () => refRBSheet?.current?.open()
   const {user} = useUserInfo()
 
@@ -53,35 +52,18 @@ const Header = ({name, id, profile, isfriend}) => {
         </TouchableOpacity>
 
         {me || isfriend ? null : (
-          <TouchableOpacity onPress={() => openMoreModal()}>
+          <TouchableOpacity onPress={() => onOpen()}>
             <Image source={Images.icon_more} style={{width: 30, height: 30}} />
           </TouchableOpacity>
         )}
       </View>
-      <RBSheet
-        ref={refRBSheet}
-        closeOnDragDown={true}
-        closeOnPressMask={true}
-        height={200}
-        customStyles={{
-          wrapper: {
-            backgroundColor: 'rgba(0, 0, 0, 0.65)',
-          },
-          draggableIcon: {
-            backgroundColor: '#000',
-          },
-          container: {borderTopLeftRadius: 20, borderTopRightRadius: 20},
-        }}>
+      <BottomSheetContainer type="feed_more" height={130}>
         <View style={{width: '1000%', padding: 20}}>
           <TouchableOpacity onPress={() => requestFriend(id)} style={{paddingVertical: 15}}>
             <Text style={{fontWeight: '700', fontSize: 18}}>{name}님에게 친구신청</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity style={{paddingVertical: 15}} onPress={() => refRBSheet?.current?.close()}>
-            <Text style={{fontWeight: '700', fontSize: 18}}>취소</Text>
-          </TouchableOpacity>
         </View>
-      </RBSheet>
+      </BottomSheetContainer>
     </View>
   )
 }

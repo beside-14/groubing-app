@@ -40,7 +40,7 @@ const Notification = () => {
           </TouchableOpacity>
         ))}
       </View>
-      {isLoading ? null : notifications.length === 0 ? (
+      {isLoading ? null : notifications?.length === 0 ? (
         <View style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <View style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <Image source={Images.emoji_01} style={{width: 75, height: 75}} />

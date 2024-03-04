@@ -13,6 +13,7 @@ import {BingoGoalText} from './contents/BingoGoalText'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import {DateModal, InviteModal, MemoInput, ItemInput, MoreModal, PublicModal} from './contents/bottom-sheet/modal'
 import {font} from 'shared/styles'
+import {useModal} from 'hooks/useModal'
 
 type BingoGoalText = {
   bingoPercent: number
