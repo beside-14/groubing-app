@@ -22,6 +22,7 @@ export const updateMemo = async (baordId: number, content: string) => {
   const payload = {
     memo: content,
   }
+
   return await API.patch(`/api/bingo-boards/${baordId}/memo`, payload)
 }
 

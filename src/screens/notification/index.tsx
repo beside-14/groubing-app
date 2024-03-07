@@ -9,10 +9,10 @@ import {acceptFriend, refuseFriend} from './remote'
 import {useRoutes} from 'hooks/useRoutes'
 import {MENU} from 'navigation/menu'
 
-export type ALARM_CATEGORY = '활동 알림' | '친구 요청'
+export type ALARM_CATEGORY = '활동 알림' | '받은 요청' | '보낸 요청'
 
 const Notification = () => {
-  const CATEGORY: ALARM_CATEGORY[] = ['활동 알림', '친구 요청']
+  const CATEGORY: ALARM_CATEGORY[] = ['활동 알림', '받은 요청', '보낸 요청']
 
   const [active, setActive] = useState<ALARM_CATEGORY>('활동 알림')
   const {data, refetch, isLoading} = useNotifications(active)

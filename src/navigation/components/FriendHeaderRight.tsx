@@ -1,11 +1,14 @@
 import React from 'react'
 import {Image, StyleSheet, TouchableOpacity} from 'react-native'
 import {Images} from 'assets'
+import {useRoutes} from 'hooks/useRoutes'
+import {MENU} from 'navigation/menu'
 
 export const FriendHeaderRight = () => {
+  const {navigate} = useRoutes()
   return (
-    <TouchableOpacity style={styles.container}>
-      <Image source={Images.ico_setting} style={styles.img} />
+    <TouchableOpacity onPress={() => navigate(MENU.SEARCH_FRIEND)} style={styles.container}>
+      <Image source={Images.icon_make} style={styles.img} />
     </TouchableOpacity>
   )
 }

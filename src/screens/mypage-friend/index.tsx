@@ -1,74 +1,73 @@
 import React, {useRef, useState} from 'react'
-import {View, Text, Image, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
+import {View, Text, Image, StyleSheet, FlatList, TouchableOpacity, TextInput} from 'react-native'
 import {Images} from 'assets'
 import {useFriendList} from './remote'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import {useRoutes} from 'hooks/useRoutes'
 import {MENU} from 'navigation/menu'
-import {font} from 'shared/styles'
+import Autocomplete from 'react-native-autocomplete-input'
 
 const MypageFriend = () => {
   const refRBSheet: any = useRef()
   const {navigate} = useRoutes()
-  const [category, setCategory] = useState<any>('친구')
-  const {data: friends} = useFriendList(category)
-  const openMoreModal = () => refRBSheet?.current?.open()
-  const [clickedInfo, setClickedInfo] = useState<{id: number; name: string} | null>(null)
-  const resetInfo = () => setClickedInfo(null)
-  const CATEGORY = ['친구', '요청']
 
+  const [query, setQuery] = useState('')
+  const [clickedInfo, setClickedInfo] = useState<{id: number; name: string} | null>(null)
+
+  const {data: friends, isLoading} = useFriendList('친구')
+  const openMoreModal = () => refRBSheet?.current?.open()
+  const resetInfo = () => setClickedInfo(null)
+
+  const findData = (value: string) => {
+    if (value === '') {
+      return friends
+    }
+
+    const regex = new RegExp(`${query.trim()}`, 'i')
+    return friends.filter(item => {
+      return item.nickname.search(regex) >= 0
+    })
+  }
+
+  if (isLoading) return null
   return (
     <View style={styles.container}>
-      {/* <View style={styles.search}>
-        <TextInput placeholder="닉네임으로 검색" placeholderTextColor={'#666'} />
+      <View style={styles.search}>
+        <TextInput style={{height: '100%', width: '80%'}} placeholder="검색하세요" onChangeText={text => setQuery(text)} value={query} />
         <Image source={Images.ico_search} style={styles.search_icon} />
-      </View> */}
-      <View style={styles.row}>
-        {CATEGORY.map(name => (
-          <TouchableOpacity key={name} onPress={() => setCategory(name)} style={styles[category === name ? 'activetab' : 'tab']}>
-            <Text style={{color: category === name ? 'white' : 'black', ...font.NotoSansKR_Medium}}>{name}</Text>
-          </TouchableOpacity>
-        ))}
       </View>
-      <FlatList
-        style={{marginTop: 20}}
-        data={friends}
-        renderItem={friend => {
-          if (category === '요청')
-            return (
-              <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: 15, gap: 16}}>
-                <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
-                  <Image style={{width: 36, height: 36}} source={friend.item.profile ? friend.item.profile : Images.icon_profile} />
-                  {/* <Text>{friend.item.nickname}</Text> */}
-                </View>
 
-                <Text style={{...font.NotoSansKR_Medium}}>{friend.item.nickname}님과 친구가 되었어요 :)</Text>
-                {/* <TouchableOpacity
-                  onPress={() => {
-                    setClickedInfo({id: friend.item.memberId, name: friend.item.nickname})
-                    openMoreModal()
-                  }}>
-                  <Image source={Images.icon_more} style={{width: 25, height: 25}} />
-                </TouchableOpacity> */}
-              </View>
-            )
+      <Autocomplete
+        style={{flex: 1}}
+        data={findData(query)}
+        renderResultList={({data}) => {
           return (
-            <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 15}}>
-              <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
-                <Image style={{width: 36, height: 36}} source={friend.item.profile ? friend.item.profile : Images.icon_profile} />
-                <Text>{friend.item.nickname}</Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => {
-                  setClickedInfo({id: friend.item.memberId, name: friend.item.nickname})
-                  openMoreModal()
-                }}>
-                <Image source={Images.icon_more} style={{width: 25, height: 25}} />
-              </TouchableOpacity>
-            </View>
+            <FlatList
+              data={data}
+              renderItem={({item}) => {
+                return (
+                  <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 15}}>
+                    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8}}>
+                      <Image style={{width: 36, height: 36}} source={item.profile ? item.profile : Images.icon_profile} />
+                      <Text>{item.nickname}</Text>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setClickedInfo({id: item.memberId, name: item.nickname})
+                        openMoreModal()
+                      }}>
+                      <Image source={Images.icon_more} style={{width: 25, height: 25}} />
+                    </TouchableOpacity>
+                  </View>
+                )
+              }}
+            />
           )
         }}
+        listContainerStyle={{marginTop: 20}}
+        inputContainerStyle={{borderWidth: 0}}
       />
+
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={true}
@@ -115,8 +114,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: 17,
-    // paddingVertical: 8,
+
     paddingHorizontal: 12,
     backgroundColor: '#f3f3f3',
     borderRadius: 99,

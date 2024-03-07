@@ -13,10 +13,11 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import {updateBingoInfo, updateMemo} from 'components/bingo/board/remote'
 import {StyleSheet} from 'react-native'
 import {API_URL} from 'api/restful'
+import {font} from 'shared/styles'
 
 export const MemoInput = ({close}) => {
   const {params} = useRoute()
-  const {id} = params || {}
+  const {boardId} = params || {}
 
   const [state, setState] = useAtom(update_memo_atom)
   const [content, setContent] = useState<string>(state.content)
@@ -27,9 +28,9 @@ export const MemoInput = ({close}) => {
   }
 
   const update = async () => {
-    if (!id) return
+    if (!boardId) return
 
-    const res = await updateMemo(id, content)
+    const res = await updateMemo(boardId, content)
 
     if (res.status !== 200) return Alert.alert('요청이 원활하지 않습니다')
     reset()
@@ -40,11 +41,11 @@ export const MemoInput = ({close}) => {
 
   return (
     <View style={{padding: 20, position: 'relative', height: '100%'}}>
-      <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10}}>
         <TouchableOpacity onPress={() => close()} style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-          <Image source={Images.back_btn} style={{width: 30, height: 30}} />
+          <Image source={Images.back_btn} style={{width: 20, height: 30}} />
         </TouchableOpacity>
-        <Text style={{fontWeight: '500', fontSize: 18}}>메모 작성</Text>
+        <Text style={{...font.NotoSansKR_Medium, fontSize: 18}}>메모 작성</Text>
       </View>
       <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 15}}>
         <Text style={{fontSize: 15, fontWeight: '500', marginRight: 20}}>내용</Text>
@@ -52,7 +53,7 @@ export const MemoInput = ({close}) => {
       </View>
 
       <View style={{position: 'absolute', bottom: 24, left: 0, right: 0}}>
-        <TouchableOpacity style={{...styles.button}} onPress={() => update()}>
+        <TouchableOpacity style={styles.button} onPress={() => update()}>
           <Text style={{color: 'white', fontWeight: '500', fontSize: 18, textAlign: 'center'}}>완료</Text>
         </TouchableOpacity>
       </View>
@@ -363,13 +364,11 @@ const styles = StyleSheet.create({
     alignitems: 'center',
   },
   button: {
-    backgroundColor: '#000000',
-
     padding: 15,
     margin: 20,
     marginTop: 0,
-    // marginTop: 45,
     borderRadius: 4,
+    backgroundColor: '#000000',
   },
 
   profile: {
@@ -388,13 +387,13 @@ const styles = StyleSheet.create({
   date: {fontSize: 16},
 
   itemInput: {
+    width: '80%',
+    height: 45,
+    ...font.NotoSansKR_Regular,
+    marginBottom: 12,
     borderBottomColor: '#DDD',
     borderBottomWidth: 1,
     fontSize: 16,
-    width: '80%',
-    height: 45,
-    fontFamily: 'NotoSansKR_400Regular',
-    marginBottom: 12,
   },
   card_profile: {width: 36, height: 36, borderRadius: 50},
 })

@@ -89,7 +89,7 @@ const BingoScreen = () => {
   }, [])
 
   const shuffle = async () => {
-    const res = await shuffleItems(id)
+    const res = await shuffleItems(boardId)
 
     if (res?.status === 200) setRetech(true)
   }
