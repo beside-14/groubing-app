@@ -3,7 +3,7 @@ import {useQuery} from '@tanstack/react-query'
 import {API} from 'utils/axios'
 
 const getFriendList = async () => {
-  const res = await API.get('/api/members')
+  const res = await API.get('/api/friends/targets')
 
   return res?.data?.data
 }

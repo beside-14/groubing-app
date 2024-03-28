@@ -3,24 +3,22 @@ import {View, StyleSheet} from 'react-native'
 
 import BingoItem from './BingoItem'
 
-const BingoBoard = ({board, size, items, isTemporary, readonly}) => {
+const BingoBoard = ({size, items, isTemporary, readonly}) => {
   const newBoard1 = items.map(e => e.bingoItems)
 
   return (
     <View style={styles.container}>
       {newBoard1.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
-          {row.map(({title, color, complete, id, imageUrl}, index) => (
+          {row.map(({title, complete, id, imageUrl}, index) => (
             <BingoItem
-              readonly={readonly}
-              isTemporary={isTemporary}
-              boardId={board}
               key={index}
+              readonly={readonly}
+              id={id}
+              isTemporary={isTemporary}
               title={title}
-              color={color}
               complete={complete}
               size={size}
-              id={id}
               img={imageUrl}
             />
           ))}

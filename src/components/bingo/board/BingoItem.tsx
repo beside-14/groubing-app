@@ -1,8 +1,9 @@
+import {useRoute} from '@react-navigation/native'
 import {API_URL} from 'api/restful'
 import {Images} from 'assets'
 import useUserInfo from 'hooks/useUserInfo'
 import {useSetAtom} from 'jotai'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Alert} from 'react-native'
 import {Image, View} from 'react-native'
 import {TouchableOpacity, StyleSheet, Text, Dimensions} from 'react-native'
@@ -12,13 +13,16 @@ import {font} from 'shared/styles'
 
 const {width} = Dimensions.get('window')
 
-const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly, img}: any) => {
+const BingoItem = ({title, size, complete, id, isTemporary, readonly, img}: any) => {
   const itemSize = width / size
   const fontSize = size === 3 ? 13 : 12
+  const {params} = useRoute()
+  const {boardId} = params || {}
 
   const [select, setSelect] = useState<boolean>(complete)
   const registerMode = useSetAtom(register_item_atom)
   const setBingoCount = useSetAtom(bingo_count_atom)
+  const [iconUrl, setIconUrl] = useState(img?.split('_')[0].replace('.png', ''))
 
   const {user} = useUserInfo()
   const updateBingoElement = async (updateType: 'cancel' | 'complete') => {
@@ -26,7 +30,9 @@ const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly, i
 
     if (res.status === 200) {
       setBingoCount(res?.data?.data?.totalBingoCount)
-      return setSelect(prev => !prev)
+
+      setSelect(prev => !prev)
+      return
     } else {
       return Alert.alert('요청이 원활하지 않습니다.')
     }
@@ -35,7 +41,7 @@ const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly, i
   const handleToggle = async () => {
     if (isTemporary) return
     const updateType = select === true ? 'cancel' : 'complete'
-
+    console.log('updateType???', updateType)
     if (updateType === 'complete') return updateBingoElement(updateType)
 
     Alert.alert('빙고 항목을 취소하시겠습니까?', '', [
@@ -75,7 +81,7 @@ const BingoItem = ({title, size, complete, boardId, id, isTemporary, readonly, i
 
       <Image
         source={{
-          uri: `${API_URL}/api/files/bingo-item-image/${select ? `${img[0]}_complete.png` : img}`,
+          uri: `${API_URL}/api/files/bingo-item-image/${iconUrl}${select ? '_complete' : ''}.png`,
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

@@ -130,12 +130,12 @@ export const ItemInput = ({close}) => {
 export const MoreModal = ({info, close}) => {
   const {navigate} = useRoutes()
   const {params} = useRoute()
-  const {id} = params || {}
+  const {boardId} = params || {}
 
   const setVisible = useSetAtom(show_edit_box_atom)
 
   const deleteBoard = async () => {
-    const res = await deleteBingo(id)
+    const res = await deleteBingo(boardId)
 
     if (res.status === 200) {
       setVisible(false)
@@ -151,7 +151,7 @@ export const MoreModal = ({info, close}) => {
         onPress={() => {
           close()
           setVisible(false)
-          navigate(MENU.BINGO_EDIT, {id: id, ...info})
+          navigate(MENU.BINGO_EDIT, {id: boardId, ...info})
         }}
         style={{padding: 5, marginTop: 20, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
         <Image source={Images.icon_edit} style={{width: 24, height: 24, marginRight: 4}} />
@@ -160,13 +160,14 @@ export const MoreModal = ({info, close}) => {
       <View style={{height: 1, width: '100%', backgroundColor: '#EFEFEF', marginVertical: 10}} />
       <TouchableOpacity
         onPress={() => {
+          //isLeader 에 따라서 삭제처리 or 나가는 처리 하기
           close()
           setVisible(false)
           deleteBoard()
         }}
         style={{padding: 5, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
         <Image source={Images.icon_trash} style={{width: 24, height: 24, marginRight: 4}} />
-        <Text style={{textAlign: 'center', color: '#FF3C3C'}}>삭제</Text>
+        <Text style={{textAlign: 'center', color: '#FF3C3C'}}>{info.isLeader ? '삭제' : '나가기'}</Text>
       </TouchableOpacity>
     </View>
   )

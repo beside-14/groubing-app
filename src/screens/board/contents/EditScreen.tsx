@@ -8,22 +8,14 @@ import {StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import {font} from 'shared/styles'
 
-function addMonths(date, months) {
-  date.setMonth(date.getMonth() + months)
-
-  return date
-}
-
 export const EditScreen = () => {
-  const dateobject = new Date()
   const {back} = useRoutes()
   const {params} = useRoute()
   const {id, title, goal, since, until} = params || {}
   const [data, setData] = useState({title: title, goal: goal, since: since, until: until})
-  const today = format(dateobject, 'yyyy-MM-dd')
-  const inituntil = format(addMonths(dateobject, 1), 'yyyy-MM-dd')
+
   const [datePicker, setDatePicker] = useState('false')
-  const [date, setDate] = useState({since: today, until: inituntil})
+  const [date, setDate] = useState({since: since, until: until})
 
   const onIncrease = () => {
     // if (data.bingoSize === 3 && data.goal === 8) return Alert.alert('최대 빙고갯수는 8개 입니다.')

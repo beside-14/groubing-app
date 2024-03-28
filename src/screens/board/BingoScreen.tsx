@@ -113,6 +113,7 @@ const BingoScreen = () => {
     goal: data?.goal,
     since: data?.since,
     until: data?.until,
+    isLeader: data?.isLeader,
   }
 
   const isAblePublish = () => {
@@ -195,7 +196,7 @@ const BingoScreen = () => {
             </View>
           )}
           {/* 빙고판!!!!*/}
-          <BingoBoard readonly={READ_ONLY} isTemporary={isTemporary} board={data.id} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
+          <BingoBoard readonly={READ_ONLY} isTemporary={isTemporary} size={data?.bingoSize} items={data?.bingoMap?.bingoLines} />
 
           {isTemporary && !READ_ONLY && (
             <TouchableOpacity disabled={READ_ONLY} onPress={() => shuffle()}>

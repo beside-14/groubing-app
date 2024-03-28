@@ -77,6 +77,8 @@ const Notification = () => {
                   </TouchableOpacity>
                 </View>
               </View>
+            ) : active === '받은 요청' ? (
+              <Text style={{...styles.card_contnet, width: '80%'}}>{notificaion.item.message}</Text>
             ) : (
               <View style={styles.card_wrapper}>
                 <Image
@@ -86,21 +88,7 @@ const Notification = () => {
                 <View>
                   <View style={{display: 'flex', flexDirection: 'row'}}>
                     <Text style={{...styles.card_contnet, ...font.NotoSansKR_Medium}}>{notificaion.item.nickname}</Text>
-                    <Text style={styles.card_contnet}>님이 친구를 요청했어요.</Text>
-                  </View>
-                  <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 16}}>
-                    <TouchableOpacity
-                      onPress={() => handleAcceptBtn(notificaion.item.id)}
-                      style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 4}}>
-                      <Image source={Images.icon_blue_check} style={{width: 17, height: 17}} />
-                      <Text style={{color: '#3A8ADB', ...font.NotoSansKR_Medium}}>수락</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => handleRefuseBtn(notificaion.item.id)}
-                      style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 4}}>
-                      <Image source={Images.refuse_icon} style={{width: 17, height: 17}} />
-                      <Text style={{...font.NotoSansKR_Medium}}>거절</Text>
-                    </TouchableOpacity>
+                    <Text style={styles.card_contnet}>님에게 친구를 요청했어요 :)</Text>
                   </View>
                 </View>
               </View>
